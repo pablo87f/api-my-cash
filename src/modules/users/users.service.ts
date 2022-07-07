@@ -58,5 +58,6 @@ export class UsersService {
 
       return !!deletedUser;
     }
+    return false;
   }
 }
