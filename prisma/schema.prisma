@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid()) @db.VarChar(36)
+  name       String   @db.VarChar(255)
+  email      String   @unique @db.VarChar(255)
+  auth_id    String?  @db.VarChar(255)
+  created_at DateTime @default(now())
+
+  expenses           Expense[]
+  purchases          Purchase[]
+  recurring_expenses RecurringExpense[]
+  @@map("users")
+}
+
+model Expense {
+  id                   String            @id @default(uuid()) @db.VarChar(36)
+  name                 String
+  amount               Float             @db.Real()
+  due_date             DateTime          @default(now())
+  paid                 Boolean           @default(false)
+  active               Boolean           @default(true)
+  created_at           DateTime          @default(now())
+  updated_at           DateTime          @updatedAt
+  user_id              String            @db.VarChar(36)
+  user                 User              @relation(fields: [user_id], references: [id])
+  purchase_id          String?           @default(dbgenerated("NULL")) @db.VarChar(36)
+  purchase             Purchase?         @relation(fields: [purchase_id], references: [id], onDelete: Cascade)
+  recurring_expense    RecurringExpense? @relation(fields: [recurring_expense_id], references: [id])
+  recurring_expense_id String?           @db.VarChar(36)
+
+  @@map("expenses")
+}
+
+enum PaymentMethod {
+  DEBIT
+  CREDIT
+}
+
+model Purchase {
+  id             String        @id @default(uuid()) @db.VarChar(36)
+  name           String
+  total_amount   Float         @db.Real()
+  portions       Int           @db.SmallInt()
+  payment_method PaymentMethod @default(DEBIT)
+  due_date       DateTime      @default(now())
+  active         Boolean       @default(true)
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  expenses       Expense[]
+  user           User          @relation(fields: [user_id], references: [id])
+  user_id        String        @db.VarChar(36)
+
+  @@map("purchases")
+}
+
+model RecurringExpense {
+  id               String    @id @default(uuid()) @db.VarChar(36)
+  name             String
+  estimated_amount Float     @db.Real()
+  due_date         DateTime  @default(now())
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  active           Boolean   @default(true)
+  expenses         Expense[]
+  user_id          String    @db.VarChar(36)
+  user             User      @relation(fields: [user_id], references: [id])
+
+  @@map("recurring_expenses")
+}
