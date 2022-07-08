@@ -47,17 +47,17 @@ export class UsersService {
     return undefined;
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(id: string): Promise<User> {
     const user = await this.findOne(id);
     if (user) {
-      const deletedUser = await this.db.purchase.delete({
+      const deletedUser = await this.db.user.delete({
         where: {
           id,
         },
       });
 
-      return !!deletedUser;
+      return deletedUser;
     }
-    return false;
+    return undefined;
   }
 }

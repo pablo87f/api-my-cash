@@ -22,7 +22,7 @@ export class ExpensesController {
 
   @Get()
   findAll() {
-    return this.expensesService.findAll();
+    return this.expensesService.findAll('');
   }
 
   @Get(':id')
