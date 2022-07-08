@@ -24,12 +24,12 @@ export class RecurringExpensesController {
 
   @Get()
   findAll() {
-    return this.recurringExpensesService.findAll();
+    return this.recurringExpensesService.findAll('');
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.recurringExpensesService.findOne(+id);
+    return this.recurringExpensesService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,11 +37,11 @@ export class RecurringExpensesController {
     @Param('id') id: string,
     @Body() updateRecurringExpenseDto: UpdateRecurringExpenseDto,
   ) {
-    return this.recurringExpensesService.update(+id, updateRecurringExpenseDto);
+    return this.recurringExpensesService.update(id, updateRecurringExpenseDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.recurringExpensesService.remove(+id);
+    return this.recurringExpensesService.remove(id);
   }
 }

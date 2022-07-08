@@ -1,26 +1,59 @@
 import { Injectable } from '@nestjs/common';
+import { DbService } from 'src/database/db.service';
 import { CreateRecurringExpenseDto } from './dto/create-recurring-expense.dto';
 import { UpdateRecurringExpenseDto } from './dto/update-recurring-expense.dto';
 
 @Injectable()
 export class RecurringExpensesService {
-  create(createRecurringExpenseDto: CreateRecurringExpenseDto) {
-    return 'This action adds a new recurringExpense';
+  constructor(private readonly db: DbService) {}
+
+  async create(createRecurringExpenseDto: CreateRecurringExpenseDto) {
+    const recurringExpenses = await this.db.recurringExpense.create({
+      data: {
+        ...createRecurringExpenseDto,
+      },
+    });
+    return recurringExpenses;
   }
 
-  findAll() {
-    return `This action returns all recurringExpenses`;
+  async findAll(user_id: string) {
+    const recurringExpenses = await this.db.recurringExpense.findMany({
+      where: {
+        user_id,
+      },
+      orderBy: {
+        due_date: 'asc',
+      },
+    });
+    return recurringExpenses;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recurringExpense`;
+  async findOne(id: string) {
+    const recurringExpense = await this.db.recurringExpense.findUnique({
+      where: {
+        id,
+      },
+    });
+    return recurringExpense;
   }
 
-  update(id: number, updateRecurringExpenseDto: UpdateRecurringExpenseDto) {
-    return `This action updates a #${id} recurringExpense`;
+  async update(
+    id: string,
+    updateRecurringExpenseDto: UpdateRecurringExpenseDto,
+  ) {
+    const recurringExpense = await this.db.recurringExpense.update({
+      data: {
+        ...updateRecurringExpenseDto,
+      },
+      where: {
+        id,
+      },
+    });
+
+    return recurringExpense;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} recurringExpense`;
   }
 }

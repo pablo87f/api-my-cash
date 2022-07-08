@@ -127,4 +127,13 @@ export class ExpensesService {
     }
     return false;
   }
+
+  async getAllByPurchase(purchase_id: string) {
+    const expenses = await this.db.expense.findMany({
+      where: {
+        purchase_id,
+      },
+    });
+    return expenses;
+  }
 }
