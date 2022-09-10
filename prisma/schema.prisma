@@ -20,6 +20,7 @@ model User {
   expenses           Expense[]
   purchases          Purchase[]
   recurring_expenses RecurringExpense[]
+  wallets            Wallet[]
   @@map("users")
 }
 
@@ -77,4 +78,18 @@ model RecurringExpense {
   user             User      @relation(fields: [user_id], references: [id])
 
   @@map("recurring_expenses")
+}
+
+
+model Wallet {
+  id               String    @id @default(uuid()) @db.VarChar(36)
+  name             String
+  amount Float     @db.Real()
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  active           Boolean   @default(true)
+  user_id          String    @db.VarChar(36)
+  user             User      @relation(fields: [user_id], references: [id])
+
+  @@map("wallet")
 }

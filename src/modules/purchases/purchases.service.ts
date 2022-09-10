@@ -58,7 +58,12 @@ export class PurchasesService {
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} purchase`;
+    const expense = await this.db.purchase.findUnique({
+      where: {
+        id,
+      },
+    });
+    return expense;
   }
 
   async update(
@@ -112,7 +117,17 @@ export class PurchasesService {
     return purchase;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} purchase`;
+  async remove(id: string) {
+    const purchase = await this.findOne(id);
+    if (purchase) {
+      const deletedPurchase = await this.db.purchase.delete({
+        where: {
+          id,
+        },
+      });
+
+      return deletedPurchase;
+    }
+    return undefined;
   }
 }
