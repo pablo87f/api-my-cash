@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { PurchasesModule } from './modules/purchases/purchases.module';
-import { UsersModule } from './modules/users/users.module';
 import { ExpensesModule } from './modules/expenses/expenses.module';
+import { PurchasesModule } from './modules/purchases/purchases.module';
 import { RecurringExpensesModule } from './modules/recurring-expenses/recurring-expenses.module';
+import { UsersModule } from './modules/users/users.module';
+import { WalletsModule } from './modules/wallets/wallets.module';
 
 @Module({
   imports: [
     UsersModule,
     PurchasesModule,
+    WalletsModule,
     ExpensesModule,
     RecurringExpensesModule,
   ],

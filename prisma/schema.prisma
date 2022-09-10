@@ -91,5 +91,5 @@ model Wallet {
   user_id          String    @db.VarChar(36)
   user             User      @relation(fields: [user_id], references: [id])
 
-  @@map("wallet")
+  @@map("wallets")
 }
