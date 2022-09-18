@@ -18,7 +18,7 @@ export default class CreatePurchase {
   constructor(
     readonly purchasesRepository: IPurchasesRepository,
     readonly createPurchasePortionsExpenses: CreatePurchasePortionsExpenses,
-    readonly createExpense: CreatePurchaseExpense,
+    readonly createPurchaseExpense: CreatePurchaseExpense,
   ) {}
 
   async execute({
@@ -60,7 +60,7 @@ export default class CreatePurchase {
       return purchase;
     } else {
       // DEBIT
-      const expense = await this.createExpense.execute({
+      const expense = await this.createPurchaseExpense.execute({
         amount: expenseAmount,
         name,
         due_date,

@@ -6,32 +6,34 @@ import { Purchase } from '../../domain/entities/purchase';
 import CreatePurchaseExpense from './create-purchase-expense';
 import CreatePurchase from './create-purchase';
 import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
+import { RecurringBill } from '../../domain/entities/recurring-bill';
+import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/RecurringBillsInMemoryRepository';
+import CreateRecurringBill from './create-recurring-bill';
+import CreateRecurringBillExpense from './create-recurring-bill-expense';
 
-describe('Create purchase', () => {
-  it('should create a purchase with payed by debit', async () => {
-    const expensesRepository = new ExpensesInMemoryRepository();
-    const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
-      expensesRepository,
+describe('Create recurring bill', () => {
+  it('should create a recurring bill', async () => {
+    const recurringBillsRepository = new RecurringBillsInMemoryRepository();
+    const expensesInMemoryRepository = new ExpensesInMemoryRepository();
+    const createRecurringBillExpense = new CreateRecurringBillExpense(
+      expensesInMemoryRepository,
     );
-    const createPurchaseExpense = new CreatePurchaseExpense(expensesRepository);
-
-    const purchasesRepository = new PurchasesInMemoryRepository();
-    const createPurchase = new CreatePurchase(
-      purchasesRepository,
-      createPurchasePortionsExpenses,
-      createPurchaseExpense,
+    const createRecurringBill = new CreateRecurringBill(
+      recurringBillsRepository,
+      createRecurringBillExpense,
     );
 
-    const purchase: Purchase = await createPurchase.execute({
-      name: 'Compra Mateus Supermercados',
-      portions: 1,
-      total_amount: 350,
-      user_id: Constants.fakeUser.id,
+    const recurringBill: RecurringBill = await createRecurringBill.execute({
+      name: 'Conta celular',
+      estimated_amount: 49,
+      user_id: '1',
       due_date: parseISO('2022-08-10'),
-      payment_method: 'DEBIT',
     });
 
-    expect(purchase.expenses.length).toEqual(1);
+    expect(recurringBill.name).toEqual('Conta celular');
+    expect(recurringBill.estimated_amount).toEqual(49);
+    expect(recurringBill.due_date).toEqual(parseISO('2022-08-10'));
+    expect(recurringBill.expenses.length).toEqual(1);
   });
 
   it('should create a purchase with payed by credit', async () => {
@@ -39,13 +41,13 @@ describe('Create purchase', () => {
     const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
       expensesRepository,
     );
-    const createPurchaseExpense = new CreatePurchaseExpense(expensesRepository);
+    const createExpense = new CreatePurchaseExpense(expensesRepository);
 
     const purchasesRepository = new PurchasesInMemoryRepository();
     const createPurchase = new CreatePurchase(
       purchasesRepository,
       createPurchasePortionsExpenses,
-      createPurchaseExpense,
+      createExpense,
     );
 
     const purchase: Purchase = await createPurchase.execute({

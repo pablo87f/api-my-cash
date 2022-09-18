@@ -8,6 +8,7 @@ export interface ExpenseProps {
   created_at?: Date;
   user_id?: string;
   purchase_id?: string;
+  recurring_bill_id?: string;
 }
 
 export class Expense {
@@ -38,5 +39,9 @@ export class Expense {
 
   public get purchase_id(): string {
     return this.props.purchase_id;
+  }
+
+  public get recurring_bill_id(): string {
+    return this.props.recurring_bill_id;
   }
 }
