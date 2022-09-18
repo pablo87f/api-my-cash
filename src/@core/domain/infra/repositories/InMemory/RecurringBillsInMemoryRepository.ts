@@ -1,10 +1,10 @@
 import { randomUUID } from 'crypto';
-import { RecurringBill } from '../../entities/recurring-bill';
+import { RecurringBill } from '../../../entities/recurring-bill';
 
 import IRecurringBillsRepository, {
   CreateRecurringBillDto,
   UpdateRecurringBillDto,
-} from '../../repositories/IRecurringBillsRepository';
+} from '../../../repositories/IRecurringBillsRepository';
 
 export default class RecurringBillsInMemoryRepository
   implements IRecurringBillsRepository

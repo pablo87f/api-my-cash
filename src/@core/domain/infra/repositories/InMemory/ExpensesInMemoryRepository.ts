@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
-import { Expense } from '../../entities/expense';
+import { Expense } from '../../../entities/expense';
 import IExpensesRepository, {
   CreatePurchaseExpenseDto,
   CreateRecurringBillExpenseDto,
-} from '../../repositories/IExpensesRepository';
+} from '../../../repositories/IExpensesRepository';
 
 export default class ExpensesInMemoryRepository implements IExpensesRepository {
   private expenses: Expense[];

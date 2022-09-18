@@ -1,6 +1,6 @@
 import { parseISO } from 'date-fns';
-import ExpensesInMemoryRepository from '../../domain/infra/repositories/ExpensesInMemoryRepository';
-import PurchasesInMemoryRepository from '../../domain/infra/repositories/PurchasesInMemoryRepository';
+import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
+import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
 import CreatePurchaseExpense from './create-purchase-expense';

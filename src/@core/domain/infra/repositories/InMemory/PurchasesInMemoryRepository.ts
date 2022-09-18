@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
-import { Purchase } from '../../entities/purchase';
+import { Purchase } from '../../../entities/purchase';
 import IPurchasesRepository, {
   CreatePurchaseDto,
   UpdatePurchaseDto,
-} from '../../repositories/IPurchasesRepository';
+} from '../../../repositories/IPurchasesRepository';
 
 export default class PurchasesInMemoryRepository
   implements IPurchasesRepository

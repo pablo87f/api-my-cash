@@ -1,5 +1,5 @@
 import { parseISO } from 'date-fns';
-import ExpensesInMemoryRepository from '../../domain/infra/repositories/ExpensesInMemoryRepository';
+import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
 import CreatePurchaseExpense from './create-purchase-expense';
 
 describe('Create expense', () => {

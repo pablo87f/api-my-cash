@@ -1,13 +1,13 @@
 import { parseISO } from 'date-fns';
-import ExpensesInMemoryRepository from '../../domain/infra/repositories/ExpensesInMemoryRepository';
-import PurchasesInMemoryRepository from '../../domain/infra/repositories/PurchasesInMemoryRepository';
+import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
+import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
 import CreatePurchaseExpense from './create-purchase-expense';
 import CreatePurchase from './create-purchase';
 import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
 import { RecurringBill } from '../../domain/entities/recurring-bill';
-import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/RecurringBillsInMemoryRepository';
+import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/InMemory/RecurringBillsInMemoryRepository';
 import CreateRecurringBill from './create-recurring-bill';
 import CreateRecurringBillExpense from './create-recurring-bill-expense';
 
