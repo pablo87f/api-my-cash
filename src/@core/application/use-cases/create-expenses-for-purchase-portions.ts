@@ -13,7 +13,7 @@ type Input = {
 
 type Output = Expense[];
 
-export default class CreatePurchasePortionsExpenses {
+export default class CreateExpensesForPurchasePortions {
   constructor(readonly expensesRepository: IExpensesRepository) {}
 
   async execute({
@@ -26,7 +26,7 @@ export default class CreatePurchasePortionsExpenses {
   }: Input): Promise<Output> {
     const portionList = Array.from({ length: portions }, (_, i) => i + 1);
     const expenseAmount = total_amount / portions;
-    const purchasePortionExpenses = portionList.map((portion) => {
+    const expensesForPurchasePortions = portionList.map((portion) => {
       const portionName = `${name} - ${portion}/${portions}`;
       return {
         amount: expenseAmount,
@@ -38,7 +38,7 @@ export default class CreatePurchasePortionsExpenses {
     });
 
     const createdExpenses = await this.expensesRepository.bulkCreateForPurchase(
-      purchasePortionExpenses,
+      expensesForPurchasePortions,
     );
 
     return createdExpenses;

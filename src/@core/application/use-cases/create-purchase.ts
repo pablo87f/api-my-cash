@@ -1,7 +1,7 @@
 import { PaymentMethod, Purchase } from 'src/@core/domain/entities/purchase';
 import IPurchasesRepository from 'src/@core/domain/repositories/IPurchasesRepository';
 import CreateExpenseForPurchase from './create-expense-for-purchase';
-import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
+import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
 
 type Input = {
   name: string;
@@ -17,7 +17,7 @@ type Output = Purchase;
 export default class CreatePurchase {
   constructor(
     readonly purchasesRepository: IPurchasesRepository,
-    readonly createPurchasePortionsExpenses: CreatePurchasePortionsExpenses,
+    readonly createPurchasePortionsExpenses: CreateExpensesForPurchasePortions,
     readonly createPurchaseExpense: CreateExpenseForPurchase,
   ) {}
 

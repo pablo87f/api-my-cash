@@ -5,7 +5,7 @@ import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
 import CreateExpenseForPurchase from './create-expense-for-purchase';
 import CreatePurchase from './create-purchase';
-import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
+import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
 import { RecurringBill } from '../../domain/entities/recurring-bill';
 import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/InMemory/RecurringBillsInMemoryRepository';
 import CreateRecurringBill from './create-recurring-bill';
@@ -38,9 +38,8 @@ describe('Create recurring bill', () => {
 
   it('should create a purchase with payed by credit', async () => {
     const expensesRepository = new ExpensesInMemoryRepository();
-    const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
-      expensesRepository,
-    );
+    const createPurchasePortionsExpenses =
+      new CreateExpensesForPurchasePortions(expensesRepository);
     const createExpense = new CreateExpenseForPurchase(expensesRepository);
 
     const purchasesRepository = new PurchasesInMemoryRepository();

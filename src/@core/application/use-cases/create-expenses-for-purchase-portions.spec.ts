@@ -1,16 +1,15 @@
 import { parseISO } from 'date-fns';
 import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
-import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
+import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
 
-describe('Create purchase portions expenses', () => {
+describe('Create expenses for purchase portions', () => {
   it('should create the expenses for the purchase portions', async () => {
     const expensesRepository = new ExpensesInMemoryRepository();
 
-    const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
-      expensesRepository,
-    );
+    const createExpensesPurchasePortions =
+      new CreateExpensesForPurchasePortions(expensesRepository);
 
-    const expenses = await createPurchasePortionsExpenses.execute({
+    const expenses = await createExpensesPurchasePortions.execute({
       portions: 3,
       total_amount: 300,
       name: 'Teclado mecânico',
