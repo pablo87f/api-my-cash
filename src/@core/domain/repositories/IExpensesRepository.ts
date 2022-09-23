@@ -8,7 +8,7 @@ export type CreateExpenseForPurchaseDto = {
   purchase_id: string;
 };
 
-export type CreateRecurringBillExpenseDto = {
+export type CreateExpenseForRecurringBillDto = {
   amount: number;
   name: string;
   due_date: Date;
@@ -26,6 +26,6 @@ export default interface IExpensesRepository {
   ): Promise<Expense>;
 
   createToRecurringBill(
-    createRecurringBillExpenseDto: CreateRecurringBillExpenseDto,
+    createRecurringBillExpenseDto: CreateExpenseForRecurringBillDto,
   ): Promise<Expense>;
 }

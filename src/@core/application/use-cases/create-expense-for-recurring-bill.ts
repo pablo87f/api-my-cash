@@ -1,9 +1,9 @@
 import { Expense } from '../../domain/entities/expense';
 import IExpensesRepository, {
-  CreateRecurringBillExpenseDto,
+  CreateExpenseForRecurringBillDto as CreateExpenseForRecurringBillDto,
 } from '../../domain/repositories/IExpensesRepository';
 
-export default class CreateRecurringBillExpense {
+export default class CreateExpenseForRecurringBill {
   constructor(readonly expensesRepository: IExpensesRepository) {}
 
   async execute({
@@ -12,7 +12,7 @@ export default class CreateRecurringBillExpense {
     amount,
     user_id,
     recurring_bill_id,
-  }: CreateRecurringBillExpenseDto): Promise<Expense> {
+  }: CreateExpenseForRecurringBillDto): Promise<Expense> {
     const createdExpense = await this.expensesRepository.createToRecurringBill({
       due_date,
       name,

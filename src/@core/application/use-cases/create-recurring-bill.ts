@@ -1,6 +1,6 @@
 import { RecurringBill } from 'src/@core/domain/entities/recurring-bill';
 import IRecurringBillsRepository from 'src/@core/domain/repositories/IRecurringBillsRepository';
-import CreateRecurringBillExpense from './create-recurring-bill-expense';
+import CreateExpenseForRecurringBill from './create-expense-for-recurring-bill';
 
 type Input = {
   name: string;
@@ -14,7 +14,7 @@ type Output = RecurringBill;
 export default class CreateRecurringBill {
   constructor(
     readonly recurringBillsRepository: IRecurringBillsRepository,
-    readonly createRecurringBillExpense: CreateRecurringBillExpense,
+    readonly createRecurringBillExpense: CreateExpenseForRecurringBill,
   ) {}
 
   async execute({

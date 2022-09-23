@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { Expense } from '../../../entities/expense';
 import IExpensesRepository, {
   CreateExpenseForPurchaseDto,
-  CreateRecurringBillExpenseDto,
+  CreateExpenseForRecurringBillDto,
 } from '../../../repositories/IExpensesRepository';
 
 export default class ExpensesInMemoryRepository implements IExpensesRepository {
@@ -18,7 +18,7 @@ export default class ExpensesInMemoryRepository implements IExpensesRepository {
     name,
     user_id,
     recurring_bill_id,
-  }: CreateRecurringBillExpenseDto): Promise<Expense> {
+  }: CreateExpenseForRecurringBillDto): Promise<Expense> {
     const expense: Expense = new Expense({
       amount,
       due_date,

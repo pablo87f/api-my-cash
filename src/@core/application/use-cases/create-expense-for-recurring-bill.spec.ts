@@ -1,15 +1,15 @@
 import { parseISO } from 'date-fns';
 import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
-import CreateRecurringBillExpense from './create-recurring-bill-expense';
+import CreateExpenseForRecurringBill from './create-expense-for-recurring-bill';
 
 describe('Create recurring bill expense', () => {
   it('should create a expense', async () => {
     const expensesRepository = new ExpensesInMemoryRepository();
-    const createRecurringBillExpense = new CreateRecurringBillExpense(
+    const createExpenseForRecurringBill = new CreateExpenseForRecurringBill(
       expensesRepository,
     );
 
-    const expense = await createRecurringBillExpense.execute({
+    const expense = await createExpenseForRecurringBill.execute({
       amount: 300,
       due_date: parseISO('2022-08-10'),
       user_id: '1',

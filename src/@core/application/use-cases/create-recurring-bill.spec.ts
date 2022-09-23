@@ -9,13 +9,13 @@ import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-po
 import { RecurringBill } from '../../domain/entities/recurring-bill';
 import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/InMemory/RecurringBillsInMemoryRepository';
 import CreateRecurringBill from './create-recurring-bill';
-import CreateRecurringBillExpense from './create-recurring-bill-expense';
+import CreateExpenseForRecurringBill from './create-expense-for-recurring-bill';
 
 describe('Create recurring bill', () => {
   it('should create a recurring bill', async () => {
     const recurringBillsRepository = new RecurringBillsInMemoryRepository();
     const expensesInMemoryRepository = new ExpensesInMemoryRepository();
-    const createRecurringBillExpense = new CreateRecurringBillExpense(
+    const createRecurringBillExpense = new CreateExpenseForRecurringBill(
       expensesInMemoryRepository,
     );
     const createRecurringBill = new CreateRecurringBill(
