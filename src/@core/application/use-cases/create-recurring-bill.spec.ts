@@ -3,7 +3,7 @@ import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory
 import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
-import CreatePurchaseExpense from './create-purchase-expense';
+import CreateExpenseForPurchase from './create-expense-for-purchase';
 import CreatePurchase from './create-purchase';
 import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
 import { RecurringBill } from '../../domain/entities/recurring-bill';
@@ -41,7 +41,7 @@ describe('Create recurring bill', () => {
     const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
       expensesRepository,
     );
-    const createExpense = new CreatePurchaseExpense(expensesRepository);
+    const createExpense = new CreateExpenseForPurchase(expensesRepository);
 
     const purchasesRepository = new PurchasesInMemoryRepository();
     const createPurchase = new CreatePurchase(

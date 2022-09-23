@@ -1,11 +1,11 @@
 import { parseISO } from 'date-fns';
 import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
-import CreatePurchaseExpense from './create-purchase-expense';
+import CreateExpenseForPurchase from './create-expense-for-purchase';
 
-describe('Create expense', () => {
+describe('Create expense to purchase', () => {
   it('should create a expense', async () => {
     const expensesRepository = new ExpensesInMemoryRepository();
-    const createExpense = new CreatePurchaseExpense(expensesRepository);
+    const createExpense = new CreateExpenseForPurchase(expensesRepository);
 
     const expense = await createExpense.execute({
       amount: 300,

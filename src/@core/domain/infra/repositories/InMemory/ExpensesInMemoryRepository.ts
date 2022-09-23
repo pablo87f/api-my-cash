@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { Expense } from '../../../entities/expense';
 import IExpensesRepository, {
-  CreatePurchaseExpenseDto,
+  CreateExpenseForPurchaseDto,
   CreateRecurringBillExpenseDto,
 } from '../../../repositories/IExpensesRepository';
 
@@ -38,7 +38,7 @@ export default class ExpensesInMemoryRepository implements IExpensesRepository {
     name,
     user_id,
     purchase_id,
-  }: CreatePurchaseExpenseDto): Promise<Expense> {
+  }: CreateExpenseForPurchaseDto): Promise<Expense> {
     const expense: Expense = new Expense({
       amount,
       due_date,
@@ -53,7 +53,7 @@ export default class ExpensesInMemoryRepository implements IExpensesRepository {
   }
 
   async bulkCreateForPurchase(
-    createPurchaseExpenseDto: CreatePurchaseExpenseDto[],
+    createPurchaseExpenseDto: CreateExpenseForPurchaseDto[],
   ): Promise<Expense[]> {
     const createdExpenses = createPurchaseExpenseDto.map(
       ({ amount, due_date, name, user_id, purchase_id }) => {

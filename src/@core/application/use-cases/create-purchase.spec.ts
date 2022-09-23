@@ -3,7 +3,7 @@ import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory
 import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
-import CreatePurchaseExpense from './create-purchase-expense';
+import CreateExpenseForPurchase from './create-expense-for-purchase';
 import CreatePurchase from './create-purchase';
 import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
 
@@ -13,7 +13,9 @@ describe('Create purchase', () => {
     const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
       expensesRepository,
     );
-    const createPurchaseExpense = new CreatePurchaseExpense(expensesRepository);
+    const createPurchaseExpense = new CreateExpenseForPurchase(
+      expensesRepository,
+    );
 
     const purchasesRepository = new PurchasesInMemoryRepository();
     const createPurchase = new CreatePurchase(
@@ -39,7 +41,9 @@ describe('Create purchase', () => {
     const createPurchasePortionsExpenses = new CreatePurchasePortionsExpenses(
       expensesRepository,
     );
-    const createPurchaseExpense = new CreatePurchaseExpense(expensesRepository);
+    const createPurchaseExpense = new CreateExpenseForPurchase(
+      expensesRepository,
+    );
 
     const purchasesRepository = new PurchasesInMemoryRepository();
     const createPurchase = new CreatePurchase(

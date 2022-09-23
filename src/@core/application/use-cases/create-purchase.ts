@@ -1,6 +1,6 @@
 import { PaymentMethod, Purchase } from 'src/@core/domain/entities/purchase';
 import IPurchasesRepository from 'src/@core/domain/repositories/IPurchasesRepository';
-import CreatePurchaseExpense from './create-purchase-expense';
+import CreateExpenseForPurchase from './create-expense-for-purchase';
 import CreatePurchasePortionsExpenses from './create-purchase-portions-expenses';
 
 type Input = {
@@ -18,7 +18,7 @@ export default class CreatePurchase {
   constructor(
     readonly purchasesRepository: IPurchasesRepository,
     readonly createPurchasePortionsExpenses: CreatePurchasePortionsExpenses,
-    readonly createPurchaseExpense: CreatePurchaseExpense,
+    readonly createPurchaseExpense: CreateExpenseForPurchase,
   ) {}
 
   async execute({

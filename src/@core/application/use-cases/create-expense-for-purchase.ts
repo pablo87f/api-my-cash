@@ -1,9 +1,9 @@
 import { Expense } from '../../domain/entities/expense';
 import IExpensesRepository, {
-  CreatePurchaseExpenseDto,
+  CreateExpenseForPurchaseDto as CreateExpenseForPurchaseDto,
 } from '../../domain/repositories/IExpensesRepository';
 
-export default class CreatePurchaseExpense {
+export default class CreateExpenseForPurchase {
   constructor(readonly expensesRepository: IExpensesRepository) {}
 
   async execute({
@@ -12,7 +12,7 @@ export default class CreatePurchaseExpense {
     amount,
     user_id,
     purchase_id,
-  }: CreatePurchaseExpenseDto): Promise<Expense> {
+  }: CreateExpenseForPurchaseDto): Promise<Expense> {
     const createdExpense = await this.expensesRepository.createForPurchase({
       due_date,
       name,

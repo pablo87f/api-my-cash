@@ -1,6 +1,6 @@
 import { Expense } from '../entities/expense';
 
-export type CreatePurchaseExpenseDto = {
+export type CreateExpenseForPurchaseDto = {
   amount: number;
   name: string;
   due_date: Date;
@@ -18,11 +18,11 @@ export type CreateRecurringBillExpenseDto = {
 
 export default interface IExpensesRepository {
   bulkCreateForPurchase(
-    createPurchaseExpenseDto: CreatePurchaseExpenseDto[],
+    createPurchaseExpenseDto: CreateExpenseForPurchaseDto[],
   ): Promise<Expense[]>;
 
   createForPurchase(
-    createPurchaseExpenseDto: CreatePurchaseExpenseDto,
+    createExpenseForPurchaseDto: CreateExpenseForPurchaseDto,
   ): Promise<Expense>;
 
   createToRecurringBill(
