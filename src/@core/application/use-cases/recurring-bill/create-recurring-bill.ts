@@ -1,6 +1,6 @@
-import { RecurringBill } from '../../domain/entities/recurring-bill';
-import IRecurringBillsRepository from '../../domain/repositories/IRecurringBillsRepository';
-import CreateExpenseForRecurringBill from './expense/create-expense-for-recurring-bill';
+import { RecurringBill } from '../../../domain/entities/recurring-bill';
+import IRecurringBillsRepository from '../../../domain/repositories/IRecurringBillsRepository';
+import CreateExpenseForRecurringBill from '../expense/create-expense-for-recurring-bill';
 
 type Input = {
   name: string;
