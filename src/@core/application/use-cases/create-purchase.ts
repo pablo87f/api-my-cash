@@ -1,7 +1,7 @@
-import { PaymentMethod, Purchase } from 'src/@core/domain/entities/purchase';
-import IPurchasesRepository from 'src/@core/domain/repositories/IPurchasesRepository';
-import CreateExpenseForPurchase from './create-expense-for-purchase';
-import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
+import { PaymentMethod, Purchase } from '../../domain/entities/purchase';
+import IPurchasesRepository from '../../domain/repositories/IPurchasesRepository';
+import CreateExpenseForPurchase from './expense/create-expense-for-purchase';
+import CreateExpensesForPurchasePortions from './expense/create-expenses-for-purchase-portions';
 
 type Input = {
   name: string;

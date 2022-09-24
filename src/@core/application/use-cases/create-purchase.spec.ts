@@ -3,9 +3,9 @@ import ExpensesInMemoryRepository from '../../domain/infra/repositories/InMemory
 import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
-import CreateExpenseForPurchase from './create-expense-for-purchase';
+import CreateExpenseForPurchase from './expense/create-expense-for-purchase';
 import CreatePurchase from './create-purchase';
-import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
+import CreateExpensesForPurchasePortions from './expense/create-expenses-for-purchase-portions';
 
 describe('Create purchase', () => {
   it('should create a purchase with payed by debit', async () => {

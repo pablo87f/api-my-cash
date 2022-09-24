@@ -1,6 +1,6 @@
 import { addMonths } from 'date-fns';
-import { Expense } from '../../domain/entities/expense';
-import IExpensesRepository from 'src/@core/domain/repositories/IExpensesRepository';
+import { Expense } from '../../../domain/entities/expense';
+import IExpensesRepository from '../../../domain/repositories/IExpensesRepository';
 
 type Input = {
   portions: number;

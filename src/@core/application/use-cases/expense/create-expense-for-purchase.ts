@@ -1,7 +1,7 @@
-import { Expense } from '../../domain/entities/expense';
+import { Expense } from '../../../domain/entities/expense';
 import IExpensesRepository, {
   CreateExpenseForPurchaseDto as CreateExpenseForPurchaseDto,
-} from '../../domain/repositories/IExpensesRepository';
+} from '../../../domain/repositories/IExpensesRepository';
 
 export default class CreateExpenseForPurchase {
   constructor(readonly expensesRepository: IExpensesRepository) {}

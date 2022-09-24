@@ -1,7 +1,7 @@
-import { Expense } from '../../domain/entities/expense';
+import { Expense } from '../../../domain/entities/expense';
 import IExpensesRepository, {
   CreateExpenseForRecurringBillDto as CreateExpenseForRecurringBillDto,
-} from '../../domain/repositories/IExpensesRepository';
+} from '../../../domain/repositories/IExpensesRepository';
 
 export default class CreateExpenseForRecurringBill {
   constructor(readonly expensesRepository: IExpensesRepository) {}
