@@ -1,5 +1,5 @@
-import { CreditCard } from '../../domain/entities/credit-card';
-import ICreditCardsRepository from '../../domain/repositories/ICreditCardsRepository';
+import { CreditCard } from '../../../domain/entities/credit-card';
+import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
 
 type CreateCrediCardDto = {
   name: string;

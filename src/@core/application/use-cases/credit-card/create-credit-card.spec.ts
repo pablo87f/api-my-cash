@@ -1,5 +1,5 @@
-import { CreditCard } from '../../domain/entities/credit-card';
-import CreditCardInMemoryRepository from '../../domain/infra/repositories/InMemory/CreditCardsInMemoryRepository';
+import { CreditCard } from '../../../domain/entities/credit-card';
+import CreditCardInMemoryRepository from '../../../domain/infra/repositories/InMemory/CreditCardsInMemoryRepository';
 import CreateCreditCard from './create-credit-card';
 
 describe('Create creadit card', () => {
