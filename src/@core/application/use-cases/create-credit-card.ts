@@ -4,6 +4,7 @@ import ICreditCardsRepository from '../../domain/repositories/ICreditCardsReposi
 type CreateCrediCardDto = {
   name: string;
   total_limit: number;
+  spent_amount?: number;
   user_id: string;
 };
 
@@ -13,11 +14,13 @@ export default class CreateCreditCard {
   async execute({
     name,
     total_limit,
+    spent_amount,
     user_id,
   }: CreateCrediCardDto): Promise<CreditCard> {
     const createdWallet = await this.creditCardsRepository.create({
       name,
       total_limit,
+      spent_amount,
       user_id,
     });
 

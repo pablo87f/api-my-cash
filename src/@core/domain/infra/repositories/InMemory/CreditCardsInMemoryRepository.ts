@@ -16,11 +16,13 @@ export default class CreditCardsInMemoryRepository
   async create({
     total_limit,
     name,
+    spent_amount,
     user_id,
   }: CreateCreditCardDto): Promise<CreditCard> {
     const creditCard: CreditCard = new CreditCard({
       id: randomUUID(),
       total_limit,
+      spent_amount,
       name,
       user_id,
     });
