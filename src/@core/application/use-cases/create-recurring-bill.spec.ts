@@ -4,7 +4,7 @@ import PurchasesInMemoryRepository from '../../domain/infra/repositories/InMemor
 import Constants from '../../constants';
 import { Purchase } from '../../domain/entities/purchase';
 import CreateExpenseForPurchase from './expense/create-expense-for-purchase';
-import CreatePurchase from './create-purchase';
+import CreatePurchase from './purchase/create-purchase';
 import CreateExpensesForPurchasePortions from './expense/create-expenses-for-purchase-portions';
 import { RecurringBill } from '../../domain/entities/recurring-bill';
 import RecurringBillsInMemoryRepository from '../../domain/infra/repositories/InMemory/RecurringBillsInMemoryRepository';
