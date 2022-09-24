@@ -1,5 +1,5 @@
-import { Wallet } from '../../domain/entities/wallet';
-import IWalletsRepository from '../../domain/repositories/IWalletsRepository';
+import { Wallet } from '../../../domain/entities/wallet';
+import IWalletsRepository from '../../../domain/repositories/IWalletsRepository';
 
 type Input = {
   name: string;

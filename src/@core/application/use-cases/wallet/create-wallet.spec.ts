@@ -1,5 +1,5 @@
-import WalletsInMemoryRepository from '../../domain/infra/repositories/InMemory/WalletsInMemoryRepository';
-import { Wallet } from '../../domain/entities/wallet';
+import WalletsInMemoryRepository from '../../../domain/infra/repositories/InMemory/WalletsInMemoryRepository';
+import { Wallet } from '../../../domain/entities/wallet';
 import CreateWallet from './create-wallet';
 
 describe('Create wallet', () => {
