@@ -13,6 +13,14 @@ export default class CreditCardsInMemoryRepository
     this.creditCards = [];
   }
 
+  async get(id: string): Promise<CreditCard> {
+    const found = this.creditCards.find((creditCard) => creditCard.id === id);
+    if (!found) {
+      throw new Error('Not found');
+    }
+    return found;
+  }
+
   async create({
     total_limit,
     name,

@@ -8,4 +8,5 @@ export type CreateWalletDto = {
 
 export default interface IWalletsRepository {
   create(createWalletDto: CreateWalletDto): Promise<Wallet>;
+  get(id: string): Promise<Wallet>;
 }

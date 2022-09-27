@@ -35,29 +35,4 @@ describe('Create recurring bill', () => {
     expect(recurringBill.due_date).toEqual(parseISO('2022-08-10'));
     expect(recurringBill.expenses.length).toEqual(1);
   });
-
-  it('should create a purchase with payed by credit', async () => {
-    const expensesRepository = new ExpensesInMemoryRepository();
-    const createPurchasePortionsExpenses =
-      new CreateExpensesForPurchasePortions(expensesRepository);
-    const createExpense = new CreateExpenseForPurchase(expensesRepository);
-
-    const purchasesRepository = new PurchasesInMemoryRepository();
-    const createPurchase = new CreatePurchase(
-      purchasesRepository,
-      createPurchasePortionsExpenses,
-      createExpense,
-    );
-
-    const purchase: Purchase = await createPurchase.execute({
-      name: 'Compra Mateus Supermercados',
-      portions: 3,
-      total_amount: 350,
-      user_id: Constants.fakeUser.id,
-      due_date: parseISO('2022-08-10'),
-      payment_method: 'CREDIT',
-    });
-
-    expect(purchase.expenses.length).toEqual(3);
-  });
 });

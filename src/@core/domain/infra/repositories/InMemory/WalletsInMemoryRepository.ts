@@ -1,7 +1,8 @@
 import { randomUUID } from 'crypto';
+import NotFoundError from '../../../../application/use-cases/errors/not-found.error';
 import IWalletsRepository, {
   CreateWalletDto,
-} from 'src/@core/domain/repositories/IWalletsRepository';
+} from '../../../repositories/IWalletsRepository';
 import { Wallet } from '../../../entities/wallet';
 
 export default class WalletsInMemoryRepository implements IWalletsRepository {
@@ -9,6 +10,13 @@ export default class WalletsInMemoryRepository implements IWalletsRepository {
 
   constructor() {
     this.wallets = [];
+  }
+  async get(id: string): Promise<Wallet> {
+    const found = this.wallets.find((wallet) => wallet.id === id);
+    if (!found) {
+      throw new NotFoundError();
+    }
+    return found;
   }
 
   async create({ amount, name, user_id }: CreateWalletDto): Promise<Wallet> {

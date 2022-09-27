@@ -1,31 +1,43 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
-import CreditCardInMemoryRepository from '../../../domain/infra/repositories/InMemory/CreditCardsInMemoryRepository';
+import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
 import CreateCreditCard from './create-credit-card';
 
-describe('Create creadit card', () => {
-  it('should create a credit card', async () => {
-    const creditCardInMemoryRepository = new CreditCardInMemoryRepository();
-    const createCreditCard = new CreateCreditCard(creditCardInMemoryRepository);
+const makeSut = () => {
+  creditCardsRepositoryMock.create.mockImplementation(
+    async (createCreditCardDto) => {
+      return new CreditCard({
+        ...createCreditCardDto,
+      });
+    },
+  );
+  const sut = new CreateCreditCard(creditCardsRepositoryMock);
+  return sut;
+};
 
-    const creditCard: CreditCard = await createCreditCard.execute({
+describe('Create credit card', () => {
+  it('should create a credit card', async () => {
+    const sut = makeSut();
+
+    const creditCard: CreditCard = await sut.execute({
       name: 'Cartão Nubank',
       total_limit: 2000,
-      user_id: '1',
+      user_id: 'user1',
     });
 
     expect(creditCard.name).toEqual('Cartão Nubank');
     expect(creditCard.total_limit).toEqual(2000);
+    expect(creditCard.spent_amount).toEqual(0);
+    expect(creditCard.remaining_limit).toEqual(2000);
   });
 
   it('should create a credit card with spent amount', async () => {
-    const creditCardInMemoryRepository = new CreditCardInMemoryRepository();
-    const createCreditCard = new CreateCreditCard(creditCardInMemoryRepository);
+    const sut = makeSut();
 
-    const creditCard: CreditCard = await createCreditCard.execute({
+    const creditCard: CreditCard = await sut.execute({
       name: 'Cartão Nubank',
       total_limit: 2000,
       spent_amount: 300,
-      user_id: '1',
+      user_id: 'user1',
     });
 
     expect(creditCard.name).toEqual('Cartão Nubank');

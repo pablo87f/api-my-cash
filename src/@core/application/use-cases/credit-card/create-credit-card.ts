@@ -17,13 +17,13 @@ export default class CreateCreditCard {
     spent_amount,
     user_id,
   }: CreateCrediCardDto): Promise<CreditCard> {
-    const createdWallet = await this.creditCardsRepository.create({
+    const createdCreditCard = await this.creditCardsRepository.create({
       name,
       total_limit,
       spent_amount,
       user_id,
     });
 
-    return createdWallet;
+    return createdCreditCard;
   }
 }

@@ -1,20 +1,27 @@
 import { parseISO } from 'date-fns';
-import ExpensesInMemoryRepository from '../../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
+import expensesRepositoryMock, {
+  bulkCreateForPurchaseInMemoryImpl,
+} from '../../__mocks__/repositories/expenses-repository.mock';
 import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
 
+const makeSut = () => {
+  const sut = new CreateExpensesForPurchasePortions(expensesRepositoryMock);
+  return sut;
+};
 describe('Create expenses for purchase portions', () => {
   it('should create the expenses for the purchase portions', async () => {
-    const expensesRepository = new ExpensesInMemoryRepository();
+    expensesRepositoryMock.bulkCreateForPurchase.mockImplementation(
+      bulkCreateForPurchaseInMemoryImpl,
+    );
 
-    const createExpensesPurchasePortions =
-      new CreateExpensesForPurchasePortions(expensesRepository);
+    const sut = makeSut();
 
-    const expenses = await createExpensesPurchasePortions.execute({
+    const expenses = await sut.execute({
       portions: 3,
       total_amount: 300,
       name: 'Teclado mecânico',
-      purchase_id: '1',
-      user_id: '1',
+      purchase_id: 'purchase1',
+      user_id: 'user1',
       due_date: parseISO('2022-10-08'),
     });
 

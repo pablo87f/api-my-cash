@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Expense } from './expense';
 
 export type PaymentMethod = 'CREDIT' | 'DEBIT';
@@ -13,11 +14,12 @@ export interface PurchaseProps {
   created_at?: Date;
   user_id?: string;
   expenses?: Expense[];
+  payment_source_id?: string;
 }
 
 export class Purchase {
   constructor(readonly props: PurchaseProps) {
-    this.props = props;
+    this.props = { ...props, id: props.id || randomUUID() };
   }
 
   public get id(): string {
@@ -54,5 +56,9 @@ export class Purchase {
 
   public get expenses(): Expense[] {
     return this.props.expenses;
+  }
+
+  public get payment_source_id(): string {
+    return this.props.payment_source_id;
   }
 }

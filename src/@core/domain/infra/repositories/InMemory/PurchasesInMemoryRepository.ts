@@ -26,7 +26,7 @@ export default class PurchasesInMemoryRepository
         total_amount: found.total_amount,
         due_date: found.due_date,
         payment_method: found.payment_method,
-        ...found,
+        ...found.props,
         ...updatePurchaseDto,
       });
       this.purchases[purchaseIndex] = updatedPurchase;
@@ -43,9 +43,9 @@ export default class PurchasesInMemoryRepository
     portions,
     total_amount,
     user_id,
+    payment_source_id,
   }: CreatePurchaseDto): Promise<Purchase> {
     const purchase = new Purchase({
-      id: randomUUID(),
       active: true,
       due_date,
       expenses: [],
@@ -54,6 +54,7 @@ export default class PurchasesInMemoryRepository
       portions,
       total_amount,
       user_id,
+      payment_source_id,
     });
     this.purchases.push(purchase);
     return purchase;

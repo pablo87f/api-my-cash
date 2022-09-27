@@ -22,7 +22,7 @@ export class CreditCard {
   }
 
   public get spent_amount(): number {
-    return this.props.spent_amount;
+    return this.props.spent_amount ?? 0;
   }
 
   public get total_limit(): number {
@@ -30,7 +30,7 @@ export class CreditCard {
   }
 
   public get remaining_limit(): number {
-    return this.props.total_limit - this.props.spent_amount;
+    return this.total_limit - this.spent_amount;
   }
   public get user_id(): string {
     return this.props.user_id;

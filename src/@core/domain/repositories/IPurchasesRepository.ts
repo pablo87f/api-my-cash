@@ -1,4 +1,3 @@
-import { Expense } from '../entities/expense';
 import { PaymentMethod, Purchase } from '../entities/purchase';
 
 export type CreatePurchaseDto = {
@@ -8,6 +7,7 @@ export type CreatePurchaseDto = {
   user_id: string;
   due_date: Date;
   payment_method: PaymentMethod;
+  payment_source_id: string;
 };
 
 export type UpdatePurchaseDto = Partial<Purchase>;

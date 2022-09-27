@@ -10,6 +10,7 @@ type Input = {
   user_id: string;
   due_date: Date;
   payment_method: PaymentMethod;
+  payment_source_id: string;
 };
 
 type Output = Purchase;
@@ -17,7 +18,7 @@ type Output = Purchase;
 export default class CreatePurchase {
   constructor(
     readonly purchasesRepository: IPurchasesRepository,
-    readonly createPurchasePortionsExpenses: CreateExpensesForPurchasePortions,
+    readonly createExpensesForPurchasePortions: CreateExpensesForPurchasePortions,
     readonly createPurchaseExpense: CreateExpenseForPurchase,
   ) {}
 
@@ -28,6 +29,7 @@ export default class CreatePurchase {
     portions,
     total_amount,
     user_id,
+    payment_source_id,
   }: Input): Promise<Output> {
     const expenseAmount = total_amount / portions;
 
@@ -38,19 +40,19 @@ export default class CreatePurchase {
       portions,
       total_amount,
       user_id,
+      payment_source_id,
     });
 
     if (payment_method === 'CREDIT') {
-      const portionExpenses = await this.createPurchasePortionsExpenses.execute(
-        {
+      const portionExpenses =
+        await this.createExpensesForPurchasePortions.execute({
           purchase_id: createdPurchase.id,
           due_date,
           name,
           portions,
           total_amount,
           user_id,
-        },
-      );
+        });
       const purchase = await this.purchasesRepository.update(
         createdPurchase.id,
         {
@@ -67,6 +69,7 @@ export default class CreatePurchase {
         user_id,
         purchase_id: createdPurchase.id,
       });
+
       const purchase = await this.purchasesRepository.update(
         createdPurchase.id,
         {

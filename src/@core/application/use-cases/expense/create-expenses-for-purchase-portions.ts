@@ -2,7 +2,7 @@ import { addMonths } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import IExpensesRepository from '../../../domain/repositories/IExpensesRepository';
 
-type Input = {
+type CreateExpensesForPurchasePortionsDto = {
   portions: number;
   name: string;
   total_amount: number;
@@ -10,8 +10,6 @@ type Input = {
   user_id: string;
   purchase_id: string;
 };
-
-type Output = Expense[];
 
 export default class CreateExpensesForPurchasePortions {
   constructor(readonly expensesRepository: IExpensesRepository) {}
@@ -23,7 +21,7 @@ export default class CreateExpensesForPurchasePortions {
     due_date,
     user_id,
     purchase_id,
-  }: Input): Promise<Output> {
+  }: CreateExpensesForPurchasePortionsDto): Promise<Expense[]> {
     const portionList = Array.from({ length: portions }, (_, i) => i + 1);
     const expenseAmount = total_amount / portions;
     const expensesForPurchasePortions = portionList.map((portion) => {
