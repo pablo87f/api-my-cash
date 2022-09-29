@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export interface ExpenseProps {
   id?: string;
   name: string;
@@ -13,7 +15,7 @@ export interface ExpenseProps {
 
 export class Expense {
   constructor(props: ExpenseProps) {
-    this.props = props;
+    this.props = props.id ? props : { ...props, id: randomUUID() };
   }
   private props: ExpenseProps;
 
