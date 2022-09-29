@@ -1,14 +1,12 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
-import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
+import creditCardsRepositoryMock, {
+  createCreditCardInMemoryImpl,
+} from '../../__mocks__/repositories/credit-cards-repository.mock';
 import CreateCreditCard from './create-credit-card';
 
 const makeSut = () => {
   creditCardsRepositoryMock.create.mockImplementation(
-    async (createCreditCardDto) => {
-      return new CreditCard({
-        ...createCreditCardDto,
-      });
-    },
+    createCreditCardInMemoryImpl,
   );
   const sut = new CreateCreditCard(creditCardsRepositoryMock);
   return sut;

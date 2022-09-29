@@ -23,6 +23,7 @@ export default class PayWithCreditCard {
     const updatedCreditCard = await this.creditCardsRepository.update(
       credit_card_id,
       {
+        ...creditCard.allProps,
         spent_amount: creditCard.spent_amount + value_to_pay,
       },
     );

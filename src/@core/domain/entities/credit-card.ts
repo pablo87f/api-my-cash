@@ -39,4 +39,8 @@ export class CreditCard {
   public get active(): boolean {
     return this.props.active;
   }
+
+  public get allProps(): CreditCardProps {
+    return this.props;
+  }
 }
