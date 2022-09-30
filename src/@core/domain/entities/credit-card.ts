@@ -8,10 +8,9 @@ export interface CreditCardProps {
 }
 
 export class CreditCard {
-  constructor(props: CreditCardProps) {
+  constructor(readonly props: CreditCardProps) {
     this.props = props;
   }
-  private props: CreditCardProps;
 
   public get id(): string {
     return this.props.id;
@@ -38,9 +37,5 @@ export class CreditCard {
 
   public get active(): boolean {
     return this.props.active;
-  }
-
-  public get allProps(): CreditCardProps {
-    return this.props;
   }
 }

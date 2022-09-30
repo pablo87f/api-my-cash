@@ -111,6 +111,7 @@ describe('CreatePurchaseWithCreditCard', () => {
 
     expect(purchasesRepositoryMock.update).toHaveBeenCalledTimes(1);
     expect(purchasesRepositoryMock.update).toHaveBeenCalledWith('purchase1', {
+      ...createdPurchase.props,
       expenses: createdExpenses,
     });
 

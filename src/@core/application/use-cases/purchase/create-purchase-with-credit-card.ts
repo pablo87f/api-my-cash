@@ -56,6 +56,7 @@ export default class CreatePurchaseWithCreditCard {
     });
 
     const purchase = await this.purchasesRepository.update(createdPurchase.id, {
+      ...createdPurchase.props,
       expenses: portionExpenses,
     });
     return purchase;

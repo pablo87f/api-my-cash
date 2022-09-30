@@ -6,7 +6,10 @@ export type CreateWalletDto = {
   user_id: string;
 };
 
+export type UpdateWalletDto = Partial<Wallet>;
+
 export default interface IWalletsRepository {
   create(createWalletDto: CreateWalletDto): Promise<Wallet>;
-  get(id: string): Promise<Wallet>;
+  get(id: string, user_id: string): Promise<Wallet>;
+  update(id: string, updateWalletDto: UpdateWalletDto): Promise<Wallet>;
 }

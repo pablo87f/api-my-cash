@@ -7,10 +7,9 @@ export interface WalletProps {
 }
 
 export class Wallet {
-  constructor(props: WalletProps) {
+  constructor(readonly props: WalletProps) {
     this.props = props;
   }
-  private props: WalletProps;
 
   public get id(): string {
     return this.props.id;

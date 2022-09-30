@@ -14,10 +14,9 @@ export interface ExpenseProps {
 }
 
 export class Expense {
-  constructor(props: ExpenseProps) {
+  constructor(readonly props: ExpenseProps) {
     this.props = props.id ? props : { ...props, id: randomUUID() };
   }
-  private props: ExpenseProps;
 
   public get id(): string {
     return this.props.id;

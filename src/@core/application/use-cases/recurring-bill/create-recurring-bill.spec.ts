@@ -1,15 +1,9 @@
 import { parseISO } from 'date-fns';
-import ExpensesInMemoryRepository from '../../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
-import PurchasesInMemoryRepository from '../../../domain/infra/repositories/InMemory/PurchasesInMemoryRepository';
-import Constants from '../../../constants';
-import { Purchase } from '../../../domain/entities/purchase';
-import CreateExpenseForPurchase from '../expense/create-expense-for-purchase';
-import CreatePurchase from '../purchase/create-purchase';
-import CreateExpensesForPurchasePortions from '../expense/create-expenses-for-purchase-portions';
 import { RecurringBill } from '../../../domain/entities/recurring-bill';
+import ExpensesInMemoryRepository from '../../../domain/infra/repositories/InMemory/ExpensesInMemoryRepository';
 import RecurringBillsInMemoryRepository from '../../../domain/infra/repositories/InMemory/RecurringBillsInMemoryRepository';
-import CreateRecurringBill from './create-recurring-bill';
 import CreateExpenseForRecurringBill from '../expense/create-expense-for-recurring-bill';
+import CreateRecurringBill from './create-recurring-bill';
 
 describe('Create recurring bill', () => {
   it('should create a recurring bill', async () => {

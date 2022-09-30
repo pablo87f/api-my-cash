@@ -2,7 +2,7 @@ import { PaymentMethod, Purchase } from '../entities/purchase';
 
 export type CreatePurchaseDto = {
   name: string;
-  portions: number;
+  portions?: number;
   total_amount: number;
   user_id: string;
   due_date: Date;
