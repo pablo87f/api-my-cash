@@ -3,7 +3,7 @@ import { Purchase } from '../../../domain/entities/purchase';
 import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
 // import walletsRepositoryMock from '../__mocks__/wallets-repository-mock';
 import { Expense } from '../../../domain/entities/expense';
-import purchasesRepositoryMock from '../../__mocks__/repositories/purchases-repository.mock copy';
+import purchasesRepositoryMock from '../../__mocks__/repositories/purchases-repository.mock';
 import createExpenseForPurchaseMock from '../../__mocks__/use-cases/create-expense-for-purchase.mock';
 import payWithDebitWalletMock from '../../__mocks__/use-cases/pay-with-debit-wallet.mock';
 import CreatePurchaseWithDebitWallet from './create-purchase-with-debit-wallet';

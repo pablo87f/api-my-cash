@@ -1,7 +1,7 @@
 import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import { Purchase } from '../../../domain/entities/purchase';
-import purchasesRepositoryMock from '../../__mocks__/repositories/purchases-repository.mock copy';
+import purchasesRepositoryMock from '../../__mocks__/repositories/purchases-repository.mock';
 import createExpensesForPurchasePortionsMock from '../../__mocks__/use-cases/create-expenses-for-purchase-portions.mock';
 import payWithCreditCardMock from '../../__mocks__/use-cases/pay-with-credit-card.mock';
 import CreatePurchaseWithCreditCard from './create-purchase-with-credit-card';
