@@ -16,4 +16,5 @@ export default interface ICreditCardsRepository {
     id: string,
     updateCreditCardDto: UpdateCreditCardDto,
   ): Promise<CreditCard>;
+  retrieve(user_id: string): Promise<CreditCard[]>;
 }
