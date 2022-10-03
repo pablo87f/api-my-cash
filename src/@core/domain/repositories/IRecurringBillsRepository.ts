@@ -13,8 +13,11 @@ export default interface IRecurringBillsRepository {
   create(
     createRecurringBillDto: CreateRecurringBillDto,
   ): Promise<RecurringBill>;
+
   update(
     id: string,
     updateRecurringBillDto: UpdateRecurringBillDto,
   ): Promise<RecurringBill>;
+
+  get(id: string, user_id: string): Promise<RecurringBill>;
 }
