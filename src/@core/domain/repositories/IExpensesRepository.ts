@@ -28,4 +28,6 @@ export default interface IExpensesRepository {
   createToRecurringBill(
     createRecurringBillExpenseDto: CreateExpenseForRecurringBillDto,
   ): Promise<Expense>;
+
+  retrieve(user_id: string);
 }
