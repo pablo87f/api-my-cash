@@ -30,4 +30,8 @@ export default interface IExpensesRepository {
   ): Promise<Expense>;
 
   retrieve(user_id: string);
+
+  update(id: string, updateExpenseDto: Partial<Expense>): Promise<Expense>;
+
+  get(id: string, user_id: string);
 }
