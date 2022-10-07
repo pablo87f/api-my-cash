@@ -1,6 +1,6 @@
 import { Expense } from './expense';
 
-export interface RecurringBillProps {
+export type RecurringBillProps = {
   id?: string;
   name: string;
   estimated_amount: number;
@@ -9,7 +9,7 @@ export interface RecurringBillProps {
   created_at?: Date;
   user_id?: string;
   expenses?: Expense[];
-}
+};
 
 export class RecurringBill {
   constructor(readonly props: RecurringBillProps) {

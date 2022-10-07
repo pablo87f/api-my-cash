@@ -1,5 +1,5 @@
-import { CreditCard } from '../../../domain/entities/credit-card';
-import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
+import { CreditCard } from '../../entities/credit-card';
+import ICreditCardsRepository from '../ICreditCardsRepository';
 
 const creditCardsRepositoryMock: jest.Mocked<ICreditCardsRepository> = {
   create: jest.fn(),

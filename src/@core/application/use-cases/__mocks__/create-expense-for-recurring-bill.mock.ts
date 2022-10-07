@@ -1,5 +1,5 @@
-import CreateExpenseForRecurringBill from '../../use-cases/expense/create-expense-for-recurring-bill';
-import expensesRepositoryMock from '../repositories/expenses-repository.mock';
+import CreateExpenseForRecurringBill from '../expense/create-expense-for-recurring-bill';
+import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
 
 const createExpenseForRecurringBillMock: jest.Mocked<CreateExpenseForRecurringBill> =
   {

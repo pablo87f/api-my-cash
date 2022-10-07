@@ -1,5 +1,5 @@
 import { Wallet } from '../../../domain/entities/wallet';
-import walletsRepositoryMock from '../../__mocks__/repositories/wallets-repository.mock';
+import walletsRepositoryMock from '../../../domain/repositories/__mocks__/wallets-repository.mock';
 import CreateWallet from './create-wallet';
 
 describe('Create wallet', () => {

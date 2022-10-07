@@ -2,7 +2,7 @@ import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import { RecurringBill } from '../../../domain/entities/recurring-bill';
 import NotFoundError from '../../errors/not-found.error';
-import recurringBillsRepositoryMock from '../../__mocks__/repositories/recurring-bills-repository.mock';
+import recurringBillsRepositoryMock from '../../../domain/repositories/__mocks__/recurring-bills-repository.mock';
 import GetRecurringBill from './get-recurring-bill';
 
 const makeSut = () => {

@@ -1,6 +1,6 @@
 import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
-import expensesRepositoryMock from '../../__mocks__/repositories/expenses-repository.mock';
+import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
 import RetrieveCreditCards from './retrieve-expenses';
 
 const makeSut = () => {

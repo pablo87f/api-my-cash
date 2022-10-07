@@ -1,6 +1,6 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
 import NotFoundError from '../../errors/not-found.error';
-import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
+import creditCardsRepositoryMock from '../../../domain/repositories/__mocks__/credit-cards-repository.mock';
 import GetCreditCard from './get-credit-card';
 
 const makeSut = () => {

@@ -1,4 +1,4 @@
-import IWalletsRepository from 'src/@core/domain/repositories/IWalletsRepository';
+import IWalletsRepository from '../IWalletsRepository';
 
 const walletsRepositoryMock: jest.Mocked<IWalletsRepository> = {
   create: jest.fn(),

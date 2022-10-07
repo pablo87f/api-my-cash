@@ -1,7 +1,7 @@
 import { parseISO } from 'date-fns';
 import expensesRepositoryMock, {
   bulkCreateForPurchaseInMemoryImpl,
-} from '../../__mocks__/repositories/expenses-repository.mock';
+} from '../../../domain/repositories/__mocks__/expenses-repository.mock';
 import CreateExpensesForPurchasePortions from './create-expenses-for-purchase-portions';
 
 const makeSut = () => {

@@ -1,7 +1,7 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
 import creditCardsRepositoryMock, {
   createCreditCardInMemoryImpl,
-} from '../../__mocks__/repositories/credit-cards-repository.mock';
+} from '../../../domain/repositories/__mocks__/credit-cards-repository.mock';
 import CreateCreditCard from './create-credit-card';
 
 const makeSut = () => {

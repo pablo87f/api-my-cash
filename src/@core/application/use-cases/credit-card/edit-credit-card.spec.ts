@@ -1,6 +1,6 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
-import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
-import getCreditCardMock from '../../__mocks__/use-cases/get-credit-card.mock';
+import creditCardsRepositoryMock from '../../../domain/repositories/__mocks__/credit-cards-repository.mock';
+import getCreditCardMock from '../__mocks__/get-credit-card.mock';
 import EditCreditCard from './edit-credit-card';
 
 const makeSut = () => {

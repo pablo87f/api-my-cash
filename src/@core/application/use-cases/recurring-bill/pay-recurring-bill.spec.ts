@@ -1,10 +1,10 @@
 import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import { RecurringBill } from '../../../domain/entities/recurring-bill';
-import recurringBillsRepositoryMock from '../../__mocks__/repositories/recurring-bills-repository.mock';
-import createExpenseForRecurringBillMock from '../../__mocks__/use-cases/create-expense-for-recurring-bill.mock';
-import getRecurringBillMock from '../../__mocks__/use-cases/get-recurring-bill.mock';
-import payWithDebitWalletMock from '../../__mocks__/use-cases/pay-with-debit-wallet.mock';
+import recurringBillsRepositoryMock from '../../../domain/repositories/__mocks__/recurring-bills-repository.mock';
+import createExpenseForRecurringBillMock from '../__mocks__/create-expense-for-recurring-bill.mock';
+import getRecurringBillMock from '../__mocks__/get-recurring-bill.mock';
+import payWithDebitWalletMock from '../__mocks__/pay-with-debit-wallet.mock';
 import PayRecurringBill from './pay-recurring-bill';
 
 const makeSut = () => {

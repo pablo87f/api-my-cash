@@ -1,5 +1,5 @@
-import { Expense } from '../../../domain/entities/expense';
-import IExpensesRepository from '../../../domain/repositories/IExpensesRepository';
+import { Expense } from '../../entities/expense';
+import IExpensesRepository from '../IExpensesRepository';
 
 const expensesRepositoryMock: jest.Mocked<IExpensesRepository> = {
   bulkCreateForPurchase: jest.fn(),

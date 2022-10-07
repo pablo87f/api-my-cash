@@ -1,11 +1,11 @@
 import { parseISO } from 'date-fns';
 import { Purchase } from '../../../domain/entities/purchase';
-import creditCardsRepositoryMock from '../../__mocks__/repositories/credit-cards-repository.mock';
+import creditCardsRepositoryMock from '../../../domain/repositories/__mocks__/credit-cards-repository.mock';
 // import walletsRepositoryMock from '../__mocks__/wallets-repository-mock';
 import { Expense } from '../../../domain/entities/expense';
-import purchasesRepositoryMock from '../../__mocks__/repositories/purchases-repository.mock';
-import createExpenseForPurchaseMock from '../../__mocks__/use-cases/create-expense-for-purchase.mock';
-import payWithDebitWalletMock from '../../__mocks__/use-cases/pay-with-debit-wallet.mock';
+import purchasesRepositoryMock from '../../../domain/repositories/__mocks__/purchases-repository.mock';
+import createExpenseForPurchaseMock from '../__mocks__/create-expense-for-purchase.mock';
+import payWithDebitWalletMock from '../__mocks__/pay-with-debit-wallet.mock';
 import CreatePurchaseWithDebitWallet from './create-purchase-with-debit-wallet';
 
 beforeEach(() => {

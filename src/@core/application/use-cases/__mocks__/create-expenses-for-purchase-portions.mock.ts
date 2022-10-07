@@ -1,5 +1,5 @@
-import CreateExpensesForPurchasePortions from '../../use-cases/expense/create-expenses-for-purchase-portions';
-import expensesRepositoryMock from '../repositories/expenses-repository.mock';
+import CreateExpensesForPurchasePortions from '../expense/create-expenses-for-purchase-portions';
+import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
 
 const createExpensesForPurchasePortionsMock: jest.Mocked<CreateExpensesForPurchasePortions> =
   {
