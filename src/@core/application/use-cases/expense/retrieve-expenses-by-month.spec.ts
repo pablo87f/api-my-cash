@@ -1,15 +1,15 @@
 import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
-import RetrieveCreditCards from './retrieve-expenses';
+import RetriveExpensesByMonth from './retrieve-expenses-by-month';
 
 const makeSut = () => {
-  const retrieveCreditCards = new RetrieveCreditCards(expensesRepositoryMock);
-  return retrieveCreditCards;
+  const sut = new RetriveExpensesByMonth(expensesRepositoryMock);
+  return sut;
 };
 
-describe('Retrieve credit cards', () => {
-  it('should retrieve the user credit cards', async () => {
+describe('List expenses by month', () => {
+  it('should retrieve the list of expenses by month', async () => {
     const fakeRetrievedExpenses = [
       new Expense({
         name: 'Compra Supermercado',
@@ -20,7 +20,7 @@ describe('Retrieve credit cards', () => {
         purchase_id: 'purchase1',
       }),
       new Expense({
-        name: 'Conta de energia',
+        name: 'Conta de energia - 10/2022',
         amount: 500,
         due_date: parseISO('2022-10-07'),
         id: 'expense2',
@@ -37,18 +37,24 @@ describe('Retrieve credit cards', () => {
       }),
     ];
 
-    expensesRepositoryMock.retrieve.mockResolvedValueOnce(
+    expensesRepositoryMock.retrieveByMonth.mockResolvedValueOnce(
       fakeRetrievedExpenses,
     );
 
     const sut = makeSut();
 
-    const retrivedExpenses = await sut.execute('user1');
+    const expenses = await sut.execute({
+      ref_month: parseISO('2022-10-01'),
+      user_id: 'user1',
+    });
 
-    expect(expensesRepositoryMock.retrieve).toHaveBeenCalledTimes(1);
-    expect(expensesRepositoryMock.retrieve).toHaveBeenCalledWith('user1');
+    expect(expensesRepositoryMock.retrieveByMonth).toHaveBeenCalledTimes(1);
+    expect(expensesRepositoryMock.retrieveByMonth).toHaveBeenCalledWith({
+      ref_month: parseISO('2022-10-01'),
+      user_id: 'user1',
+    });
 
-    expect(retrivedExpenses).toBeInstanceOf(Array<Expense>);
-    expect(retrivedExpenses.length).toEqual(3);
+    expect(expenses).toBeInstanceOf(Array<Expense>);
+    expect(expenses.length).toEqual(3);
   });
 });

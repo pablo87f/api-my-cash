@@ -8,6 +8,7 @@ const expensesRepositoryMock: jest.Mocked<IExpensesRepository> = {
   retrieve: jest.fn(),
   update: jest.fn(),
   get: jest.fn(),
+  retrieveByMonth: jest.fn(),
 };
 
 export const bulkCreateForPurchaseInMemoryImpl = async (

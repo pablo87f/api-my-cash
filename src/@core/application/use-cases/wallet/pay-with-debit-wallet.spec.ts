@@ -47,6 +47,7 @@ describe('Pay with debit wallet', () => {
       name: 'NuConta',
       amount: 700,
       user_id: 'user1',
+      active: true,
     });
 
     expect(wallet).toBeInstanceOf(Wallet);

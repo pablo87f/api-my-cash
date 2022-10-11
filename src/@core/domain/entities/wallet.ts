@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export interface WalletProps {
   id?: string;
   name: string;
@@ -8,7 +10,11 @@ export interface WalletProps {
 
 export class Wallet {
   constructor(readonly props: WalletProps) {
-    this.props = props;
+    this.props = {
+      ...props,
+      id: props.id ?? randomUUID(),
+      active: props.active ?? true,
+    };
   }
 
   public get id(): string {

@@ -9,6 +9,11 @@ export type CreateRecurringBillDto = {
 
 export type UpdateRecurringBillDto = Partial<RecurringBill>;
 
+export type RetrieveRecurringBillsByMonthDto = {
+  user_id: string;
+  ref_month: Date;
+};
+
 export default interface IRecurringBillsRepository {
   create(
     createRecurringBillDto: CreateRecurringBillDto,
@@ -20,4 +25,10 @@ export default interface IRecurringBillsRepository {
   ): Promise<RecurringBill>;
 
   get(id: string, user_id: string): Promise<RecurringBill>;
+
+  retrieveByUser(user_id: string): Promise<RecurringBill[]>;
+
+  retrieveByMonth(
+    filters: RetrieveRecurringBillsByMonthDto,
+  ): Promise<RecurringBill[]>;
 }

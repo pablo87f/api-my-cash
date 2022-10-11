@@ -16,6 +16,11 @@ export type CreateExpenseForRecurringBillDto = {
   recurring_bill_id: string;
 };
 
+export type RetrieveByMonthDto = {
+  user_id: string;
+  ref_month: Date;
+};
+
 export default interface IExpensesRepository {
   bulkCreateForPurchase(
     createPurchaseExpenseDto: CreateExpenseForPurchaseDto[],
@@ -29,9 +34,11 @@ export default interface IExpensesRepository {
     createRecurringBillExpenseDto: CreateExpenseForRecurringBillDto,
   ): Promise<Expense>;
 
-  retrieve(user_id: string);
+  retrieve(user_id: string): Promise<Expense[]>;
+
+  retrieveByMonth(filters: RetrieveByMonthDto): Promise<Expense[]>;
 
   update(id: string, updateExpenseDto: Partial<Expense>): Promise<Expense>;
 
-  get(id: string, user_id: string);
+  get(id: string, user_id: string): Promise<Expense>;
 }
