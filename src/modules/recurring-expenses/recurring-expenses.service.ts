@@ -8,7 +8,7 @@ export class RecurringExpensesService {
   constructor(private readonly db: DbService) {}
 
   async create(createRecurringExpenseDto: CreateRecurringExpenseDto) {
-    const recurringExpenses = await this.db.recurringExpense.create({
+    const recurringExpenses = await this.db.recurringBill.create({
       data: {
         ...createRecurringExpenseDto,
       },
@@ -17,7 +17,7 @@ export class RecurringExpensesService {
   }
 
   async findAll(user_id: string) {
-    const recurringExpenses = await this.db.recurringExpense.findMany({
+    const recurringExpenses = await this.db.recurringBill.findMany({
       where: {
         user_id,
       },
@@ -29,7 +29,7 @@ export class RecurringExpensesService {
   }
 
   async findOne(id: string) {
-    const recurringExpense = await this.db.recurringExpense.findUnique({
+    const recurringExpense = await this.db.recurringBill.findUnique({
       where: {
         id,
       },
@@ -41,7 +41,7 @@ export class RecurringExpensesService {
     id: string,
     updateRecurringExpenseDto: UpdateRecurringExpenseDto,
   ) {
-    const recurringExpense = await this.db.recurringExpense.update({
+    const recurringExpense = await this.db.recurringBill.update({
       data: {
         ...updateRecurringExpenseDto,
       },

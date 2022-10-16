@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Expense, RecurringExpense } from '@prisma/client';
+import { Expense, RecurringBill } from '@prisma/client';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { BuildExpenseFromPruchaseDto } from './dto/build-expense-from-pruchase.dto';
@@ -49,7 +49,7 @@ export class ExpensesService {
   }
 
   buildExpenseFromRecurringExpense(
-    recurringExpense: RecurringExpense,
+    recurringExpense: RecurringBill,
     refDate: Date,
   ) {
     const expenseNameComplement = format(refDate, 'MM/yyyy');

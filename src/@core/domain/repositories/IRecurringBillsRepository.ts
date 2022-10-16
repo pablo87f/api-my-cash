@@ -1,4 +1,4 @@
-import { RecurringBill } from '../entities/recurring-bill';
+import { RecurringBill, RecurringBillProps } from '../entities/recurring-bill';
 
 export type CreateRecurringBillDto = {
   name: string;
@@ -30,5 +30,5 @@ export default interface IRecurringBillsRepository {
 
   retrieveByMonth(
     filters: RetrieveRecurringBillsByMonthDto,
-  ): Promise<RecurringBill[]>;
+  ): Promise<RecurringBillProps[]>;
 }

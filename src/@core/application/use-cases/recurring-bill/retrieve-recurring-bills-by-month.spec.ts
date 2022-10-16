@@ -2,10 +2,10 @@ import { parseISO } from 'date-fns';
 import { RecurringBill } from '../../../domain/entities/recurring-bill';
 import recurringBillsFactory from '../../../domain/entities/__mocks__/recurring-bills.factory';
 import recurringBillsRepositoryMock from '../../../domain/repositories/__mocks__/recurring-bills-repository.mock';
-import RetrieveRecurringBillsbyMonth from './retrieve-recurring-bills-by-month';
+import RetrieveRecurringBillsByMonth from './retrieve-recurring-bills-by-month';
 
 const makeSut = () => {
-  const sut = new RetrieveRecurringBillsbyMonth(recurringBillsRepositoryMock);
+  const sut = new RetrieveRecurringBillsByMonth(recurringBillsRepositoryMock);
   return sut;
 };
 

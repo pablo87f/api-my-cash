@@ -2,7 +2,7 @@ import { RecurringBill } from '../../../domain/entities/recurring-bill';
 import IRecurringBillsRepository from '../../../domain/repositories/IRecurringBillsRepository';
 import CreateExpenseForRecurringBill from '../expense/create-expense-for-recurring-bill';
 
-type Input = {
+type CreateRecurringBillDto = {
   name: string;
   estimated_amount: number;
   user_id: string;
@@ -22,7 +22,7 @@ export default class CreateRecurringBill {
     name,
     estimated_amount,
     user_id,
-  }: Input): Promise<Output> {
+  }: CreateRecurringBillDto): Promise<Output> {
     const createdRecurringBill = await this.recurringBillsRepository.create({
       name,
       estimated_amount,

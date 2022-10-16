@@ -4,6 +4,7 @@ import { PurchasesModule } from './modules/purchases/purchases.module';
 import { RecurringExpensesModule } from './modules/recurring-expenses/recurring-expenses.module';
 import { UsersModule } from './modules/users/users.module';
 import { WalletsModule } from './modules/wallets/wallets.module';
+import { RecurringBillsModule } from './modules/recurring-bills/recurring-bills.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { WalletsModule } from './modules/wallets/wallets.module';
     WalletsModule,
     ExpensesModule,
     RecurringExpensesModule,
+    RecurringBillsModule,
   ],
   controllers: [],
   providers: [],

@@ -19,7 +19,7 @@ model User {
 
   expenses           Expense[]
   purchases          Purchase[]
-  recurring_expenses RecurringExpense[]
+  recurring_bills RecurringBill[]
   wallets            Wallet[]
   @@map("users")
 }
@@ -37,7 +37,7 @@ model Expense {
   user                 User              @relation(fields: [user_id], references: [id])
   purchase_id          String?           @default(dbgenerated("NULL")) @db.VarChar(36)
   purchase             Purchase?         @relation(fields: [purchase_id], references: [id], onDelete: Cascade)
-  recurring_expense    RecurringExpense? @relation(fields: [recurring_expense_id], references: [id])
+  recurring_expense    RecurringBill? @relation(fields: [recurring_expense_id], references: [id])
   recurring_expense_id String?           @db.VarChar(36)
 
   @@map("expenses")
@@ -65,7 +65,7 @@ model Purchase {
   @@map("purchases")
 }
 
-model RecurringExpense {
+model RecurringBill {
   id               String    @id @default(uuid()) @db.VarChar(36)
   name             String
   estimated_amount Float     @db.Real()
@@ -77,7 +77,7 @@ model RecurringExpense {
   user_id          String    @db.VarChar(36)
   user             User      @relation(fields: [user_id], references: [id])
 
-  @@map("recurring_expenses")
+  @@map("recurring_bills")
 }
 
 

@@ -1,12 +1,12 @@
-import { RecurringBill } from 'src/@core/domain/entities/recurring-bill';
-import IRecurringBillsRepository from 'src/@core/domain/repositories/IRecurringBillsRepository';
+import { RecurringBill } from '../../../domain/entities/recurring-bill';
+import IRecurringBillsRepository from '../../../domain/repositories/IRecurringBillsRepository';
 
 type Input = {
   user_id: string;
   ref_month: Date;
 };
 
-export default class RetrieveRecurringBillsbyMonth {
+export default class RetrieveRecurringBillsByMonth {
   constructor(readonly recurringBillsRepository: IRecurringBillsRepository) {}
 
   async execute({ user_id, ref_month }: Input): Promise<RecurringBill[]> {
@@ -14,6 +14,6 @@ export default class RetrieveRecurringBillsbyMonth {
       ref_month,
       user_id,
     });
-    return recurringBills;
+    return recurringBills.map((props) => new RecurringBill(props));
   }
 }
