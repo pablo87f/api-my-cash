@@ -26,9 +26,5 @@ export default interface IRecurringBillsRepository {
 
   get(id: string, user_id: string): Promise<RecurringBill>;
 
-  retrieveByUser(user_id: string): Promise<RecurringBill[]>;
-
-  retrieveByMonth(
-    filters: RetrieveRecurringBillsByMonthDto,
-  ): Promise<RecurringBillProps[]>;
+  retrieveByUser(user_id: string): Promise<RecurringBillProps[]>;
 }

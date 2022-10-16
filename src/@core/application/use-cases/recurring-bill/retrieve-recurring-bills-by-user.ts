@@ -3,17 +3,15 @@ import IRecurringBillsRepository from '../../../domain/repositories/IRecurringBi
 
 type Input = {
   user_id: string;
-  ref_month: Date;
 };
 
-export default class RetrieveRecurringBillsByMonth {
+export default class RetrieveRecurringBillsByUser {
   constructor(readonly recurringBillsRepository: IRecurringBillsRepository) {}
 
-  async execute({ user_id, ref_month }: Input): Promise<RecurringBill[]> {
-    const recurringBills = await this.recurringBillsRepository.retrieveByMonth({
-      ref_month,
+  async execute({ user_id }: Input): Promise<RecurringBill[]> {
+    const recurringBills = await this.recurringBillsRepository.retrieveByUser(
       user_id,
-    });
+    );
     return recurringBills.map((props) => new RecurringBill(props));
   }
 }
