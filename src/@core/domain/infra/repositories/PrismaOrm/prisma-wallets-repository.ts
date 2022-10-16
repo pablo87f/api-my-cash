@@ -6,6 +6,17 @@ import { DbService } from 'src/database/db.service';
 
 export default class PrismaWalletsRepository implements IWalletsRepository {
   constructor(readonly db: DbService) {}
+  async retrieve(user_id: string): Promise<Wallet[]> {
+    const wallets = await this.db.wallet.findMany({
+      where: {
+        user_id,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+    return wallets.map((wallet) => new Wallet(wallet));
+  }
   async create(createWalletDto: CreateWalletDto): Promise<Wallet> {
     const wallet = await this.db.wallet.create({
       data: {

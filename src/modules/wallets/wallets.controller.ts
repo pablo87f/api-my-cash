@@ -1,24 +1,29 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import CreateWallet, {
   CreateWalletDto,
 } from 'src/@core/application/use-cases/wallet/create-wallet';
+import RetrieveWalletsByUser from 'src/@core/application/use-cases/wallet/retrieve-wallets-by-user';
+import IWalletsRepository from 'src/@core/domain/repositories/IWalletsRepository';
 
 const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
 
 @Controller('wallets')
 export class WalletsController {
-  constructor(private readonly createWallet: CreateWallet) {}
+  constructor(
+    private readonly retrieveWalletsByUser: RetrieveWalletsByUser,
+    private readonly createWallet: CreateWallet,
+  ) {}
 
   @Post()
   create(@Body() createWalletDto: Omit<CreateWalletDto, 'user_id'>) {
     return this.createWallet.execute({ ...createWalletDto, user_id });
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.walletsService.findAll(user_id);
-  // }
+  @Get()
+  findAll() {
+    return this.retrieveWalletsByUser.execute({ user_id });
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
