@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import CreateRecurringBill from 'src/@core/application/use-cases/recurring-bill/create-recurring-bill';
+import GetRecurringBill from 'src/@core/application/use-cases/recurring-bill/get-recurring-bill';
 import RetrieveRecurringBillsByUser from 'src/@core/application/use-cases/recurring-bill/retrieve-recurring-bills-by-user';
 import PrismaRecurringBillsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-recurring-bills-repository';
 import IRecurringBillsRepository from 'src/@core/domain/repositories/IRecurringBillsRepository';
@@ -28,6 +29,13 @@ import { RecurringBillsController } from './recurring-bills.controller';
       provide: RetrieveRecurringBillsByUser,
       useFactory: (recurringBillsRepository: IRecurringBillsRepository) => {
         return new RetrieveRecurringBillsByUser(recurringBillsRepository);
+      },
+      inject: [PrismaRecurringBillsRepository],
+    },
+    {
+      provide: GetRecurringBill,
+      useFactory: (recurringBillsRepository: IRecurringBillsRepository) => {
+        return new GetRecurringBill(recurringBillsRepository);
       },
       inject: [PrismaRecurringBillsRepository],
     },

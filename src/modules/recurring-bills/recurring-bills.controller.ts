@@ -1,16 +1,26 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { parseISO } from 'date-fns';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import CreateRecurringBill from 'src/@core/application/use-cases/recurring-bill/create-recurring-bill';
+import GetRecurringBill from 'src/@core/application/use-cases/recurring-bill/get-recurring-bill';
 import RetrieveRecurringBillsByUser from 'src/@core/application/use-cases/recurring-bill/retrieve-recurring-bills-by-user';
 import { CreateRecurringBillDto } from 'src/@core/domain/repositories/IRecurringBillsRepository';
+import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 
 const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
 
 @Controller('recurring-bills')
 export class RecurringBillsController {
   constructor(
-    private readonly createRecurringBill: CreateRecurringBill, // private readonly getRecurringBill: GetRecurringBill, // private readonly updateRecurringBill: UpdateRecurringBill,
+    private readonly createRecurringBill: CreateRecurringBill,
     private readonly retrieveRecurringBillByUser: RetrieveRecurringBillsByUser,
+    private readonly getRecurringBill: GetRecurringBill, // private readonly updateRecurringBill: UpdateRecurringBill,
   ) {}
 
   @Post()
@@ -28,10 +38,17 @@ export class RecurringBillsController {
     return this.retrieveRecurringBillByUser.execute({ user_id });
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.getRecurringBill.execute({ id, user_id });
-  // }
+  @Get(':id')
+  @UseFilters(new HttpExceptionFilter())
+  async findOne(@Param('id') id: string) {
+    const recurringBill = await this.getRecurringBill.execute({ id, user_id });
+
+    if (!recurringBill) {
+      throw new NotFoundException();
+    }
+
+    return recurringBill;
+  }
 
   // @Patch(':id')
   // update(

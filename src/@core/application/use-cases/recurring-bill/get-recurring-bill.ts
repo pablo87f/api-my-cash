@@ -10,7 +10,7 @@ export default class GetRecurringBill {
   async execute({ id, user_id }: Input): Promise<RecurringBill> {
     const found = await this.recurringBillRepository.get(id, user_id);
     if (!found) {
-      throw new NotFoundError();
+      return undefined;
     }
     return found;
   }

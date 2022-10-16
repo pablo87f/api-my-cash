@@ -58,22 +58,16 @@ describe('Get recurring bill', () => {
     recurringBillsRepositoryMock.get.mockResolvedValueOnce(undefined);
 
     const sut = makeSut();
-    let error = undefined;
-
-    try {
-      await sut.execute({
-        id: 'recurringbill1',
-        user_id: 'user2',
-      });
-    } catch (e) {
-      error = e;
-    }
+    const recurringBill = await sut.execute({
+      id: 'recurringbill1',
+      user_id: 'user2',
+    });
 
     expect(recurringBillsRepositoryMock.get).toHaveBeenCalledTimes(1);
     expect(recurringBillsRepositoryMock.get).toHaveBeenCalledWith(
       'recurringbill1',
       'user2',
     );
-    expect(error).toBeInstanceOf(NotFoundError);
+    expect(recurringBill).toBeUndefined();
   });
 });
