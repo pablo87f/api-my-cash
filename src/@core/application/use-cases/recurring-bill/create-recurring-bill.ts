@@ -12,10 +12,7 @@ type CreateRecurringBillDto = {
 type Output = RecurringBill;
 
 export default class CreateRecurringBill {
-  constructor(
-    readonly recurringBillsRepository: IRecurringBillsRepository,
-    readonly createExpenseForRecurringBill: CreateExpenseForRecurringBill,
-  ) {}
+  constructor(readonly recurringBillsRepository: IRecurringBillsRepository) {}
 
   async execute({
     due_date,
@@ -30,22 +27,6 @@ export default class CreateRecurringBill {
       user_id,
     });
 
-    // DEBIT
-    const expense = await this.createExpenseForRecurringBill.execute({
-      amount: estimated_amount,
-      name,
-      due_date,
-      user_id,
-      recurring_bill_id: createdRecurringBill.id,
-    });
-
-    const recurringBill = await this.recurringBillsRepository.update(
-      createdRecurringBill.id,
-      {
-        ...createdRecurringBill.props,
-        expenses: [expense],
-      },
-    );
-    return recurringBill;
+    return createdRecurringBill;
   }
 }

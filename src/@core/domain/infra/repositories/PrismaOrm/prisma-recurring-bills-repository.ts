@@ -13,10 +13,15 @@ export default class PrismaRecurringBillsRepository
   implements IRecurringBillsRepository
 {
   constructor(readonly db: DbService) {}
-  create(
+  async create(
     createRecurringBillDto: CreateRecurringBillDto,
   ): Promise<RecurringBill> {
-    throw new Error('Method not implemented.');
+    const recurringBill = await this.db.recurringBill.create({
+      data: {
+        ...createRecurringBillDto,
+      },
+    });
+    return new RecurringBill(recurringBill);
   }
   update(
     id: string,

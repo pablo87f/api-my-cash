@@ -6,10 +6,7 @@ import createExpenseForRecurringBillMock from '../__mocks__/create-expense-for-r
 import CreateRecurringBill from './create-recurring-bill';
 
 const makeSut = () => {
-  const createPurchase = new CreateRecurringBill(
-    recurringBillsRepositoryMock,
-    createExpenseForRecurringBillMock,
-  );
+  const createPurchase = new CreateRecurringBill(recurringBillsRepositoryMock);
 
   return createPurchase;
 };
@@ -24,24 +21,7 @@ describe('Create recurring bill', () => {
       due_date: parseISO('2022-08-10'),
     });
 
-    const createdExpense = new Expense({
-      amount: 49,
-      name: 'Conta celular',
-      user_id: '1',
-      due_date: parseISO('2022-08-10'),
-      recurring_bill_id: 'recurringbill1',
-    });
-
-    const updatedRecurringBill = new RecurringBill({
-      ...createdRecurringBill.props,
-      expenses: [createdExpense],
-    });
-
     recurringBillsRepositoryMock.create.mockResolvedValue(createdRecurringBill);
-
-    createExpenseForRecurringBillMock.execute.mockResolvedValue(createdExpense);
-
-    recurringBillsRepositoryMock.update.mockResolvedValue(updatedRecurringBill);
 
     const sut = makeSut();
 
@@ -60,30 +40,8 @@ describe('Create recurring bill', () => {
       due_date: parseISO('2022-08-10'),
     });
 
-    expect(createExpenseForRecurringBillMock.execute).toHaveBeenCalledTimes(1);
-    expect(createExpenseForRecurringBillMock.execute).toHaveBeenCalledWith({
-      amount: 49,
-      name: 'Conta celular',
-      user_id: '1',
-      due_date: parseISO('2022-08-10'),
-      recurring_bill_id: 'recurringbill1',
-    });
-
-    expect(recurringBillsRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(recurringBillsRepositoryMock.update).toHaveBeenCalledWith(
-      'recurringbill1',
-      {
-        ...createdRecurringBill.props,
-        expenses: [createdExpense],
-      },
-    );
-
     expect(recurringBill.name).toEqual('Conta celular');
     expect(recurringBill.estimated_amount).toEqual(49);
     expect(recurringBill.due_date).toEqual(parseISO('2022-08-10'));
-    expect(recurringBill.expenses.length).toEqual(1);
-    expect(recurringBill.expenses[0].recurring_bill_id).toEqual(
-      'recurringbill1',
-    );
   });
 });
