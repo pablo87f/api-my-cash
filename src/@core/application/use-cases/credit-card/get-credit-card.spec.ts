@@ -42,26 +42,22 @@ describe('Get credit card', () => {
     expect(creditCard.id).toEqual('creditcard1');
   });
 
-  it('should throw an error when dont find the credit card from the specific user', async () => {
+  it('should return undefined when dont find the credit card from the specific user', async () => {
     creditCardsRepositoryMock.get.mockResolvedValueOnce(undefined);
 
     const sut = makeSut();
-    let error = undefined;
 
-    try {
-      await sut.execute({
-        credit_card_id: 'creditcard1',
-        user_id: 'user2',
-      });
-    } catch (e) {
-      error = e;
-    }
+    const creditcard = await sut.execute({
+      credit_card_id: 'creditcard1',
+      user_id: 'user2',
+    });
 
     expect(creditCardsRepositoryMock.get).toHaveBeenCalledTimes(1);
     expect(creditCardsRepositoryMock.get).toHaveBeenCalledWith(
       'creditcard1',
       'user2',
     );
-    expect(error).toBeInstanceOf(NotFoundError);
+
+    expect(creditcard).toBeUndefined();
   });
 });

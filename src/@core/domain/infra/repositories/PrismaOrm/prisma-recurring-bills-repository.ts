@@ -1,4 +1,3 @@
-import NotFoundError from 'src/@core/application/errors/not-found.error';
 import {
   RecurringBill,
   RecurringBillProps,

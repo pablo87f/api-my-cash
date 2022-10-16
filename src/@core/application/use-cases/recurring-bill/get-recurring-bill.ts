@@ -1,6 +1,5 @@
 import { RecurringBill } from '../../../domain/entities/recurring-bill';
 import IRecurringBillsRepository from 'src/@core/domain/repositories/IRecurringBillsRepository';
-import NotFoundError from '../../errors/not-found.error';
 
 type Input = { id: string; user_id: string };
 

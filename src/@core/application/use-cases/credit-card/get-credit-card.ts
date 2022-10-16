@@ -1,6 +1,5 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
 import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
-import NotFoundError from '../../errors/not-found.error';
 
 type GetCreditCardInput = {
   credit_card_id: string;
@@ -16,7 +15,7 @@ export default class GetCreditCard {
   }: GetCreditCardInput): Promise<CreditCard> {
     const found = await this.creditCardsRepository.get(credit_card_id, user_id);
     if (!found) {
-      throw new NotFoundError();
+      return undefined;
     }
     return found;
   }
