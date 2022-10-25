@@ -1,7 +1,7 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
 import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
 
-type CreateCrediCardDto = {
+export type CreateCrediCardDto = {
   name: string;
   total_limit: number;
   spent_amount?: number;

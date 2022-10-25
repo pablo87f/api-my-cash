@@ -5,7 +5,7 @@ const creditCardsRepositoryMock: jest.Mocked<ICreditCardsRepository> = {
   create: jest.fn(),
   get: jest.fn(),
   update: jest.fn(),
-  retrieve: jest.fn(),
+  find: jest.fn(),
 };
 
 export const createCreditCardInMemoryImpl = async (createCreditCardDto) => {

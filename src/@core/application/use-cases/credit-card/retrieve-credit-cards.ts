@@ -1,10 +1,12 @@
-import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
+import ICreditCardsRepository, {
+  FilterCreditCardDto,
+} from '../../../domain/repositories/ICreditCardsRepository';
 
 export default class RetrieveCreditCards {
   constructor(readonly creditCardsRepository: ICreditCardsRepository) {}
 
-  async execute(user_id: string) {
-    const creditCards = await this.creditCardsRepository.retrieve(user_id);
+  async execute(filters: FilterCreditCardDto) {
+    const creditCards = await this.creditCardsRepository.find(filters);
     return creditCards;
   }
 }

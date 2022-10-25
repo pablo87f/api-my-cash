@@ -7,6 +7,11 @@ export type CreateCreditCardDto = {
   user_id: string;
 };
 
+export type FilterCreditCardDto = {
+  id?: string;
+  user_id?: string;
+};
+
 export type UpdateCreditCardDto = Partial<CreditCard>;
 
 export default interface ICreditCardsRepository {
@@ -16,5 +21,5 @@ export default interface ICreditCardsRepository {
     id: string,
     updateCreditCardDto: UpdateCreditCardDto,
   ): Promise<CreditCard>;
-  retrieve(user_id: string): Promise<CreditCard[]>;
+  find(filters: FilterCreditCardDto): Promise<CreditCard[]>;
 }

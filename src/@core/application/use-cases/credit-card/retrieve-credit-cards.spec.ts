@@ -31,15 +31,17 @@ describe('Retrieve credit cards', () => {
         user_id: 'user1',
       }),
     ];
-    creditCardsRepositoryMock.retrieve.mockResolvedValueOnce(
+    creditCardsRepositoryMock.find.mockResolvedValueOnce(
       fakeRetrievedCreditCards,
     );
     const sut = makeSut();
 
-    const retrivedCreditCards = await sut.execute('user1');
+    const retrivedCreditCards = await sut.execute({ user_id: 'user1' });
 
-    expect(creditCardsRepositoryMock.retrieve).toHaveBeenCalledTimes(1);
-    expect(creditCardsRepositoryMock.retrieve).toHaveBeenCalledWith('user1');
+    expect(creditCardsRepositoryMock.find).toHaveBeenCalledTimes(1);
+    expect(creditCardsRepositoryMock.find).toHaveBeenCalledWith({
+      user_id: 'user1',
+    });
 
     expect(retrivedCreditCards).toBeInstanceOf(Array<CreditCard>);
     expect(retrivedCreditCards.length).toEqual(3);
