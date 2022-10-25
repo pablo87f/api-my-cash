@@ -7,10 +7,14 @@ import { DbService } from 'src/database/db.service';
 
 export default class PrismaExpensesRepository implements IExpensesRepository {
   constructor(readonly db: DbService) {}
-  createMany(
+  async createMany(
     createExpenseForPurchaseDto: CreateExpenseDto[],
-  ): Promise<Expense[]> {
-    throw new Error('Method not implemented.');
+  ): Promise<number> {
+    const expenses = await this.db.expense.createMany({
+      data: createExpenseForPurchaseDto,
+    });
+
+    return expenses.count;
   }
   bulkCreateForPurchase(
     createPurchaseExpenseDto: CreateExpenseDto[],

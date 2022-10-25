@@ -15,10 +15,10 @@ export default class PayWithCreditCard {
     user_id,
     value_to_pay,
   }: PayWithCreditCardDto): Promise<CreditCard> {
-    const creditCard = await this.creditCardsRepository.get(
-      credit_card_id,
+    const creditCard = await this.creditCardsRepository.findOne({
+      id: credit_card_id,
       user_id,
-    );
+    });
 
     const updatedCreditCard = await this.creditCardsRepository.update(
       credit_card_id,

@@ -31,9 +31,7 @@ export default interface IExpensesRepository {
 
   create(createExpenseForPurchaseDto: CreateExpenseDto): Promise<Expense>;
 
-  createMany(
-    createExpenseForPurchaseDto: CreateExpenseDto[],
-  ): Promise<Expense[]>;
+  createMany(createExpenseForPurchaseDto: CreateExpenseDto[]): Promise<number>;
 
   retrieve(filters: RetrieveDto): Promise<Expense[]>;
 

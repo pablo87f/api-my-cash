@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import CreatePurchaseWithCreditCard, {
+  CreatePurchaseWithCreditCardDto,
+} from 'src/@core/application/use-cases/purchase/create-purchase-with-credit-card';
 
 import CreatePurchaseWithDebitWallet, {
   CreatePurchaseWithDebitWalletDto,
@@ -17,16 +20,31 @@ const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
 @Controller('purchases')
 export class PurchasesController {
   constructor(
-    private readonly createPurchase: CreatePurchaseWithDebitWallet,
+    private readonly createPurchaseWithDebitWallet: CreatePurchaseWithDebitWallet,
     private readonly retrievePurchasesByUser: RetrievePurchasesByUser,
+    private readonly createPurchaseWithCreditCard: CreatePurchaseWithCreditCard,
   ) {}
 
   @Post('debit')
-  create(
+  createWithDebit(
     @Body()
     createPurchaseDto: Omit<CreatePurchaseWithDebitWalletDto, 'user_id'>,
   ) {
-    return this.createPurchase.execute({ ...createPurchaseDto, user_id });
+    return this.createPurchaseWithDebitWallet.execute({
+      ...createPurchaseDto,
+      user_id,
+    });
+  }
+
+  @Post('credit')
+  createWithCredit(
+    @Body()
+    createPurchaseDto: Omit<CreatePurchaseWithCreditCardDto, 'user_id'>,
+  ) {
+    return this.createPurchaseWithCreditCard.execute({
+      ...createPurchaseDto,
+      user_id,
+    });
   }
 
   @Get()

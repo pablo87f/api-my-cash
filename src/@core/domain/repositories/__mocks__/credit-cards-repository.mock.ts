@@ -3,7 +3,7 @@ import ICreditCardsRepository from '../ICreditCardsRepository';
 
 const creditCardsRepositoryMock: jest.Mocked<ICreditCardsRepository> = {
   create: jest.fn(),
-  get: jest.fn(),
+  findOne: jest.fn(),
   update: jest.fn(),
   find: jest.fn(),
 };

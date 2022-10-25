@@ -9,6 +9,12 @@ export default class PrismaCreditCardsRepository
   implements ICreditCardsRepository
 {
   constructor(readonly db: DbService) {}
+  async findOne(filters: FilterCreditCardDto): Promise<CreditCard> {
+    const creditCard = await this.db.creditCard.findFirst({
+      where: filters,
+    });
+    return new CreditCard(creditCard);
+  }
   async create({
     name,
     total_limit,
@@ -25,15 +31,20 @@ export default class PrismaCreditCardsRepository
     });
     return new CreditCard(createdCreditCard);
   }
-  get(id: string, user_id: string): Promise<CreditCard> {
-    throw new Error('Method not implemented.');
-  }
-  update(
+
+  async update(
     id: string,
     updateCreditCardDto: Partial<CreditCard>,
   ): Promise<CreditCard> {
-    throw new Error('Method not implemented.');
+    const updated = await this.db.creditCard.update({
+      where: {
+        id,
+      },
+      data: updateCreditCardDto,
+    });
+    return new CreditCard(updated);
   }
+
   async find(filters: FilterCreditCardDto): Promise<CreditCard[]> {
     const creditCarts = await this.db.creditCard.findMany({
       where: filters,

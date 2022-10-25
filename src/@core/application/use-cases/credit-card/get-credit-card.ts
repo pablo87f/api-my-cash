@@ -13,7 +13,10 @@ export default class GetCreditCard {
     credit_card_id,
     user_id,
   }: GetCreditCardInput): Promise<CreditCard> {
-    const found = await this.creditCardsRepository.get(credit_card_id, user_id);
+    const found = await this.creditCardsRepository.findOne({
+      id: credit_card_id,
+      user_id,
+    });
     if (!found) {
       return undefined;
     }

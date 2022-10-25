@@ -13,6 +13,10 @@ import PrismaExpensesRepository from 'src/@core/domain/infra/repositories/Prisma
 import IWalletsRepository from 'src/@core/domain/repositories/IWalletsRepository';
 import PrismaWalletsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-wallets-repository';
 import RetrievePurchasesByUser from 'src/@core/application/use-cases/purchase/retrieve-purchases-by-user';
+import CreatePurchaseWithCreditCard from 'src/@core/application/use-cases/purchase/create-purchase-with-credit-card';
+import PayWithCreditCard from 'src/@core/application/use-cases/credit-card/pay-with-credit-card';
+import ICreditCardsRepository from 'src/@core/domain/repositories/ICreditCardsRepository';
+import PrismaCreditCardsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-credit-cards-repository';
 
 @Module({
   controllers: [PurchasesController],
@@ -39,12 +43,13 @@ import RetrievePurchasesByUser from 'src/@core/application/use-cases/purchase/re
       },
       inject: [DbService],
     },
+
     {
-      provide: CreateExpenseForPurchase,
-      useFactory: (expensesRepository: IExpensesRepository) => {
-        return new CreateExpenseForPurchase(expensesRepository);
+      provide: PrismaCreditCardsRepository,
+      useFactory: (db: DbService) => {
+        return new PrismaCreditCardsRepository(db);
       },
-      inject: [PrismaExpensesRepository],
+      inject: [DbService],
     },
     {
       provide: PayWithDebitWallet,
@@ -52,6 +57,14 @@ import RetrievePurchasesByUser from 'src/@core/application/use-cases/purchase/re
         return new PayWithDebitWallet(walletsRepository);
       },
       inject: [PrismaWalletsRepository],
+    },
+
+    {
+      provide: PayWithCreditCard,
+      useFactory: (creditCardsRepository: ICreditCardsRepository) => {
+        return new PayWithCreditCard(creditCardsRepository);
+      },
+      inject: [PrismaCreditCardsRepository],
     },
     {
       provide: CreatePurchaseWithDebitWallet,
@@ -70,6 +83,25 @@ import RetrievePurchasesByUser from 'src/@core/application/use-cases/purchase/re
         PrismaPurchasesRepository,
         PrismaExpensesRepository,
         PayWithDebitWallet,
+      ],
+    },
+    {
+      provide: CreatePurchaseWithCreditCard,
+      useFactory: (
+        purchasesRepository: IPurchasesRepository,
+        expensesRepository: IExpensesRepository,
+        payWithCreditCard: PayWithCreditCard,
+      ) => {
+        return new CreatePurchaseWithCreditCard(
+          purchasesRepository,
+          expensesRepository,
+          payWithCreditCard,
+        );
+      },
+      inject: [
+        PrismaPurchasesRepository,
+        PrismaExpensesRepository,
+        PayWithCreditCard,
       ],
     },
     {

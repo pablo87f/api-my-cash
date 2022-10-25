@@ -16,7 +16,7 @@ export type UpdateCreditCardDto = Partial<CreditCard>;
 
 export default interface ICreditCardsRepository {
   create(createCreditCardDto: CreateCreditCardDto): Promise<CreditCard>;
-  get(id: string, user_id: string): Promise<CreditCard>;
+  findOne(filters: FilterCreditCardDto): Promise<CreditCard>;
   update(
     id: string,
     updateCreditCardDto: UpdateCreditCardDto,

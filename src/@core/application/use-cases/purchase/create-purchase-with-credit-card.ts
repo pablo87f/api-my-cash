@@ -1,9 +1,10 @@
+import { addMonths, parseISO } from 'date-fns';
+import IExpensesRepository from 'src/@core/domain/repositories/IExpensesRepository';
 import { Purchase } from '../../../domain/entities/purchase';
 import IPurchasesRepository from '../../../domain/repositories/IPurchasesRepository';
 import PayWithCreditCard from '../credit-card/pay-with-credit-card';
-import CreateExpensesForPurchasePortions from '../expense/create-expenses-for-purchase-portions';
 
-type Input = {
+export type CreatePurchaseWithCreditCardDto = {
   name: string;
   portions: number;
   total_amount: number;
@@ -17,7 +18,7 @@ type Output = Purchase;
 export default class CreatePurchaseWithCreditCard {
   constructor(
     readonly purchasesRepository: IPurchasesRepository,
-    readonly createExpensesForPurchasePortions: CreateExpensesForPurchasePortions,
+    readonly expensesRepository: IExpensesRepository,
     readonly payWithCreditCard: PayWithCreditCard,
   ) {}
 
@@ -28,7 +29,7 @@ export default class CreatePurchaseWithCreditCard {
     total_amount,
     user_id,
     credit_card_id,
-  }: Input): Promise<Output> {
+  }: CreatePurchaseWithCreditCardDto): Promise<Output> {
     const createdPurchase = await this.purchasesRepository.create({
       due_date,
       name,
@@ -39,14 +40,21 @@ export default class CreatePurchaseWithCreditCard {
       credit_card_id,
     });
 
-    await this.createExpensesForPurchasePortions.execute({
-      purchase_id: createdPurchase.id,
-      due_date,
-      name,
-      portions,
-      total_amount,
-      user_id,
+    const portionList = Array.from({ length: portions }, (_, i) => i + 1);
+    const expenseAmount = total_amount / portions;
+    const expenses = portionList.map((portion) => {
+      const portionName = `${name} - ${portion}/${portions}`;
+      return {
+        amount: expenseAmount,
+        name: portionName,
+        due_date: addMonths(parseISO(`${due_date}`), portion - 1),
+        user_id,
+        purchase_id: createdPurchase.id,
+        credit_card_id,
+      };
     });
+
+    await this.expensesRepository.createMany(expenses);
 
     await this.payWithCreditCard.execute({
       credit_card_id,
