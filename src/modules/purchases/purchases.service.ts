@@ -11,39 +11,39 @@ export class PurchasesService {
     private expensesService: ExpensesService,
   ) {}
 
-  async create({
-    name,
-    portions = 1,
-    total_amount,
-    due_date,
-    user_id,
-    payment_method,
-  }: CreatePurchaseDto) {
-    const expenses = this.expensesService.buildExpensesFromPurchase({
-      due_date: new Date(due_date),
-      portions,
-      name,
-      total_amount,
-      user_id,
-      payment_method,
-    });
+  // async create({
+  //   name,
+  //   portions = 1,
+  //   total_amount,
+  //   due_date,
+  //   user_id,
+  //   payment_method,
+  // }: CreatePurchaseDto) {
+  //   const expenses = this.expensesService.buildExpensesFromPurchase({
+  //     due_date: new Date(due_date),
+  //     portions,
+  //     name,
+  //     total_amount,
+  //     user_id,
+  //     payment_method,
+  //   });
 
-    const purchase = await this.db.purchase.create({
-      data: {
-        name,
-        portions,
-        total_amount,
-        user_id,
-        due_date,
-        created_at: new Date(),
-        payment_method,
-        expenses: {
-          create: expenses,
-        },
-      },
-    });
-    return purchase;
-  }
+  //   const purchase = await this.db.purchase.create({
+  //     data: {
+  //       name,
+  //       portions,
+  //       total_amount,
+  //       user_id,
+  //       due_date,
+  //       created_at: new Date(),
+  //       payment_method,
+  //       expenses: {
+  //         create: expenses,
+  //       },
+  //     },
+  //   });
+  //   return purchase;
+  // }
 
   async findAll(user_id: string) {
     const purchases = await this.db.purchase.findMany({

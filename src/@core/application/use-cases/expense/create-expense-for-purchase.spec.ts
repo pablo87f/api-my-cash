@@ -10,7 +10,7 @@ const makeSut = () => {
 
 describe('Create expense to purchase', () => {
   it('should create a expense', async () => {
-    expensesRepositoryMock.createForPurchase.mockResolvedValue(
+    expensesRepositoryMock.create.mockResolvedValue(
       new Expense({
         amount: 300,
         due_date: parseISO('2022-08-10'),
@@ -30,8 +30,8 @@ describe('Create expense to purchase', () => {
       purchase_id: '1',
     });
 
-    expect(expensesRepositoryMock.createForPurchase).toHaveBeenCalledTimes(1);
-    expect(expensesRepositoryMock.createForPurchase).toHaveBeenCalledWith({
+    expect(expensesRepositoryMock.create).toHaveBeenCalledTimes(1);
+    expect(expensesRepositoryMock.create).toHaveBeenCalledWith({
       amount: 300,
       due_date: parseISO('2022-08-10'),
       user_id: '1',

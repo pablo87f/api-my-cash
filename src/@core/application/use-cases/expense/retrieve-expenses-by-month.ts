@@ -10,7 +10,7 @@ export default class RetriveExpensesByMonth {
   constructor(readonly expensesRepository: IExpensesRepository) {}
 
   async execute({ ref_month, user_id }: Input): Promise<Expense[]> {
-    const expenses = await this.expensesRepository.retrieveByMonth({
+    const expenses = await this.expensesRepository.retrieve({
       user_id,
       ref_month,
     });

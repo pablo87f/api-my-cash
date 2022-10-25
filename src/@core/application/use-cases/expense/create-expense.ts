@@ -3,7 +3,7 @@ import IExpensesRepository, {
   CreateExpenseDto as CreateExpenseDto,
 } from '../../../domain/repositories/IExpensesRepository';
 
-export default class CreateExpenseForPurchase {
+export default class CreateExpenseWithDebitWallet {
   constructor(readonly expensesRepository: IExpensesRepository) {}
 
   async execute({

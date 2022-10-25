@@ -1,15 +1,29 @@
 import { Wallet } from 'src/@core/domain/entities/wallet';
 import IWalletsRepository, {
   CreateWalletDto,
+  FiltersWalletDto,
 } from 'src/@core/domain/repositories/IWalletsRepository';
 import { DbService } from 'src/database/db.service';
 
 export default class PrismaWalletsRepository implements IWalletsRepository {
   constructor(readonly db: DbService) {}
-  async retrieve(user_id: string): Promise<Wallet[]> {
+
+  async findOne(filters: FiltersWalletDto): Promise<Wallet> {
+    const wallet = await this.db.wallet.findFirst({
+      where: {
+        ...filters,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+    return new Wallet(wallet);
+  }
+
+  async find(filters: FiltersWalletDto): Promise<Wallet[]> {
     const wallets = await this.db.wallet.findMany({
       where: {
-        user_id,
+        ...filters,
       },
       orderBy: {
         created_at: 'desc',
@@ -17,6 +31,7 @@ export default class PrismaWalletsRepository implements IWalletsRepository {
     });
     return wallets.map((wallet) => new Wallet(wallet));
   }
+
   async create(createWalletDto: CreateWalletDto): Promise<Wallet> {
     const wallet = await this.db.wallet.create({
       data: {
@@ -27,10 +42,16 @@ export default class PrismaWalletsRepository implements IWalletsRepository {
     });
     return new Wallet(wallet);
   }
-  get(id: string, user_id: string): Promise<Wallet> {
-    throw new Error('Method not implemented.');
-  }
-  update(id: string, updateWalletDto: Partial<Wallet>): Promise<Wallet> {
-    throw new Error('Method not implemented.');
+
+  async update(id: string, updateWalletDto: Partial<Wallet>): Promise<Wallet> {
+    const updatedWallet = await this.db.wallet.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateWalletDto,
+      },
+    });
+    return new Wallet(updatedWallet);
   }
 }

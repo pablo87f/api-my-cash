@@ -15,7 +15,10 @@ export default class PayWithDebitWallet {
     user_id,
     value_to_pay,
   }: PayWithDebitWalletDto): Promise<Wallet> {
-    const wallet = await this.walletsRepository.get(wallet_id, user_id);
+    const wallet = await this.walletsRepository.findOne({
+      id: wallet_id,
+      user_id,
+    });
 
     const updatedWallet = await this.walletsRepository.update(wallet_id, {
       ...wallet.props,

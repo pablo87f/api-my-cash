@@ -16,7 +16,7 @@ describe('Pay with debit wallet', () => {
       id: 'wallet1',
     });
 
-    walletsRepositoryMock.get.mockResolvedValue(fakeFoundWallet);
+    walletsRepositoryMock.findOne.mockResolvedValue(fakeFoundWallet);
 
     walletsRepositoryMock.update.mockImplementation(
       async (wallet_id, updateWalletDto) => {
@@ -38,8 +38,11 @@ describe('Pay with debit wallet', () => {
       value_to_pay: 300,
     });
 
-    expect(walletsRepositoryMock.get).toHaveBeenCalledTimes(1);
-    expect(walletsRepositoryMock.get).toHaveBeenCalledWith('wallet1', 'user1');
+    expect(walletsRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+    expect(walletsRepositoryMock.findOne).toHaveBeenCalledWith({
+      id: 'wallet1',
+      user_id: 'user1',
+    });
 
     expect(walletsRepositoryMock.update).toHaveBeenCalledTimes(1);
     expect(walletsRepositoryMock.update).toHaveBeenCalledWith('wallet1', {

@@ -1,32 +1,49 @@
 import { Expense } from 'src/@core/domain/entities/expense';
 import IExpensesRepository, {
-  CreateExpenseForPurchaseDto,
-  CreateExpenseForRecurringBillDto,
-  RetrieveByMonthDto,
+  CreateExpenseDto,
+  RetrieveDto,
 } from 'src/@core/domain/repositories/IExpensesRepository';
 import { DbService } from 'src/database/db.service';
 
 export default class PrismaExpensesRepository implements IExpensesRepository {
   constructor(readonly db: DbService) {}
-  bulkCreateForPurchase(
-    createPurchaseExpenseDto: CreateExpenseForPurchaseDto[],
+  createMany(
+    createExpenseForPurchaseDto: CreateExpenseDto[],
   ): Promise<Expense[]> {
     throw new Error('Method not implemented.');
   }
-  createForPurchase(
-    createExpenseForPurchaseDto: CreateExpenseForPurchaseDto,
-  ): Promise<Expense> {
+  bulkCreateForPurchase(
+    createPurchaseExpenseDto: CreateExpenseDto[],
+  ): Promise<Expense[]> {
     throw new Error('Method not implemented.');
   }
-  createToRecurringBill(
-    createRecurringBillExpenseDto: CreateExpenseForRecurringBillDto,
-  ): Promise<Expense> {
-    throw new Error('Method not implemented.');
+
+  async create({
+    amount,
+    due_date,
+    name,
+    user_id,
+    purchase_id,
+    recurring_bill_id,
+    wallet_id,
+    credit_card_id,
+  }: CreateExpenseDto): Promise<Expense> {
+    const expense = await this.db.expense.create({
+      data: {
+        amount,
+        name,
+        due_date,
+        user_id,
+        purchase_id,
+        recurring_bill_id,
+        wallet_id,
+        credit_card_id,
+      },
+    });
+
+    return new Expense(expense);
   }
-  retrieve(user_id: string): Promise<Expense[]> {
-    throw new Error('Method not implemented.');
-  }
-  retrieveByMonth(filters: RetrieveByMonthDto): Promise<Expense[]> {
+  retrieve({ user_id, ref_month }: RetrieveDto): Promise<Expense[]> {
     throw new Error('Method not implemented.');
   }
   update(id: string, updateExpenseDto: Partial<Expense>): Promise<Expense> {

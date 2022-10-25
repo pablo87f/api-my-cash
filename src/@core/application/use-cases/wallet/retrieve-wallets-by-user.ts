@@ -9,6 +9,6 @@ export default class RetrieveWalletsByUser {
   constructor(readonly walletsRepository: IWalletsRepository) {}
 
   async execute({ user_id }: Input): Promise<Wallet[]> {
-    return this.walletsRepository.retrieve(user_id);
+    return this.walletsRepository.find({ user_id });
   }
 }

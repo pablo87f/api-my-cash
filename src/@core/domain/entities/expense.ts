@@ -5,12 +5,14 @@ export interface ExpenseProps {
   name: string;
   amount: number;
   due_date: Date;
-  // paid?: boolean;
   active?: boolean;
   created_at?: Date;
   user_id?: string;
   purchase_id?: string;
   recurring_bill_id?: string;
+  wallet_id?: string;
+  credit_card_id?: string;
+  paid_at?: Date;
 }
 
 export class Expense {
@@ -44,5 +46,17 @@ export class Expense {
 
   public get recurring_bill_id(): string {
     return this.props.recurring_bill_id;
+  }
+
+  public get wallet_id(): string {
+    return this.props.wallet_id;
+  }
+
+  public get credit_card_id(): string {
+    return this.props.credit_card_id;
+  }
+
+  public get paid_at(): Date {
+    return this.props.paid_at;
   }
 }

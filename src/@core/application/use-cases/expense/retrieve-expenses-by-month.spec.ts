@@ -37,7 +37,7 @@ describe('List expenses by month', () => {
       }),
     ];
 
-    expensesRepositoryMock.retrieveByMonth.mockResolvedValueOnce(
+    expensesRepositoryMock.retrieve.mockResolvedValueOnce(
       fakeRetrievedExpenses,
     );
 
@@ -48,8 +48,8 @@ describe('List expenses by month', () => {
       user_id: 'user1',
     });
 
-    expect(expensesRepositoryMock.retrieveByMonth).toHaveBeenCalledTimes(1);
-    expect(expensesRepositoryMock.retrieveByMonth).toHaveBeenCalledWith({
+    expect(expensesRepositoryMock.retrieve).toHaveBeenCalledTimes(1);
+    expect(expensesRepositoryMock.retrieve).toHaveBeenCalledWith({
       ref_month: parseISO('2022-10-01'),
       user_id: 'user1',
     });

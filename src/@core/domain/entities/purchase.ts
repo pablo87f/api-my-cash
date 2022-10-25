@@ -14,7 +14,8 @@ export interface PurchaseProps {
   created_at?: Date;
   user_id?: string;
   expenses?: Expense[];
-  payment_source_id?: string;
+  wallet_id?: string;
+  credit_card_id?: string;
 }
 
 export class Purchase {
@@ -58,7 +59,11 @@ export class Purchase {
     return this.props.expenses;
   }
 
-  public get payment_source_id(): string {
-    return this.props.payment_source_id;
+  public get wallet_id(): string {
+    return this.props.wallet_id;
+  }
+
+  public get credit_card_id(): string {
+    return this.props.credit_card_id;
   }
 }

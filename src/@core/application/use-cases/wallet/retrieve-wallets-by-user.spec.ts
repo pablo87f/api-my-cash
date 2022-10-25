@@ -22,7 +22,7 @@ describe('Retrieve wallets by user', () => {
       }),
     ];
 
-    walletsRepositoryMock.retrieve.mockResolvedValueOnce(fakeWallets);
+    walletsRepositoryMock.find.mockResolvedValueOnce(fakeWallets);
 
     const sut = makeSut();
 
@@ -30,8 +30,10 @@ describe('Retrieve wallets by user', () => {
       user_id: 'user1',
     });
 
-    expect(walletsRepositoryMock.retrieve).toHaveBeenCalledTimes(1);
-    expect(walletsRepositoryMock.retrieve).toHaveBeenCalledWith('user1');
+    expect(walletsRepositoryMock.find).toHaveBeenCalledTimes(1);
+    expect(walletsRepositoryMock.find).toHaveBeenCalledWith({
+      user_id: 'user1',
+    });
 
     expect(wallets).toBeInstanceOf(Array<Wallet>);
     expect(wallets.length).toEqual(2);

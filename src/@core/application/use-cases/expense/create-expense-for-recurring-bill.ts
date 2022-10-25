@@ -13,7 +13,7 @@ export default class CreateExpenseForRecurringBill {
     user_id,
     recurring_bill_id,
   }: CreateExpenseForRecurringBillDto): Promise<Expense> {
-    const createdExpense = await this.expensesRepository.createToRecurringBill({
+    const createdExpense = await this.expensesRepository.create({
       due_date,
       name,
       amount,

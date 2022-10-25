@@ -19,8 +19,10 @@ model User {
 
   expenses           Expense[]
   purchases          Purchase[]
-  recurring_bills RecurringBill[]
+  recurring_bills    RecurringBill[]
   wallets            Wallet[]
+  credit_cards       CreditCard[]
+  
   @@map("users")
 }
 
@@ -29,7 +31,6 @@ model Expense {
   name                 String
   amount               Float             @db.Real()
   due_date             DateTime          @default(now())
-  paid                 Boolean           @default(false)
   active               Boolean           @default(true)
   created_at           DateTime          @default(now())
   updated_at           DateTime          @updatedAt
@@ -37,9 +38,14 @@ model Expense {
   user                 User              @relation(fields: [user_id], references: [id])
   purchase_id          String?           @default(dbgenerated("NULL")) @db.VarChar(36)
   purchase             Purchase?         @relation(fields: [purchase_id], references: [id], onDelete: Cascade)
-  recurring_expense    RecurringBill? @relation(fields: [recurring_expense_id], references: [id])
-  recurring_expense_id String?           @db.VarChar(36)
-
+  recurring_bill       RecurringBill?    @relation(fields: [recurring_bill_id], references: [id])
+  recurring_bill_id    String?           @default(dbgenerated("NULL")) @db.VarChar(36)
+  wallet_id            String?           @default(dbgenerated("NULL")) @db.VarChar(36)
+  wallet               Wallet?           @relation(fields: [wallet_id], references: [id])
+  credit_card_id       String?           @default(dbgenerated("NULL")) @db.VarChar(36)
+  credit_card          CreditCard?       @relation(fields: [credit_card_id], references: [id])
+  paid_at              DateTime?         @default(dbgenerated("NULL"))
+  
   @@map("expenses")
 }
 
@@ -59,9 +65,13 @@ model Purchase {
   created_at     DateTime      @default(now())
   updated_at     DateTime      @updatedAt
   expenses       Expense[]
-  user           User          @relation(fields: [user_id], references: [id])
   user_id        String        @db.VarChar(36)
-
+  user           User          @relation(fields: [user_id], references: [id])
+  wallet_id      String?       @db.VarChar(36)
+  wallet         Wallet?        @relation(fields: [wallet_id], references: [id])
+  credit_card_id String?        @db.VarChar(36)
+  credit_card    CreditCard?    @relation(fields: [credit_card_id], references: [id])
+  
   @@map("purchases")
 }
 
@@ -90,6 +100,25 @@ model Wallet {
   active           Boolean   @default(true)
   user_id          String    @db.VarChar(36)
   user             User      @relation(fields: [user_id], references: [id])
+  purchases        Purchase[]
+  expenses         Expense[]
 
   @@map("wallets")
+}
+
+
+model CreditCard {
+  id               String    @id @default(uuid()) @db.VarChar(36)
+  name             String
+  spent_amount Float     @db.Real()
+  total_limit Float     @db.Real()
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  active           Boolean   @default(true)
+  user_id          String    @db.VarChar(36)
+  user             User      @relation(fields: [user_id], references: [id])
+  purchases        Purchase[]
+  expenses         Expense[]
+
+  @@map("credit_cards")
 }

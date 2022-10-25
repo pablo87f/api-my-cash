@@ -25,7 +25,7 @@ describe('CreatePurchaseWithCreditCard', () => {
       user_id: 'user1',
       due_date: parseISO('2022-08-10'),
       payment_method: 'CREDIT',
-      payment_source_id: 'creditcard1',
+      credit_card_id: 'creditcard1',
       id: 'purchase1',
     });
 
@@ -87,7 +87,7 @@ describe('CreatePurchaseWithCreditCard', () => {
       portions: 3,
       total_amount: 300,
       user_id: 'user1',
-      payment_source_id: 'creditcard1',
+      credit_card_id: 'creditcard1',
     });
 
     expect(createExpensesForPurchasePortionsMock.execute).toHaveBeenCalledTimes(
@@ -109,17 +109,10 @@ describe('CreatePurchaseWithCreditCard', () => {
       value_to_pay: 300,
     });
 
-    expect(purchasesRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(purchasesRepositoryMock.update).toHaveBeenCalledWith('purchase1', {
-      ...createdPurchase.props,
-      expenses: createdExpenses,
-    });
-
-    expect(purchase.expenses.length).toEqual(3);
     expect(purchase.total_amount).toEqual(300);
     expect(purchase.user_id).toEqual('user1');
     expect(purchase.due_date).toEqual(parseISO('2022-08-10'));
     expect(purchase.payment_method).toEqual('CREDIT');
-    expect(purchase.payment_source_id).toEqual('creditcard1');
+    expect(purchase.credit_card_id).toEqual('creditcard1');
   });
 });

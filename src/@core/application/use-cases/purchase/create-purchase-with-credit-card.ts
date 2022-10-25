@@ -36,18 +36,17 @@ export default class CreatePurchaseWithCreditCard {
       portions,
       total_amount,
       user_id,
-      payment_source_id: credit_card_id,
+      credit_card_id,
     });
 
-    const portionExpenses =
-      await this.createExpensesForPurchasePortions.execute({
-        purchase_id: createdPurchase.id,
-        due_date,
-        name,
-        portions,
-        total_amount,
-        user_id,
-      });
+    await this.createExpensesForPurchasePortions.execute({
+      purchase_id: createdPurchase.id,
+      due_date,
+      name,
+      portions,
+      total_amount,
+      user_id,
+    });
 
     await this.payWithCreditCard.execute({
       credit_card_id,
@@ -55,10 +54,6 @@ export default class CreatePurchaseWithCreditCard {
       value_to_pay: total_amount,
     });
 
-    const purchase = await this.purchasesRepository.update(createdPurchase.id, {
-      ...createdPurchase.props,
-      expenses: portionExpenses,
-    });
-    return purchase;
+    return createdPurchase;
   }
 }

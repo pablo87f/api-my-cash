@@ -1,22 +1,23 @@
 import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
-import CreateExpenseForRecurringBill from './create-expense-for-recurring-bill';
+import CreateExpenseForPurchase from './create-expense-for-purchase';
 
 const makeSut = () => {
-  const sut = new CreateExpenseForRecurringBill(expensesRepositoryMock);
+  const sut = new CreateExpenseForPurchase(expensesRepositoryMock);
   return sut;
 };
 
-describe('Create recurring bill expense', () => {
-  it('should create a expense', async () => {
+describe('Create expense with debit', () => {
+  it('should create a expense payed by with a wallet', async () => {
     expensesRepositoryMock.create.mockResolvedValue(
       new Expense({
-        due_date: parseISO('2022-08-10'),
-        name: 'Compra Mateus Supermercados',
         amount: 300,
-        recurring_bill_id: '1',
+        due_date: parseISO('2022-08-10'),
         user_id: '1',
+        name: 'Compra Mateus Supermercados',
+        purchase_id: '1',
+        wallet_id: 'wallet1',
       }),
     );
 
@@ -27,20 +28,20 @@ describe('Create recurring bill expense', () => {
       due_date: parseISO('2022-08-10'),
       user_id: '1',
       name: 'Compra Mateus Supermercados',
-      recurring_bill_id: '1',
+      purchase_id: '1',
     });
 
     expect(expensesRepositoryMock.create).toHaveBeenCalledTimes(1);
     expect(expensesRepositoryMock.create).toHaveBeenCalledWith({
-      due_date: parseISO('2022-08-10'),
-      name: 'Compra Mateus Supermercados',
       amount: 300,
-      recurring_bill_id: '1',
+      due_date: parseISO('2022-08-10'),
       user_id: '1',
+      name: 'Compra Mateus Supermercados',
+      purchase_id: '1',
     });
 
-    expect(expense).toBeInstanceOf(Expense);
     expect(expense.id).toBeDefined();
-    expect(expense.recurring_bill_id).toEqual('1');
+    expect(expense.name).toEqual('Compra Mateus Supermercados');
+    expect(expense.purchase_id).toEqual('1');
   });
 });
