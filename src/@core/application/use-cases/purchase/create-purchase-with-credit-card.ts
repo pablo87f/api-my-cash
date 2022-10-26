@@ -47,7 +47,7 @@ export default class CreatePurchaseWithCreditCard {
       return {
         amount: expenseAmount,
         name: portionName,
-        due_date: addMonths(parseISO(`${due_date}`), portion - 1),
+        due_date: addMonths(due_date, portion - 1),
         user_id,
         purchase_id: createdPurchase.id,
         credit_card_id,

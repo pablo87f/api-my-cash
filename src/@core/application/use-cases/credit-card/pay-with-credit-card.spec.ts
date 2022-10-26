@@ -16,7 +16,7 @@ describe('Pay with credit card', () => {
       id: 'creditcard1',
     });
 
-    creditCardsRepositoryMock.get.mockResolvedValue(fakeFoundCreditCard);
+    creditCardsRepositoryMock.findOne.mockResolvedValue(fakeFoundCreditCard);
 
     creditCardsRepositoryMock.update.mockImplementation(
       async (credit_card_id, updateCreditCardDto) => {
@@ -38,11 +38,11 @@ describe('Pay with credit card', () => {
       value_to_pay: 300,
     });
 
-    expect(creditCardsRepositoryMock.get).toHaveBeenCalledTimes(1);
-    expect(creditCardsRepositoryMock.get).toHaveBeenCalledWith(
-      'creditcard1',
-      'user1',
-    );
+    expect(creditCardsRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+    expect(creditCardsRepositoryMock.findOne).toHaveBeenCalledWith({
+      id: 'creditcard1',
+      user_id: 'user1',
+    });
 
     expect(creditCardsRepositoryMock.update).toHaveBeenCalledTimes(1);
     expect(creditCardsRepositoryMock.update).toHaveBeenCalledWith(

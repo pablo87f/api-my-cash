@@ -1,4 +1,3 @@
-import { ExpenseProps } from 'src/@core/domain/entities/expense';
 import { Purchase, PurchaseProps } from 'src/@core/domain/entities/purchase';
 import IPurchasesRepository, {
   CreatePurchaseDto,
@@ -8,6 +7,26 @@ import { DbService } from 'src/database/db.service';
 
 export default class PrismaPurchasesRepository implements IPurchasesRepository {
   constructor(readonly db: DbService) {}
+
+  async findOne(id: string): Promise<Purchase> {
+    const purchase = await this.db.purchase.findFirst({
+      where: { id },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+    return new Purchase(purchase);
+  }
+
+  async delete(id: string): Promise<Purchase> {
+    const purchase = await this.db.purchase.delete({
+      where: {
+        id,
+      },
+    });
+    return new Purchase(purchase);
+  }
+
   async update(
     id: string,
     {
@@ -77,38 +96,4 @@ export default class PrismaPurchasesRepository implements IPurchasesRepository {
     });
     return new Purchase(purchase);
   }
-
-  // update(
-  //   id: string,
-  //   {
-  //     active,
-  //     credit_card_id,
-  //     due_date,
-  //     expenses,
-  //     name,
-  //     payment_method,
-  //     portions,
-  //     total_amount,
-  //     user_id,
-  //     wallet_id,
-  //   }: Partial<Purchase>,
-  // ): Promise<Purchase> {
-  //   const purchase = await this.db.purchase.update({
-  //     where: {
-  //       id,
-  //     },
-  //     data: {
-  //       active,
-  //       credit_card_id,
-  //       due_date,
-  //       expenses: ,
-  //       name,
-  //       payment_method,
-  //       portions,
-  //       total_amount,
-  //       user_id,
-  //       wallet_id,
-  //     },
-  //   });
-  // }
 }

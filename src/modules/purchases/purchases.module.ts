@@ -17,6 +17,7 @@ import CreatePurchaseWithCreditCard from 'src/@core/application/use-cases/purcha
 import PayWithCreditCard from 'src/@core/application/use-cases/credit-card/pay-with-credit-card';
 import ICreditCardsRepository from 'src/@core/domain/repositories/ICreditCardsRepository';
 import PrismaCreditCardsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-credit-cards-repository';
+import DeletePurchase from 'src/@core/application/use-cases/purchase/delete-purchase';
 
 @Module({
   controllers: [PurchasesController],
@@ -110,6 +111,25 @@ import PrismaCreditCardsRepository from 'src/@core/domain/infra/repositories/Pri
         return new RetrievePurchasesByUser(purchasesRepository);
       },
       inject: [PrismaPurchasesRepository],
+    },
+    {
+      provide: DeletePurchase,
+      useFactory: (
+        purchasesRepository: IPurchasesRepository,
+        walletsRepository: IWalletsRepository,
+        creaditCardsRepository: ICreditCardsRepository,
+      ) => {
+        return new DeletePurchase(
+          purchasesRepository,
+          walletsRepository,
+          creaditCardsRepository,
+        );
+      },
+      inject: [
+        PrismaPurchasesRepository,
+        PrismaWalletsRepository,
+        PrismaCreditCardsRepository,
+      ],
     },
   ],
 })

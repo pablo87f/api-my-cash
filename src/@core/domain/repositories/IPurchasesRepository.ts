@@ -1,4 +1,3 @@
-import { ExpenseProps } from '../entities/expense';
 import { PaymentMethod, Purchase, PurchaseProps } from '../entities/purchase';
 
 export type CreatePurchaseDto = {
@@ -29,5 +28,7 @@ export type UpdatePurchaseDto = {
 export default interface IPurchasesRepository {
   create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase>;
   update(id: string, updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase>;
+  findOne(id: string): Promise<Purchase>;
   retrieve(filters: PurchaseFilters): Promise<Purchase[]>;
+  delete(id: string): Promise<Purchase>;
 }
