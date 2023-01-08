@@ -1,5 +1,6 @@
 import { parseISO, setYear } from 'date-fns';
 
 export function getFutureDate(date: string): Date {
-  return setYear(parseISO(date), new Date().getFullYear() + 1);
+  const currentDate = parseISO(date);
+  return setYear(currentDate, currentDate.getFullYear() + 1);
 }
