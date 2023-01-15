@@ -5,7 +5,7 @@ export type UserProps = {
   name: string;
   email: string;
   active?: boolean;
-  email_confirmed?: boolean;
+  valid_email?: boolean;
   created_at?: Date;
 };
 
@@ -15,7 +15,7 @@ export class User {
       ...props,
       id: props.id || randomUUID(),
       active: props.active ?? true,
-      email_confirmed: props.email_confirmed ?? false,
+      valid_email: props.valid_email ?? false,
     };
   }
 
@@ -31,8 +31,8 @@ export class User {
     return this.props.email;
   }
 
-  public get email_confirmed(): boolean {
-    return this.props.email_confirmed;
+  public get valid_email(): boolean {
+    return this.props.valid_email;
   }
 
   public get active(): boolean {

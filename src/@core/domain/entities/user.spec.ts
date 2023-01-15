@@ -12,6 +12,6 @@ describe('User', () => {
     expect(user.name).toEqual('Pablo Fernandes');
     expect(user.email).toEqual('pablofern87@gmail.com');
     expect(user.active).toBeTruthy();
-    expect(user.email_confirmed).toBeFalsy();
+    expect(user.valid_email).toBeFalsy();
   });
 });
