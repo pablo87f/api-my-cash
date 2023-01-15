@@ -1,32 +1,44 @@
-import { RecurringBill } from '../../../domain/entities/recurring-bill';
-import IRecurringBillsRepository from '../../../domain/repositories/IRecurringBillsRepository';
-import CreateExpenseForRecurringBill from '../expense/create-expense-for-recurring-bill';
+import { Account } from 'src/@core/domain/entities/account';
+import { User } from 'src/@core/domain/entities/user';
+import IAccountsRepository from 'src/@core/domain/repositories/IAccountsRepository';
+import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
 
-type CreateRecurringBillDto = {
+type CreateUserDto = {
   name: string;
-  estimated_amount: number;
-  user_id: string;
-  due_date: Date;
+  email: string;
+  password: string;
 };
 
-type Output = RecurringBill;
+type CreateUserOutput = { createdUser?: User; createdAccount?: Account };
 
-export default class CreateRecurringBill {
-  constructor(readonly recurringBillsRepository: IRecurringBillsRepository) {}
+export default class CreateUser {
+  constructor(
+    readonly usersRepository: IUsersRepository,
+    readonly accountsRepository: IAccountsRepository,
+  ) {}
 
   async execute({
-    due_date,
+    email,
     name,
-    estimated_amount,
-    user_id,
-  }: CreateRecurringBillDto): Promise<Output> {
-    const createdRecurringBill = await this.recurringBillsRepository.create({
+    password,
+  }: CreateUserDto): Promise<CreateUserOutput> {
+    const existingUser = await this.usersRepository.findOne({ email });
+
+    if (!existingUser) {
+      return { createdUser: undefined, createdAccount: undefined };
+    }
+
+    const createdUser = await this.usersRepository.create({
+      email,
       name,
-      estimated_amount,
-      due_date,
-      user_id,
+      password,
     });
 
-    return createdRecurringBill;
+    const createdAccount = await this.accountsRepository.create({
+      name: 'Personal',
+      users_ids: [createdUser.id],
+    });
+
+    return { createdUser, createdAccount };
   }
 }
