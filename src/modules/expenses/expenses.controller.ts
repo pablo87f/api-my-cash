@@ -10,8 +10,9 @@ import {
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import loggedUser from '../loggedUser';
 
-const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
+const user_id = loggedUser.id;
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}

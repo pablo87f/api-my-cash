@@ -12,8 +12,9 @@ import GetRecurringBill from 'src/@core/application/use-cases/recurring-bill/get
 import RetrieveRecurringBillsByUser from 'src/@core/application/use-cases/recurring-bill/retrieve-recurring-bills-by-user';
 import { CreateRecurringBillDto } from 'src/@core/domain/repositories/IRecurringBillsRepository';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import loggedUser from '../loggedUser';
 
-const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
+const user_id = loggedUser.id;
 
 @Controller('recurring-bills')
 export class RecurringBillsController {

@@ -13,7 +13,7 @@ export default class DeletePurchase {
   async execute(id: string, user_id: string): Promise<Purchase> {
     const purchase = await this.purchasesRepository.findOne(id);
 
-    console.log('AQUI=>', purchase);
+    // console.log('AQUI=>', purchase);
     if (purchase.payment_method === 'DEBIT') {
       const wallet = await this.walletsRepository.findOne({
         id: purchase.wallet_id,

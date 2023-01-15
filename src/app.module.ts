@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { WalletsModule } from './modules/wallets/wallets.module';
 import { RecurringBillsModule } from './modules/recurring-bills/recurring-bills.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
     RecurringExpensesModule,
     RecurringBillsModule,
     CreditCardsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

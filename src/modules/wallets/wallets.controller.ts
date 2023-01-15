@@ -4,8 +4,9 @@ import CreateWallet, {
   CreateWalletDto,
 } from 'src/@core/application/use-cases/wallet/create-wallet';
 import RetrieveWalletsByUser from 'src/@core/application/use-cases/wallet/retrieve-wallets-by-user';
+import loggedUser from '../loggedUser';
 
-const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
+const user_id = loggedUser.id;
 
 @Controller('wallets')
 export class WalletsController {

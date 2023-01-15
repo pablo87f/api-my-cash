@@ -14,8 +14,8 @@ import loggedUser from '../loggedUser';
 
 const user_id = loggedUser.id;
 
-@Controller('credit-cards')
-export class CreditCardsController {
+@Controller('auth')
+export class AuthController {
   constructor(
     private readonly createCreditCard: CreateCreditCard,
     private readonly retrieveCreditCards: RetrieveCreditCards,

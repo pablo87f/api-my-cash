@@ -10,8 +10,9 @@ import {
 import { RecurringExpensesService } from './recurring-expenses.service';
 import { CreateRecurringExpenseDto } from './dto/create-recurring-expense.dto';
 import { UpdateRecurringExpenseDto } from './dto/update-recurring-expense.dto';
+import loggedUser from '../loggedUser';
 
-const user_id = 'b314a256-12b7-4fab-84ff-425525e88ad4';
+const user_id = loggedUser.id;
 
 @Controller('recurring-expenses')
 export class RecurringExpensesController {
