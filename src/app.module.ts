@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { WalletsModule } from './modules/wallets/wallets.module';
 import { RecurringBillsModule } from './modules/recurring-bills/recurring-bills.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -17,6 +18,10 @@ import { AuthModule } from './auth/auth.module';
     RecurringExpensesModule,
     RecurringBillsModule,
     CreditCardsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     AuthModule,
   ],
   controllers: [],

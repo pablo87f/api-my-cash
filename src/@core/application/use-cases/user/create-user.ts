@@ -6,7 +6,6 @@ import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
 type CreateUserDto = {
   name: string;
   email: string;
-  password: string;
 };
 
 type CreateUserOutput = { createdUser?: User; createdAccount?: Account };
@@ -17,11 +16,7 @@ export default class CreateUser {
     readonly accountsRepository: IAccountsRepository,
   ) {}
 
-  async execute({
-    email,
-    name,
-    password,
-  }: CreateUserDto): Promise<CreateUserOutput> {
+  async execute({ email, name }: CreateUserDto): Promise<CreateUserOutput> {
     const existingUser = await this.usersRepository.findOne({ email });
 
     if (!existingUser) {
@@ -31,7 +26,6 @@ export default class CreateUser {
     const createdUser = await this.usersRepository.create({
       email,
       name,
-      password,
     });
 
     const createdAccount = await this.accountsRepository.create({

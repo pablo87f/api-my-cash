@@ -22,7 +22,6 @@ describe('Create user', () => {
       new User({
         email: 'user1@gmail.com',
         name: 'User 1',
-        password: 'password',
         id: 'user1',
       }),
     );
@@ -31,7 +30,6 @@ describe('Create user', () => {
       new User({
         email: 'user1@gmail.com',
         name: 'User 1',
-        password: 'password',
         id: 'user1',
       }),
     );
@@ -49,7 +47,6 @@ describe('Create user', () => {
     const { createdAccount, createdUser } = await sut.execute({
       name: 'User 1',
       email: 'user1@gmail.com',
-      password: 'password',
     });
 
     expect(usersRepositoryMock.findOne).toHaveBeenCalledTimes(1);
@@ -61,7 +58,6 @@ describe('Create user', () => {
     expect(usersRepositoryMock.create).toHaveBeenCalledWith({
       name: 'User 1',
       email: 'user1@gmail.com',
-      password: 'password',
     });
 
     expect(accountsRepositoryMock.create).toHaveBeenCalledTimes(1);
@@ -82,7 +78,6 @@ describe('Create user', () => {
     const { createdAccount, createdUser } = await sut.execute({
       name: 'User 1',
       email: 'user1@gmail.com',
-      password: 'password',
     });
 
     expect(usersRepositoryMock.findOne).toHaveBeenCalledTimes(1);
