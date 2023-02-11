@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { OAuth2Client } from 'google-auth-library';
+import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_AUTH_CLIENT_ID,
@@ -20,7 +21,10 @@ const client = new OAuth2Client(
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly loginByOAuth: LoginByOAuth,
+  ) {}
 
   @Post('login')
   async login(@Req() request, @Ip() ip: string, @Body() body: LoginDto) {
@@ -70,13 +74,12 @@ export class AuthController {
 
   @Post('/google/login')
   async googleLogin(@Body('token') token: string): Promise<any> {
-    console.log('GoogleTokenDto: ', token);
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_AUTH_CLIENT_ID,
+    const authInfo = await this.loginByOAuth.execute({
+      token,
     });
-
-    console.log('payload', ticket.getPayload());
-    return { name: 'HAHAH', email: 'pablo@teste.com' };
+    if (!authInfo) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+    return authInfo.props;
   }
 }

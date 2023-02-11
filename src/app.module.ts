@@ -7,7 +7,7 @@ import { WalletsModule } from './modules/wallets/wallets.module';
 import { RecurringBillsModule } from './modules/recurring-bills/recurring-bills.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
