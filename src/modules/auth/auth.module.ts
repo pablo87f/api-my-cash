@@ -8,12 +8,18 @@ import GoogleOAuthService from 'src/@core/domain/infra/services/GoogleOAuthServi
 import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
 import IOAuthService from 'src/@core/domain/services/IOAuthService';
 import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
+import IJwtService from 'src/@core/domain/services/IJwtService';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   controllers: [AuthController],
   providers: [
-    AuthService,
     DbService,
+    JwtStrategy,
+    AuthService,
+    GoogleOAuthService,
     {
       provide: PrismaUsersRepository,
       useFactory: (db: DbService) => {
@@ -22,22 +28,25 @@ import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
       inject: [DbService],
     },
     {
-      provide: GoogleOAuthService,
-      useFactory: () => {
-        return new GoogleOAuthService();
-      },
-    },
-    {
       provide: LoginByOAuth,
       useFactory: (
         usersRepository: IUsersRepository,
         oAuthService: IOAuthService,
+        jwtService: IJwtService,
       ) => {
-        return new LoginByOAuth(usersRepository, oAuthService);
+        return new LoginByOAuth(usersRepository, oAuthService, jwtService);
       },
-      inject: [PrismaUsersRepository, GoogleOAuthService],
+      inject: [PrismaUsersRepository, GoogleOAuthService, JwtService],
     },
   ],
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot(),
+    JwtModule.register({
+      secret: process.env.ACCESS_SECRET,
+      signOptions: {
+        expiresIn: '1h',
+      },
+    }),
+  ],
 })
 export class AuthModule {}

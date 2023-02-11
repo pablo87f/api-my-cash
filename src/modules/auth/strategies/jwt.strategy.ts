@@ -1,7 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-
-export class JwtStrategy extends PassportStrategy(Strategy) {
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -11,8 +12,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload) {
-    return {
-      userId: payload.userId,
-    };
+    // TODO: put the validation here
+    // then return the payload to the route
+
+    /** Ex.:
+     * const user = await this.authService.validateUser(username, password);
+     * if (!user) {
+     *    throw new UnauthorizedException();
+     * }
+     * return user;
+     */
+    return payload;
   }
 }

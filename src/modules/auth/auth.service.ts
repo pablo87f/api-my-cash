@@ -7,6 +7,7 @@ import { User } from '@prisma/client';
 import { DbService } from 'src/database/db.service';
 import RefreshToken from './entities/refresh-token.entity';
 import { sign, verify } from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 
 export type CreateGoogleAuthSessionDto = {
   client_id: string;
@@ -16,7 +17,10 @@ export class AuthService {
   private refreshTokens: RefreshToken[] = [];
   // private oauthClient: Auth.OAuth2Client;
 
-  constructor(private readonly db: DbService) {
+  constructor(
+    private readonly db: DbService,
+    private readonly jwtService: JwtService,
+  ) {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     // this.oauthClient = new google.auth.OAuth2(clientId, clientSecret);
@@ -63,7 +67,7 @@ export class AuthService {
     email: string,
     // password: string,
     values: { userAgent: string; ipAddress: string },
-  ): Promise<{ accessToken: string; refreshToken: string } | undefined> {
+  ): Promise<{ accessToken: string } | undefined> {
     const user = await this.db.user.findUnique({
       where: {
         email,
@@ -77,7 +81,29 @@ export class AuthService {
     //   return undefined;
     // }
 
-    return this.newRefreshAndAccessToken(user, values);
+    return {
+      accessToken: this.jwtService.sign({
+        id: user.id,
+        sub: user.id,
+        email: user.email,
+        name: user.name,
+      }),
+    };
+
+    // return {
+    //   accessToken: sign(
+    //     {
+    //       id: user.id,
+    //       sub: user.id,
+    //       email: user.email,
+    //       name: user.name,
+    //     },
+    //     process.env.ACCESS_SECRET,
+    //     {
+    //       expiresIn: '1h',
+    //     },
+    //   ),
+    // };
   }
 
   private async newRefreshAndAccessToken(

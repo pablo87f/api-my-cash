@@ -3,7 +3,8 @@ export type AuthInfoProps = {
   name: string;
   email: string;
   picture?: string;
-  jwtToken?: string;
+  token?: string;
+  refreshToken?: string;
 };
 
 export class AuthInfo {
@@ -24,7 +25,11 @@ export class AuthInfo {
     return this.props.picture;
   }
 
-  public get jwtToken(): string | undefined {
-    return this.props.jwtToken;
+  public get token(): string | undefined {
+    return this.props.token;
+  }
+
+  public get refreshToken(): string | undefined {
+    return this.props.refreshToken;
   }
 }

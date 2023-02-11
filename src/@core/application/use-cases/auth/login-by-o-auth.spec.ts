@@ -6,30 +6,39 @@ import oAuthServiceMock from '../../../domain/services/__mocks__/o-auth-service.
 import { User } from '../../../domain/entities/user';
 import LoginByOAuth from './login-by-o-auth';
 import { OAuthInfo } from '../../../domain/entities/o-auth-info';
+import jwtServiceMock from '../../../domain/services/__mocks__/jwt-service.mock';
 
 const makeSut = () => {
-  const sut = new LoginByOAuth(usersRepositoryMock, oAuthServiceMock);
+  const sut = new LoginByOAuth(
+    usersRepositoryMock,
+    oAuthServiceMock,
+    jwtServiceMock,
+  );
   return sut;
 };
 
 describe('Login by OAuth', () => {
   it('should login seccessfully with an existing user', async () => {
+    // given
     const sut = makeSut();
 
-    const oAuthInfo = new OAuthInfo({
+    const mockedOAuthInfo = new OAuthInfo({
       email: 'pablofern87@gmail.com',
       name: 'Pablo Fernandes',
       picture: 'http://localhost:3000/pictures/pablo-fernandes.png',
     });
-    oAuthServiceMock.verifyToken.mockResolvedValueOnce(oAuthInfo);
+    oAuthServiceMock.verifyToken.mockResolvedValueOnce(mockedOAuthInfo);
 
-    const user = new User({
+    const mockedUser = new User({
       email: 'pablofern87@gmail.com',
       name: 'Pablo Fernandes',
       active: true,
       id: 'user1',
     });
-    usersRepositoryMock.findOne.mockResolvedValueOnce(user);
+    usersRepositoryMock.findOne.mockResolvedValueOnce(mockedUser);
+
+    const mockedToken = 'some random token string';
+    jwtServiceMock.sign.mockResolvedValueOnce(mockedToken);
 
     // when
     const authInfo: AuthInfo = await sut.execute({
@@ -47,11 +56,17 @@ describe('Login by OAuth', () => {
       email: 'pablofern87@gmail.com',
     });
 
-    expect(authInfo.id).toEqual('user1');
-    expect(authInfo.name).toEqual('Pablo Fernandes');
-    expect(authInfo.email).toEqual('pablofern87@gmail.com');
-    expect(authInfo.picture).toEqual(
-      'http://localhost:3000/pictures/pablo-fernandes.png',
-    );
+    expect(jwtServiceMock.sign).toHaveBeenCalledTimes(1);
+    expect(jwtServiceMock.sign).toHaveBeenCalledWith({
+      email: 'pablofern87@gmail.com',
+      name: 'Pablo Fernandes',
+      id: 'user1',
+    });
+
+    expect(authInfo.id).toEqual(mockedUser.id);
+    expect(authInfo.name).toEqual(mockedUser.name);
+    expect(authInfo.email).toEqual(mockedUser.email);
+    expect(authInfo.picture).toEqual(mockedOAuthInfo.picture);
+    expect(authInfo.token).toEqual(mockedToken);
   });
 });
