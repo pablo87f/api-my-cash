@@ -8,7 +8,7 @@ type CreateUserDto = {
   email: string;
 };
 
-type CreateUserOutput = { createdUser?: User; createdAccount?: Account };
+export type CreateUserOutput = { createdUser?: User; createdAccount?: Account };
 
 export default class CreateUser {
   constructor(
