@@ -38,7 +38,7 @@ describe('Login by OAuth', () => {
     usersRepositoryMock.findOne.mockResolvedValueOnce(mockedUser);
 
     const mockedToken = 'some random token string';
-    jwtServiceMock.sign.mockResolvedValueOnce(mockedToken);
+    jwtServiceMock.sign.mockReturnValueOnce(mockedToken);
 
     // when
     const authInfo: AuthInfo = await sut.execute({
