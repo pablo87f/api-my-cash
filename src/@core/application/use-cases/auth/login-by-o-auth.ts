@@ -21,13 +21,15 @@ export default class LoginByOAuth {
         email: oAuthInfo.email,
       });
 
-      const authInfo = await this.getUserAuthInfo.execute({
-        id: foundUser.id,
-        name: foundUser.name,
-        email: foundUser.email,
-        picture: oAuthInfo.picture,
-      });
-      return authInfo;
+      if (foundUser) {
+        const authInfo = await this.getUserAuthInfo.execute({
+          id: foundUser.id,
+          name: foundUser.name,
+          email: foundUser.email,
+          picture: oAuthInfo.picture,
+        });
+        return authInfo;
+      }
     }
     return undefined;
   }

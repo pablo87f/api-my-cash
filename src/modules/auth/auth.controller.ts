@@ -13,6 +13,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { OAuth2Client } from 'google-auth-library';
 import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
+import SignUpByOAuth from 'src/@core/application/use-cases/auth/sign-up-by-o-auth';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_AUTH_CLIENT_ID,
@@ -24,6 +25,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly loginByOAuth: LoginByOAuth,
+    private readonly signUpByOAuth: SignUpByOAuth,
   ) {}
 
   @Post('login')
@@ -74,11 +76,15 @@ export class AuthController {
 
   @Post('/google/login')
   async googleLogin(@Body('token') token: string): Promise<any> {
-    const authInfo = await this.loginByOAuth.execute({
+    let authInfo = undefined;
+    authInfo = await this.loginByOAuth.execute({
       token,
     });
     if (!authInfo) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      authInfo = await this.signUpByOAuth.execute({ token });
+      if (!authInfo) {
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      }
     }
     return authInfo.props;
   }

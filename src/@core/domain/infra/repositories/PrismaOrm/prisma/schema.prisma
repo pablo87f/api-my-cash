@@ -10,6 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+model Account {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        String   @db.VarChar(255)
+  active      Boolean  @default(true)
+  created_at  DateTime @default(now())
+
+  users       UsersOnAccounts[]
+  
+  @@map("accounts")
+}
+
 model User {
   id         String   @id @default(uuid()) @db.VarChar(36)
   name       String   @db.VarChar(255)
@@ -22,9 +34,25 @@ model User {
   recurring_bills    RecurringBill[]
   wallets            Wallet[]
   credit_cards       CreditCard[]
+  accounts           UsersOnAccounts[]
   
   @@map("users")
 }
+
+model UsersOnAccounts {
+  user        User      @relation(fields: [user_id], references: [id])
+  user_id     String    @db.VarChar(36)
+  account     Account   @relation(fields: [account_id], references: [id])
+  account_id  String    @db.VarChar(36)
+  assignedAt  DateTime  @default(now())
+  isOwner     Boolean   @default(true)
+  active      Boolean   @default(true)
+
+  @@id([user_id, account_id])
+
+  @@map("users_accounts")
+}
+
 
 model Expense {
   id                   String            @id @default(uuid()) @db.VarChar(36)

@@ -39,7 +39,6 @@ const fakes = {
     accounts: {
       'pablofern87@gmail.com': new Account({
         name: 'Personal',
-        users_ids: ['user1'],
         active: true,
         id: 'account1',
       }),

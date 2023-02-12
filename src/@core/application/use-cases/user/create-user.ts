@@ -19,7 +19,7 @@ export default class CreateUser {
   async execute({ email, name }: CreateUserDto): Promise<CreateUserOutput> {
     const existingUser = await this.usersRepository.findOne({ email });
 
-    if (!existingUser) {
+    if (existingUser) {
       return { createdUser: undefined, createdAccount: undefined };
     }
 

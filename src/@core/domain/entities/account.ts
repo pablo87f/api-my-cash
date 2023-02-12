@@ -3,7 +3,6 @@ import { randomUUID } from 'crypto';
 export type AccountProps = {
   id?: string;
   name: string;
-  users_ids: string[];
   active?: boolean;
   created_at?: Date;
 };
@@ -23,10 +22,6 @@ export class Account {
 
   public get name(): string {
     return this.props.name;
-  }
-
-  public get users_ids(): string[] {
-    return this.props.users_ids;
   }
 
   public get active(): boolean {

@@ -1,7 +1,6 @@
-import { Account } from '../../../domain/entities/account';
-import { User } from '../../../domain/entities/user';
 import accountsRepositoryMock from '../../../domain/repositories/__mocks__/accounts-repository.mock';
 import usersRepositoryMock from '../../../domain/repositories/__mocks__/users-repository.mock';
+import fakes from '../__fakes__/fakes';
 
 import CreateUser from './create-user';
 
@@ -13,76 +12,63 @@ const makeSut = () => {
 beforeEach(() => {
   usersRepositoryMock.findOne.mockClear();
   usersRepositoryMock.create.mockClear();
-  accountsRepositoryMock.findOne.mockClear();
 });
 
 describe('Create user', () => {
-  it('should create a user', async () => {
-    usersRepositoryMock.findOne.mockResolvedValueOnce(
-      new User({
-        email: 'user1@gmail.com',
-        name: 'User 1',
-        id: 'user1',
-      }),
-    );
+  it('should create a user when there is no user with same email', async () => {
+    const emailKey = 'pablofern87@gmail.com';
+    const fakeUser = fakes.entities.users[emailKey];
+    const fakeAccount = fakes.entities.accounts[emailKey];
 
-    usersRepositoryMock.create.mockResolvedValueOnce(
-      new User({
-        email: 'user1@gmail.com',
-        name: 'User 1',
-        id: 'user1',
-      }),
-    );
-
-    accountsRepositoryMock.create.mockResolvedValue(
-      new Account({
-        name: 'Personal',
-        users_ids: ['user1'],
-        id: 'account1',
-      }),
-    );
+    usersRepositoryMock.findOne.mockResolvedValueOnce(undefined);
+    usersRepositoryMock.create.mockResolvedValueOnce(fakeUser);
+    accountsRepositoryMock.create.mockResolvedValue(fakeAccount);
 
     const sut = makeSut();
 
     const { createdAccount, createdUser } = await sut.execute({
-      name: 'User 1',
-      email: 'user1@gmail.com',
+      name: fakeUser.name,
+      email: fakeUser.email,
     });
 
     expect(usersRepositoryMock.findOne).toHaveBeenCalledTimes(1);
     expect(usersRepositoryMock.findOne).toHaveBeenCalledWith({
-      email: 'user1@gmail.com',
+      email: fakeUser.email,
     });
 
     expect(usersRepositoryMock.create).toHaveBeenCalledTimes(1);
     expect(usersRepositoryMock.create).toHaveBeenCalledWith({
-      name: 'User 1',
-      email: 'user1@gmail.com',
+      name: fakeUser.name,
+      email: fakeUser.email,
     });
 
     expect(accountsRepositoryMock.create).toHaveBeenCalledTimes(1);
     expect(accountsRepositoryMock.create).toHaveBeenCalledWith({
-      name: 'Personal',
-      users_ids: ['user1'],
+      name: fakeAccount.name,
+      users_ids: [fakeUser.id],
     });
 
-    expect(createdUser.name).toEqual('User 1');
-    expect(createdUser.email).toEqual('user1@gmail.com');
-    expect(createdAccount.users_ids).toContain('user1');
+    expect(createdUser.name).toEqual(fakeUser.name);
+    expect(createdUser.email).toEqual(fakeUser.email);
+    expect(createdAccount.name).toEqual(fakeAccount.name);
   });
 
-  it('should not create with duplicated email', async () => {
-    usersRepositoryMock.findOne.mockResolvedValue(undefined);
+  it('should return undefined when there is a user with the email', async () => {
     const sut = makeSut();
 
+    const emailKey = 'pablofern87@gmail.com';
+    const fakeUser = fakes.entities.users[emailKey];
+
+    usersRepositoryMock.findOne.mockResolvedValue(fakeUser);
+
     const { createdAccount, createdUser } = await sut.execute({
-      name: 'User 1',
-      email: 'user1@gmail.com',
+      name: fakeUser.name,
+      email: fakeUser.email,
     });
 
     expect(usersRepositoryMock.findOne).toHaveBeenCalledTimes(1);
     expect(usersRepositoryMock.findOne).toHaveBeenCalledWith({
-      email: 'user1@gmail.com',
+      email: fakeUser.email,
     });
 
     expect(createdUser).toBeUndefined();

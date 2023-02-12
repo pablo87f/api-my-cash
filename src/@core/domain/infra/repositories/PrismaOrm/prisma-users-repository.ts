@@ -7,13 +7,15 @@ import { DbService } from 'src/database/db.service';
 
 export default class PrismaUsersRepository implements IUsersRepository {
   constructor(readonly db: DbService) {}
-  create(createUserDto: CreateUserDto): Promise<User> {
-    throw new Error('Method not implemented.');
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { name, email } = createUserDto;
+    const user = await this.db.user.create({ data: { name, email } });
+    return new User(user);
   }
   async findOne(filters: UserFiltersDto): Promise<User> {
     const user = await this.db.user.findFirst({
       where: { ...filters },
     });
-    return new User(user);
+    return user ? new User(user) : undefined;
   }
 }

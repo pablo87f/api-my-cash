@@ -16,6 +16,12 @@ const makeSut = () => {
   return sut;
 };
 
+beforeEach(() => {
+  oAuthServiceMock.verifyToken.mockClear();
+  usersRepositoryMock.findOne.mockClear();
+  getUserAuthInfoMock.execute.mockClear();
+});
+
 describe('Login by OAuth', () => {
   it('should login seccessfully with an existing user', async () => {
     // given
@@ -61,5 +67,38 @@ describe('Login by OAuth', () => {
     expect(authInfo.email).toEqual(fakeUser.email);
     expect(authInfo.picture).toEqual(fakeOAuthInfo.picture);
     expect(authInfo.token).toEqual(fakeJwtToken);
+  });
+
+  it('should return undefined if there is no user with the same email', async () => {
+    // given
+    const sut = makeSut();
+
+    const emailKey = 'pablofern87@gmail.com';
+    const fakeOAuthInfo = fakes.entities.oAuthInfo[emailKey];
+    const fakeUser = fakes.entities.users[emailKey];
+    const fakeAuthInfo = fakes.entities.authInfo[emailKey];
+    const fakeOAuthToken = fakes.constants.validOAuthToken;
+
+    oAuthServiceMock.verifyToken.mockResolvedValueOnce(fakeOAuthInfo);
+    usersRepositoryMock.findOne.mockResolvedValueOnce(undefined);
+    getUserAuthInfoMock.execute.mockResolvedValueOnce(fakeAuthInfo);
+
+    // when
+    const authInfo: AuthInfo = await sut.execute({
+      token: fakeOAuthToken,
+    });
+
+    // then
+    expect(oAuthServiceMock.verifyToken).toHaveBeenCalledTimes(1);
+    expect(oAuthServiceMock.verifyToken).toHaveBeenCalledWith({
+      token: fakeOAuthToken,
+    });
+
+    expect(usersRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+    expect(usersRepositoryMock.findOne).toHaveBeenCalledWith({
+      email: fakeUser.email,
+    });
+
+    expect(authInfo).toBeUndefined();
   });
 });
