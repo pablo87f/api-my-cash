@@ -1,7 +1,7 @@
-import IJwtService from 'src/@core/domain/services/IJwtService';
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import IUsersRepository from '../../../domain/repositories/IUsersRepository';
 import IOAuthService from '../../../domain/services/IOAuthService';
+import GetUserAuthInfo from './get-user-auth-info';
 
 export type LoginByOAuthDto = {
   token: string;
@@ -9,9 +9,9 @@ export type LoginByOAuthDto = {
 
 export default class LoginByOAuth {
   constructor(
-    private readonly usersRepository: IUsersRepository,
-    private readonly oAuthService: IOAuthService,
-    private readonly jwtService: IJwtService,
+    readonly usersRepository: IUsersRepository,
+    readonly oAuthService: IOAuthService,
+    readonly getUserAuthInfo: GetUserAuthInfo,
   ) {}
 
   async execute({ token }: LoginByOAuthDto): Promise<AuthInfo> {
@@ -21,19 +21,13 @@ export default class LoginByOAuth {
         email: oAuthInfo.email,
       });
 
-      const jwtToken = await this.jwtService.sign({
-        id: foundUser.id,
-        name: foundUser.name,
-        email: foundUser.email,
-      });
-
-      return new AuthInfo({
+      const authInfo = await this.getUserAuthInfo.execute({
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,
         picture: oAuthInfo.picture,
-        token: jwtToken,
       });
+      return authInfo;
     }
     return undefined;
   }

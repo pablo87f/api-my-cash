@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { DbService } from 'src/database/db.service';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import GetUserAuthInfo from 'src/@core/application/use-cases/auth/get-user-auth-info';
+import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
 import PrismaUsersRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-users-repository';
 import GoogleOAuthService from 'src/@core/domain/infra/services/GoogleOAuthService/GoogleOAuthService';
-import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
-import IOAuthService from 'src/@core/domain/services/IOAuthService';
 import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
 import IJwtService from 'src/@core/domain/services/IJwtService';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-
+import IOAuthService from 'src/@core/domain/services/IOAuthService';
+import { DbService } from 'src/database/db.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
@@ -28,15 +28,22 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [DbService],
     },
     {
+      provide: GetUserAuthInfo,
+      useFactory: (jwtService: IJwtService) => {
+        return new GetUserAuthInfo(jwtService);
+      },
+      inject: [JwtService],
+    },
+    {
       provide: LoginByOAuth,
       useFactory: (
         usersRepository: IUsersRepository,
         oAuthService: IOAuthService,
-        jwtService: IJwtService,
+        getUserAuthInfo: GetUserAuthInfo,
       ) => {
-        return new LoginByOAuth(usersRepository, oAuthService, jwtService);
+        return new LoginByOAuth(usersRepository, oAuthService, getUserAuthInfo);
       },
-      inject: [PrismaUsersRepository, GoogleOAuthService, JwtService],
+      inject: [PrismaUsersRepository, GoogleOAuthService, GetUserAuthInfo],
     },
   ],
   imports: [
