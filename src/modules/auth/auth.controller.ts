@@ -11,21 +11,13 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { OAuth2Client } from 'google-auth-library';
-import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
-import SignUpByOAuth from 'src/@core/application/use-cases/auth/sign-up-by-o-auth';
-
-const client = new OAuth2Client(
-  process.env.GOOGLE_AUTH_CLIENT_ID,
-  process.env.GOOGLE_AUTH_CLIENT_SECRET,
-);
+import SignInByOAuth from 'src/@core/application/use-cases/auth/sign-in-by-o-auth';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly loginByOAuth: LoginByOAuth,
-    private readonly signUpByOAuth: SignUpByOAuth,
+    private readonly signUpByOAuth: SignInByOAuth,
   ) {}
 
   @Post('login')
@@ -50,38 +42,12 @@ export class AuthController {
     return this.authService.logout(body.refreshToken);
   }
 
-  // @Post('/google/login')
-  // async googleLogin(
-  //   @Body() body: any, // GoogleTokenDto
-  //   @Req() req,
-  //   @Ip() ip: string,
-  // ): Promise<{ accessToken: string; refreshToken: string }> {
-  //   console.log('GoogleTokenDto: ', body);
-  //   const result = await this.authService.loginGoogleUser(body.token, {
-  //     userAgent: req.headers['user-agent'],
-  //     ipAddress: ip,
-  //   });
-  //   if (result) {
-  //     return result;
-  //   } else {
-  //     throw new HttpException(
-  //       {
-  //         status: HttpStatus.UNAUTHORIZED,
-  //         error: 'Error while logging in with google',
-  //       },
-  //       HttpStatus.UNAUTHORIZED,
-  //     );
-  //   }
-  // }
-
   @Post('/google/login')
   async googleLogin(@Body('token') token: string): Promise<any> {
-    let authInfo = undefined;
-    authInfo = await this.loginByOAuth.execute({
+    const authInfo = await this.signUpByOAuth.execute({
       token,
     });
     if (!authInfo) {
-      authInfo = await this.signUpByOAuth.execute({ token });
       if (!authInfo) {
         throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       }

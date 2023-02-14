@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import GetUserAuthInfo from 'src/@core/application/use-cases/auth/get-user-auth-info';
 import LoginByOAuth from 'src/@core/application/use-cases/auth/login-by-o-auth';
+import SignInByOAuth from 'src/@core/application/use-cases/auth/sign-in-by-o-auth';
 import SignUpByOAuth from 'src/@core/application/use-cases/auth/sign-up-by-o-auth';
 import CreateUser from 'src/@core/application/use-cases/user/create-user';
 import PrismaAccountsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-accounts-repository';
@@ -76,6 +77,16 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         return new SignUpByOAuth(oAuthService, createUser, getUserAuthInfo);
       },
       inject: [GoogleOAuthService, CreateUser, GetUserAuthInfo],
+    },
+    {
+      provide: SignInByOAuth,
+      useFactory: (
+        loginByOAuth: LoginByOAuth,
+        signUpByOAuth: SignUpByOAuth,
+      ) => {
+        return new SignInByOAuth(loginByOAuth, signUpByOAuth);
+      },
+      inject: [LoginByOAuth, SignUpByOAuth],
     },
   ],
   imports: [
