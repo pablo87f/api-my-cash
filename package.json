@@ -83,7 +83,8 @@
       ]
     },
     "collectCoverageFrom": [
-      "@core/**/*.ts"
+      "@core/domain/entities/**/*.ts",
+      "@core/application/**/*.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

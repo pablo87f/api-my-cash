@@ -1,4 +1,4 @@
-import { UserAccount } from '../entities/user-account';
+import { UserAccount, UserAccountProps } from '../entities/user-account';
 
 export type AssingUserToAccountDto = {
   user_id: string;
@@ -6,6 +6,9 @@ export type AssingUserToAccountDto = {
   is_owner?: boolean;
 };
 
+export type UserAccountFilters = Partial<UserAccountProps>;
+
 export default interface IUserAccountsRepository {
   assign(assignUserToAccountDto: AssingUserToAccountDto): Promise<UserAccount>;
+  retrieve(filters: UserAccountFilters): Promise<UserAccount[]>;
 }

@@ -4,6 +4,7 @@ import { Account } from '../../../domain/entities/account';
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import { OAuthInfo } from '../../../domain/entities/o-auth-info';
 import { User } from '../../../domain/entities/user';
+import { Purchase } from '../../../domain/entities/purchase';
 
 const fakeValidJwtToken = 'FAKE valid jowt token';
 const fakeValidOAuthToken = 'FAKE valid oAuth token';
@@ -53,6 +54,32 @@ const fakes = {
         assigned_at: parseISO('2022-12-01'),
         active: true,
       }),
+    },
+    purchases: {
+      'pablofern87@gmail.com': [
+        new Purchase({
+          total_amount: 200,
+          name: 'Compra fribal',
+          user_id: 'user1',
+          payment_method: 'DEBIT',
+          wallet_id: 'wallet1',
+          due_date: parseISO('2022-10-02'),
+        }),
+        new Purchase({
+          total_amount: 350,
+          name: 'Compra Mateus',
+          user_id: 'user1',
+          payment_method: 'CREDIT',
+          portions: 1,
+          credit_card_id: 'creditcard1',
+          due_date: parseISO('2022-10-03'),
+        }),
+      ],
+    },
+    takePurchases: (emailKey: string, amount: number) => {
+      const purchases: Purchase[] =
+        fakes.entities.purchases[emailKey] || ([] as Purchase[]);
+      return purchases.slice(0, amount);
     },
   },
 };

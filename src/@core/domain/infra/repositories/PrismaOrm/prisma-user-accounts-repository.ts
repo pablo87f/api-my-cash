@@ -1,4 +1,7 @@
-import { UserAccount } from 'src/@core/domain/entities/user-account';
+import {
+  UserAccount,
+  UserAccountProps,
+} from 'src/@core/domain/entities/user-account';
 import IUserAccountsRepository, {
   AssingUserToAccountDto,
 } from 'src/@core/domain/repositories/IUserAccountsRepository';
@@ -8,6 +11,10 @@ export default class PrismaUserAccountsRepository
   implements IUserAccountsRepository
 {
   constructor(readonly db: DbService) {}
+  retrieve(filters: Partial<UserAccountProps>): Promise<UserAccount[]> {
+    throw new Error('Method not implemented.');
+  }
+
   async assign({
     account_id,
     user_id,
