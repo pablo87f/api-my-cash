@@ -1,7 +1,8 @@
-import { Account } from 'src/@core/domain/entities/account';
-import { User } from 'src/@core/domain/entities/user';
-import IAccountsRepository from 'src/@core/domain/repositories/IAccountsRepository';
-import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
+import { Account } from '../../../domain/entities/account';
+import { User } from '../../../domain/entities/user';
+import IAccountsRepository from '../../../domain/repositories/IAccountsRepository';
+import IUserAccountsRepository from '../../../domain/repositories/IUserAccountsRepository';
+import IUsersRepository from '../../../domain/repositories/IUsersRepository';
 
 type CreateUserDto = {
   name: string;
@@ -14,6 +15,7 @@ export default class CreateUser {
   constructor(
     readonly usersRepository: IUsersRepository,
     readonly accountsRepository: IAccountsRepository,
+    readonly userAccountsRepository: IUserAccountsRepository,
   ) {}
 
   async execute({ email, name }: CreateUserDto): Promise<CreateUserOutput> {
@@ -30,7 +32,12 @@ export default class CreateUser {
 
     const createdAccount = await this.accountsRepository.create({
       name: 'Personal',
-      users_ids: [createdUser.id],
+    });
+
+    this.userAccountsRepository.assign({
+      account_id: createdAccount.id,
+      user_id: createdUser.id,
+      is_owner: true,
     });
 
     return { createdUser, createdAccount };

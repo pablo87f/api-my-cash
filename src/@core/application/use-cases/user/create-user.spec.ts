@@ -1,3 +1,4 @@
+import userAccountsRepositoryMock from '../../../domain/repositories/__mocks__/user-accounts-repository.mock';
 import accountsRepositoryMock from '../../../domain/repositories/__mocks__/accounts-repository.mock';
 import usersRepositoryMock from '../../../domain/repositories/__mocks__/users-repository.mock';
 import fakes from '../__fakes__/fakes';
@@ -5,13 +6,18 @@ import fakes from '../__fakes__/fakes';
 import CreateUser from './create-user';
 
 const makeSut = () => {
-  const sut = new CreateUser(usersRepositoryMock, accountsRepositoryMock);
+  const sut = new CreateUser(
+    usersRepositoryMock,
+    accountsRepositoryMock,
+    userAccountsRepositoryMock,
+  );
   return sut;
 };
 
 beforeEach(() => {
   usersRepositoryMock.findOne.mockClear();
-  usersRepositoryMock.create.mockClear();
+  accountsRepositoryMock.create.mockClear();
+  userAccountsRepositoryMock.assign.mockClear();
 });
 
 describe('Create user', () => {
@@ -45,7 +51,13 @@ describe('Create user', () => {
     expect(accountsRepositoryMock.create).toHaveBeenCalledTimes(1);
     expect(accountsRepositoryMock.create).toHaveBeenCalledWith({
       name: fakeAccount.name,
-      users_ids: [fakeUser.id],
+    });
+
+    expect(userAccountsRepositoryMock.assign).toHaveBeenCalledTimes(1);
+    expect(userAccountsRepositoryMock.assign).toHaveBeenCalledWith({
+      user_id: fakeUser.id,
+      account_id: fakeAccount.id,
+      is_owner: true,
     });
 
     expect(createdUser.name).toEqual(fakeUser.name);

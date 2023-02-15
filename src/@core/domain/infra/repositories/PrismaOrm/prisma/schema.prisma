@@ -45,7 +45,7 @@ model UsersOnAccounts {
   account     Account   @relation(fields: [account_id], references: [id])
   account_id  String    @db.VarChar(36)
   assignedAt  DateTime  @default(now())
-  isOwner     Boolean   @default(true)
+  is_owner     Boolean   @default(true)
   active      Boolean   @default(true)
 
   @@id([user_id, account_id])

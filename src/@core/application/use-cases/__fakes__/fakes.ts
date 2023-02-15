@@ -1,3 +1,5 @@
+import { parseISO } from 'date-fns';
+import { UserAccount } from '../../../domain/entities/user-account';
 import { Account } from '../../../domain/entities/account';
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import { OAuthInfo } from '../../../domain/entities/o-auth-info';
@@ -41,6 +43,15 @@ const fakes = {
         name: 'Personal',
         active: true,
         id: 'account1',
+      }),
+    },
+    userAccounts: {
+      'pablofern87@gmail.com': new UserAccount({
+        user_id: 'user1',
+        account_id: 'account1',
+        is_owner: true,
+        assigned_at: parseISO('2022-12-01'),
+        active: true,
       }),
     },
   },

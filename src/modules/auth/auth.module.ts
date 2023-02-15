@@ -7,9 +7,11 @@ import SignInByOAuth from 'src/@core/application/use-cases/auth/sign-in-by-o-aut
 import SignUpByOAuth from 'src/@core/application/use-cases/auth/sign-up-by-o-auth';
 import CreateUser from 'src/@core/application/use-cases/user/create-user';
 import PrismaAccountsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-accounts-repository';
+import PrismaUserAccountsRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-user-accounts-repository';
 import PrismaUsersRepository from 'src/@core/domain/infra/repositories/PrismaOrm/prisma-users-repository';
 import GoogleOAuthService from 'src/@core/domain/infra/services/GoogleOAuthService/GoogleOAuthService';
 import IAccountsRepository from 'src/@core/domain/repositories/IAccountsRepository';
+import IUserAccountsRepository from 'src/@core/domain/repositories/IUserAccountsRepository';
 import IUsersRepository from 'src/@core/domain/repositories/IUsersRepository';
 import IJwtService from 'src/@core/domain/services/IJwtService';
 import IOAuthService from 'src/@core/domain/services/IOAuthService';
@@ -40,14 +42,30 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [DbService],
     },
     {
+      provide: PrismaUserAccountsRepository,
+      useFactory: (db: DbService) => {
+        return new PrismaUserAccountsRepository(db);
+      },
+      inject: [DbService],
+    },
+    {
       provide: CreateUser,
       useFactory: (
         usersRepository: IUsersRepository,
         accountRepository: IAccountsRepository,
+        userAccountsRepository: IUserAccountsRepository,
       ) => {
-        return new CreateUser(usersRepository, accountRepository);
+        return new CreateUser(
+          usersRepository,
+          accountRepository,
+          userAccountsRepository,
+        );
       },
-      inject: [PrismaUsersRepository, PrismaAccountsRepository],
+      inject: [
+        PrismaUsersRepository,
+        PrismaAccountsRepository,
+        PrismaUserAccountsRepository,
+      ],
     },
     {
       provide: GetUserAuthInfo,
