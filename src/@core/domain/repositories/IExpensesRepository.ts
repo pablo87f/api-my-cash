@@ -1,4 +1,4 @@
-import { Expense } from '../entities/expense';
+import { Expense, ExpenseProps } from '../entities/expense';
 
 export type CreateExpenseDto = {
   amount: number;
@@ -19,9 +19,13 @@ export type CreateExpenseForRecurringBillDto = {
   recurring_bill_id: string;
 };
 
-export type RetrieveDto = {
-  user_id: string;
-  ref_month?: Date;
+export type FiltersExpenseDto = Partial<ExpenseProps>;
+export type FiltersExpenseByDateRangeDto = Omit<
+  FiltersExpenseDto,
+  'due_date'
+> & {
+  start_date: Date;
+  end_date: Date;
 };
 
 export default interface IExpensesRepository {
@@ -33,7 +37,9 @@ export default interface IExpensesRepository {
 
   createMany(createExpenseForPurchaseDto: CreateExpenseDto[]): Promise<number>;
 
-  retrieve(filters: RetrieveDto): Promise<Expense[]>;
+  findManyByDateRange(
+    filters: FiltersExpenseByDateRangeDto,
+  ): Promise<Expense[]>;
 
   update(id: string, updateExpenseDto: Partial<Expense>): Promise<Expense>;
 

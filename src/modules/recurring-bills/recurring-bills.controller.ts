@@ -5,17 +5,19 @@ import {
   NotFoundException,
   Param,
   Post,
+  Req,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import CreateRecurringBill from 'src/@core/application/use-cases/recurring-bill/create-recurring-bill';
 import GetRecurringBill from 'src/@core/application/use-cases/recurring-bill/get-recurring-bill';
 import RetrieveRecurringBillsByUser from 'src/@core/application/use-cases/recurring-bill/retrieve-recurring-bills-by-user';
 import { CreateRecurringBillDto } from 'src/@core/domain/repositories/IRecurringBillsRepository';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import loggedUser from '../loggedUser';
 
-const user_id = loggedUser.id;
-
+@UseGuards(JwtAuthGuard)
 @Controller('recurring-bills')
 export class RecurringBillsController {
   constructor(
@@ -26,8 +28,10 @@ export class RecurringBillsController {
 
   @Post()
   create(
+    @Req() req,
     @Body() createRecurringBillDto: Omit<CreateRecurringBillDto, 'user_id'>,
   ) {
+    const user_id = req.user.id;
     return this.createRecurringBill.execute({
       ...createRecurringBillDto,
       user_id,
@@ -35,13 +39,15 @@ export class RecurringBillsController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Req() req) {
+    const user_id = req.user.id;
     return this.retrieveRecurringBillByUser.execute({ user_id });
   }
 
   @Get(':id')
   @UseFilters(new HttpExceptionFilter())
-  async findOne(@Param('id') id: string) {
+  async findOne(@Req() req, @Param('id') id: string) {
+    const user_id = req.user.id;
     const recurringBill = await this.getRecurringBill.execute({ id, user_id });
 
     if (!recurringBill) {

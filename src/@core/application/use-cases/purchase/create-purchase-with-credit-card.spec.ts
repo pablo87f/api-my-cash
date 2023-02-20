@@ -75,14 +75,14 @@ describe('CreatePurchaseWithCreditCard', () => {
       portions: 3,
       total_amount: 300,
       user_id: 'user1',
-      due_date: parseISO('2022-08-10'),
+      due_date: new Date('2022-08-10T01:00:00'),
       credit_card_id: 'creditcard1',
     });
 
     // then
     expect(purchasesRepositoryMock.create).toHaveBeenCalledTimes(1);
     expect(purchasesRepositoryMock.create).toHaveBeenCalledWith({
-      due_date: parseISO('2022-08-10'),
+      due_date: new Date('2022-08-10T01:00:00'),
       name: 'Compra Mateus Supermercados',
       payment_method: 'CREDIT',
       portions: 3,
@@ -95,7 +95,7 @@ describe('CreatePurchaseWithCreditCard', () => {
     expect(expensesRepositoryMock.createMany).toHaveBeenCalledWith([
       {
         purchase_id: createdPurchase.id,
-        due_date: parseISO('2022-08-10'),
+        due_date: new Date('2022-08-10T01:00:00'),
         name: 'Compra Mateus Supermercados - 1/3',
         amount: 100,
         user_id: createdPurchase.user_id,
@@ -103,7 +103,7 @@ describe('CreatePurchaseWithCreditCard', () => {
       },
       {
         purchase_id: createdPurchase.id,
-        due_date: parseISO('2022-09-10'),
+        due_date: new Date('2022-09-10T01:00:00'),
         name: 'Compra Mateus Supermercados - 2/3',
         amount: 100,
         user_id: createdPurchase.user_id,
@@ -111,7 +111,7 @@ describe('CreatePurchaseWithCreditCard', () => {
       },
       {
         purchase_id: createdPurchase.id,
-        due_date: parseISO('2022-10-10'),
+        due_date: new Date('2022-10-10T01:00:00'),
         name: 'Compra Mateus Supermercados - 3/3',
         amount: 100,
         user_id: createdPurchase.user_id,

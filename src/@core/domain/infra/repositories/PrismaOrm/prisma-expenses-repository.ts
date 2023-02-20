@@ -1,12 +1,33 @@
+import { Injectable } from '@nestjs/common';
 import { Expense } from 'src/@core/domain/entities/expense';
 import IExpensesRepository, {
   CreateExpenseDto,
-  RetrieveDto,
+  FiltersExpenseByDateRangeDto,
+  FiltersExpenseDto,
 } from 'src/@core/domain/repositories/IExpensesRepository';
 import { DbService } from 'src/database/db.service';
 
+@Injectable()
 export default class PrismaExpensesRepository implements IExpensesRepository {
   constructor(readonly db: DbService) {}
+  async findManyByDateRange(
+    filters: FiltersExpenseByDateRangeDto,
+  ): Promise<Expense[]> {
+    const { end_date, start_date, ...otherFilters } = filters;
+
+    const expenses = await this.db.expense.findMany({
+      where: {
+        ...otherFilters,
+        due_date: {
+          lte: end_date,
+          gte: start_date,
+        },
+      },
+    });
+
+    return expenses.map((e) => new Expense(e));
+  }
+
   async createMany(
     createExpenseForPurchaseDto: CreateExpenseDto[],
   ): Promise<number> {
@@ -47,7 +68,7 @@ export default class PrismaExpensesRepository implements IExpensesRepository {
 
     return new Expense(expense);
   }
-  retrieve({ user_id, ref_month }: RetrieveDto): Promise<Expense[]> {
+  findMany({ user_id }: FiltersExpenseDto): Promise<Expense[]> {
     throw new Error('Method not implemented.');
   }
   update(id: string, updateExpenseDto: Partial<Expense>): Promise<Expense> {

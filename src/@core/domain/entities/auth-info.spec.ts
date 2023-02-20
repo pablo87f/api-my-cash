@@ -44,6 +44,21 @@ describe('Auth info', () => {
     expect(authInfo.token).toEqual('some random token string');
   });
 
+  it('should be defined with account_id', () => {
+    const authInfo = new AuthInfo({
+      id: 'user1',
+      name: 'Pablo Fernandes',
+      email: 'pablofern87@gmail.com',
+      account_id: 'account1',
+    });
+
+    expect(authInfo).toBeInstanceOf(AuthInfo);
+    expect(authInfo.id).toEqual('user1');
+    expect(authInfo.name).toEqual('Pablo Fernandes');
+    expect(authInfo.email).toEqual('pablofern87@gmail.com');
+    expect(authInfo.account_id).toEqual('account1');
+  });
+
   it('should be defined with refreshToken', () => {
     const authInfo = new AuthInfo({
       id: 'user1',

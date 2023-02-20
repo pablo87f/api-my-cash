@@ -22,8 +22,8 @@ export class WalletsController {
     @Req() req,
     @Body() createWalletDto: Omit<CreateWalletDto, 'user_id'>,
   ) {
-    const userId = req.user.id;
-    return this.createWallet.execute({ ...createWalletDto, user_id: userId });
+    const user_id = req.user.id;
+    return this.createWallet.execute({ ...createWalletDto, user_id });
   }
 
   @Get()

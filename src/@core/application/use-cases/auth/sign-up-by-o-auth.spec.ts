@@ -3,7 +3,7 @@
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import oAuthServiceMock from '../../../domain/services/__mocks__/o-auth-service.mock';
 import { CreateUserOutput } from '../user/create-user';
-import fakes from '../__fakes__/fakes';
+import fakes from '../__mocks__/_fakes';
 import createUserMock from '../__mocks__/create-user.mock';
 import getUserAuthInfoMock from '../__mocks__/get-user-auth-info.mock';
 import SignUpByOAuth from './sign-up-by-o-auth';

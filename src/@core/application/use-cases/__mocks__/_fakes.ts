@@ -5,6 +5,7 @@ import { AuthInfo } from '../../../domain/entities/auth-info';
 import { OAuthInfo } from '../../../domain/entities/o-auth-info';
 import { User } from '../../../domain/entities/user';
 import { Purchase } from '../../../domain/entities/purchase';
+import { Expense } from '../../../domain/entities/expense';
 
 const fakeValidJwtToken = 'FAKE valid jowt token';
 const fakeValidOAuthToken = 'FAKE valid oAuth token';
@@ -13,6 +14,7 @@ const fakes = {
   constants: {
     validJwtToken: fakeValidJwtToken,
     validOAuthToken: fakeValidOAuthToken,
+    fakeUserEmailKey: 'pablofern87@gmail.com',
   },
   entities: {
     users: {
@@ -80,6 +82,87 @@ const fakes = {
       const purchases: Purchase[] =
         fakes.entities.purchases[emailKey] || ([] as Purchase[]);
       return purchases.slice(0, amount);
+    },
+    expenses: {
+      all: {
+        'pablofern87@gmail.com': [
+          new Expense({
+            name: 'Compra Supermercado',
+            amount: 400,
+            due_date: parseISO('2022-10-03'),
+            id: 'expense1',
+            user_id: 'user1',
+            purchase_id: 'purchase1',
+          }),
+          new Expense({
+            name: 'Conta de energia - 10/2022',
+            amount: 500,
+            due_date: parseISO('2022-10-07'),
+            id: 'expense2',
+            user_id: 'user1',
+            recurring_bill_id: 'recurringbill1',
+          }),
+          new Expense({
+            name: 'Compra cacau Show',
+            amount: 30,
+            due_date: parseISO('2022-10-03'),
+            id: 'expense3',
+            user_id: 'user1',
+            purchase_id: 'purchase2',
+          }),
+          new Expense({
+            id: '1',
+            name: 'Compra supermercado',
+            amount: 100,
+            due_date: parseISO('2022-08-01'),
+            user_id: 'users1',
+            account_id: 'account1',
+          }),
+        ],
+      },
+      sameMonthYear_2022_10: {
+        'pablofern87@gmail.com': [
+          new Expense({
+            name: 'Compra Supermercado',
+            amount: 400,
+            due_date: parseISO('2022-10-03'),
+            id: 'expense1',
+            user_id: 'user1',
+            purchase_id: 'purchase1',
+          }),
+          new Expense({
+            name: 'Conta de energia - 10/2022',
+            amount: 500,
+            due_date: parseISO('2022-10-07'),
+            id: 'expense2',
+            user_id: 'user1',
+            recurring_bill_id: 'recurringbill1',
+          }),
+          new Expense({
+            name: 'Compra cacau Show',
+            amount: 30,
+            due_date: parseISO('2022-10-03'),
+            id: 'expense3',
+            user_id: 'user1',
+            purchase_id: 'purchase2',
+          }),
+        ],
+      },
+      account: {
+        'pablofern87@gmail.com': new Expense({
+          id: '1',
+          name: 'Compra supermercado',
+          amount: 100,
+          due_date: parseISO('2022-08-01'),
+          user_id: 'users1',
+          account_id: 'account1',
+        }),
+      },
+      take: (emailKey: string, amount: number) => {
+        const expenses: Expense[] =
+          fakes.entities.expenses[emailKey] || ([] as Expense[]);
+        return expenses.slice(0, amount);
+      },
     },
   },
 };

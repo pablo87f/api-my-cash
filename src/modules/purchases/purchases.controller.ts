@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { parseISO } from 'date-fns';
 import CreatePurchaseWithCreditCard, {
@@ -17,9 +19,9 @@ import CreatePurchaseWithDebitWallet, {
 } from 'src/@core/application/use-cases/purchase/create-purchase-with-debit-wallet';
 import DeletePurchase from 'src/@core/application/use-cases/purchase/delete-purchase';
 import RetrievePurchasesByUser from 'src/@core/application/use-cases/purchase/retrieve-purchases-by-user';
-import loggedUser from '../loggedUser';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-const user_id = loggedUser.id;
+@UseGuards(JwtAuthGuard)
 @Controller('purchases')
 export class PurchasesController {
   constructor(
@@ -31,9 +33,11 @@ export class PurchasesController {
 
   @Post('debit')
   createWithDebit(
+    @Req() req,
     @Body()
     createPurchaseDto: Omit<CreatePurchaseWithDebitWalletDto, 'user_id'>,
   ) {
+    const user_id = req.user.id;
     return this.createPurchaseWithDebitWallet.execute({
       ...createPurchaseDto,
       user_id,
@@ -42,18 +46,21 @@ export class PurchasesController {
 
   @Post('credit')
   createWithCredit(
+    @Req() req,
     @Body()
     { due_date, ...rest }: Omit<CreatePurchaseWithCreditCardDto, 'user_id'>,
   ) {
+    const user_id = req.user.id;
     return this.createPurchaseWithCreditCard.execute({
-      due_date: parseISO(`${due_date}`),
+      due_date: new Date(`${due_date}`),
       ...rest,
       user_id,
     });
   }
 
   @Get()
-  findAll() {
+  findAll(@Req() req) {
+    const user_id = req.user.id;
     return this.retrievePurchasesByUser.execute({ user_id });
   }
 
@@ -71,7 +78,8 @@ export class PurchasesController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Req() req, @Param('id') id: string) {
+    const user_id = req.user.id;
     return this.deletePurchase.execute(id, user_id);
   }
 }

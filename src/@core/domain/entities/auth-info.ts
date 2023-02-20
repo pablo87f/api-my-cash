@@ -3,6 +3,7 @@ export type AuthInfoProps = {
   name: string;
   email: string;
   picture?: string;
+  account_id?: string;
   token?: string;
   refreshToken?: string;
 };
@@ -23,6 +24,10 @@ export class AuthInfo {
 
   public get picture(): string | undefined {
     return this.props.picture;
+  }
+
+  public get account_id(): string | undefined {
+    return this.props.account_id;
   }
 
   public get token(): string | undefined {

@@ -6,6 +6,7 @@ export type GetUserAuthInfoDto = {
   name: string;
   email: string;
   picture?: string;
+  account_id?: string;
 };
 
 export default class GetUserAuthInfo {
@@ -16,24 +17,23 @@ export default class GetUserAuthInfo {
     name,
     email,
     picture,
+    account_id,
   }: GetUserAuthInfoDto): Promise<AuthInfo> {
-    if (id && name && email) {
-      const jwtToken = await this.jwtService.sign({
-        id,
-        name,
-        email,
-        picture,
-      });
+    const jwtToken = await this.jwtService.sign({
+      id,
+      name,
+      email,
+      picture,
+      account_id,
+    });
 
-      return new AuthInfo({
-        id,
-        name,
-        email,
-        picture,
-        token: jwtToken,
-      });
-    }
-
-    return undefined;
+    return new AuthInfo({
+      id,
+      name,
+      email,
+      picture,
+      account_id,
+      token: jwtToken,
+    });
   }
 }

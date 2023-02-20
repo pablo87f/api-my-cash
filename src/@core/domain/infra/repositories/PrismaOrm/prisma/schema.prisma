@@ -18,6 +18,8 @@ model Account {
   created_at  DateTime @default(now())
 
   users       UsersOnAccounts[]
+  wallets     Wallet[]
+  expenses    Expense[]
   
   @@map("accounts")
 }
@@ -45,7 +47,7 @@ model UsersOnAccounts {
   account     Account   @relation(fields: [account_id], references: [id])
   account_id  String    @db.VarChar(36)
   assignedAt  DateTime  @default(now())
-  is_owner     Boolean   @default(true)
+  is_owner    Boolean   @default(true)
   active      Boolean   @default(true)
 
   @@id([user_id, account_id])
@@ -73,6 +75,8 @@ model Expense {
   credit_card_id       String?           @default(dbgenerated("NULL")) @db.VarChar(36)
   credit_card          CreditCard?       @relation(fields: [credit_card_id], references: [id])
   paid_at              DateTime?         @default(dbgenerated("NULL"))
+  account_id           String?           @db.VarChar(36)
+  account              Account?          @relation(fields: [account_id], references: [id])
   
   @@map("expenses")
 }
@@ -130,6 +134,8 @@ model Wallet {
   user             User      @relation(fields: [user_id], references: [id])
   purchases        Purchase[]
   expenses         Expense[]
+  account_id       String?   @db.VarChar(36)
+  account          Account?  @relation(fields: [account_id], references: [id])
 
   @@map("wallets")
 }
@@ -138,8 +144,8 @@ model Wallet {
 model CreditCard {
   id               String    @id @default(uuid()) @db.VarChar(36)
   name             String
-  spent_amount Float     @db.Real()
-  total_limit Float     @db.Real()
+  spent_amount     Float     @db.Real()
+  total_limit      Float     @db.Real()
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
   active           Boolean   @default(true)

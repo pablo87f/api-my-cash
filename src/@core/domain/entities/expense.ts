@@ -8,6 +8,7 @@ export interface ExpenseProps {
   active?: boolean;
   created_at?: Date;
   user_id?: string;
+  account_id?: string;
   purchase_id?: string;
   recurring_bill_id?: string;
   wallet_id?: string;
@@ -38,6 +39,10 @@ export class Expense {
 
   public get user_id(): string {
     return this.props.user_id;
+  }
+
+  public get account_id(): string {
+    return this.props.account_id;
   }
 
   public get purchase_id(): string {

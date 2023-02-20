@@ -1,7 +1,7 @@
 // import CreateCreditCard from './login-by-google';
 
 import { AuthInfo } from '../../../domain/entities/auth-info';
-import fakes from '../__fakes__/fakes';
+import fakes from '../__mocks__/_fakes';
 import loginByOAuthMock from '../__mocks__/login-by-o-auth.mock';
 import signUpByOAuthMock from '../__mocks__/sign-up-by-o-auth.mock';
 import SignInByOAuth from './sign-in-by-o-auth';

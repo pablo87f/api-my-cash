@@ -5,7 +5,7 @@ const expensesRepositoryMock: jest.Mocked<IExpensesRepository> = {
   bulkCreateForPurchase: jest.fn(),
   create: jest.fn(),
   createMany: jest.fn(),
-  retrieve: jest.fn(),
+  findManyByDateRange: jest.fn(),
   update: jest.fn(),
   get: jest.fn(),
 };

@@ -6,14 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import CreateCreditCard from 'src/@core/application/use-cases/credit-card/create-credit-card';
 import RetrieveCreditCards from 'src/@core/application/use-cases/credit-card/retrieve-credit-cards';
 import { CreateCreditCardDto } from 'src/@core/domain/repositories/ICreditCardsRepository';
-import loggedUser from '../loggedUser';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-const user_id = loggedUser.id;
-
+@UseGuards(JwtAuthGuard)
 @Controller('credit-cards')
 export class CreditCardsController {
   constructor(
@@ -22,27 +23,36 @@ export class CreditCardsController {
   ) {}
 
   @Post()
-  create(@Body() createCreditCardDto: CreateCreditCardDto) {
+  create(@Req() req, @Body() createCreditCardDto: CreateCreditCardDto) {
+    const user_id = req.user.id;
     return this.createCreditCard.execute({ user_id, ...createCreditCardDto });
   }
 
   @Get()
-  findAll() {
+  findAll(@Req() req) {
+    const user_id = req.user.id;
     return this.retrieveCreditCards.execute({ user_id });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Req() req, @Param('id') id: string) {
+    const user_id = req.user.id;
     // return this.creditCardsRepository.find({ id, user_id });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCreditCardDto: any) {
+  update(
+    @Req() req,
+    @Param('id') id: string,
+    @Body() updateCreditCardDto: any,
+  ) {
+    const user_id = req.user.id;
     // return this.creditCardsService.update(+id, updateCreditCardDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Req() req, @Param('id') id: string) {
+    const user_id = req.user.id;
     // return this.creditCardsService.remove(+id);
   }
 }
