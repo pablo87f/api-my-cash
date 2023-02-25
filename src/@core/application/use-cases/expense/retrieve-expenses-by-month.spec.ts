@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('List expenses by month', () => {
   it('should retrieve the list of expenses by month', async () => {
-    const emailKey = fakes.constants.fakeUserEmailKey;
+    const emailKey = fakes.constants.pabloUserEmail;
     const fakeRetrievedExpenses =
       fakes.entities.expenses.sameMonthYear_2022_10[emailKey];
 
@@ -41,7 +41,7 @@ describe('List expenses by month', () => {
   });
 
   it('should retrieve the list of users and account expenses by month', async () => {
-    const emailKey = fakes.constants.fakeUserEmailKey;
+    const emailKey = fakes.constants.pabloUserEmail;
     const fakeRetrievedExpenses: Expense[] =
       fakes.entities.expenses.all[emailKey];
 

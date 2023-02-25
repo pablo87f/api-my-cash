@@ -1,19 +1,26 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 
 import CreateWallet, {
   CreateWalletDto,
 } from 'src/@core/application/use-cases/wallet/create-wallet';
+import GetUserWallet from 'src/@core/application/use-cases/wallet/get-user-wallet';
 import RetrieveWalletsByUser from 'src/@core/application/use-cases/wallet/retrieve-wallets-by-user';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import loggedUser from '../loggedUser';
 
-// const user_id = loggedUser.id;
 @UseGuards(JwtAuthGuard)
 @Controller('wallets')
 export class WalletsController {
   constructor(
     private readonly retrieveWalletsByUser: RetrieveWalletsByUser,
+    private readonly getUserWallet: GetUserWallet,
     private readonly createWallet: CreateWallet,
   ) {}
 
@@ -32,10 +39,11 @@ export class WalletsController {
     return this.retrieveWalletsByUser.execute({ user_id: userId });
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.walletsService.findOne(id);
-  // }
+  @Get(':id')
+  findOne(@Req() req, @Param('id') id: string) {
+    const user_id = req.user.id;
+    return this.getUserWallet.execute({ id, user_id });
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateWalletDto: UpdateWalletDto) {

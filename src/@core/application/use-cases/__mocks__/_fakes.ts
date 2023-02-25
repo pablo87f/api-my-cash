@@ -6,17 +6,30 @@ import { OAuthInfo } from '../../../domain/entities/o-auth-info';
 import { User } from '../../../domain/entities/user';
 import { Purchase } from '../../../domain/entities/purchase';
 import { Expense } from '../../../domain/entities/expense';
+import { Wallet } from '../../../domain/entities/wallet';
 
 const fakeValidJwtToken = 'FAKE valid jowt token';
 const fakeValidOAuthToken = 'FAKE valid oAuth token';
+
+const take = <T>(
+  entityName: string,
+  emailKey: string,
+  amount: number,
+  start = 0,
+) => {
+  const entities: T[] = fakes.entities[entityName][emailKey] || ([] as T[]);
+  return entities.slice(start, amount);
+};
 
 const fakes = {
   constants: {
     validJwtToken: fakeValidJwtToken,
     validOAuthToken: fakeValidOAuthToken,
-    fakeUserEmailKey: 'pablofern87@gmail.com',
+    pabloUserEmail: 'pablofern87@gmail.com',
+    jackUserEmail: 'jackmendes@gmail.com',
   },
   entities: {
+    take,
     users: {
       'pablofern87@gmail.com': new User({
         email: 'pablofern87@gmail.com',
@@ -24,6 +37,38 @@ const fakes = {
         active: true,
         id: 'user1',
       }),
+      'jackmendes@gmail.com': new User({
+        email: 'jackmendes@gmail.com',
+        name: 'Jackline Mendes',
+        active: true,
+        id: 'user2',
+      }),
+    },
+    wallets: {
+      'pablofern87@gmail.com': [
+        new Wallet({
+          amount: 200,
+          name: 'Conta Inter',
+          user_id: 'user1',
+        }),
+        new Wallet({
+          amount: 200,
+          name: 'Conta NuBank',
+          user_id: 'user1',
+        }),
+      ],
+      'jackmendes@gmail.com': [
+        new Wallet({
+          amount: 250,
+          name: 'Conta Caixa',
+          user_id: 'user2',
+        }),
+        new Wallet({
+          amount: 2500,
+          name: 'Conta NuBank',
+          user_id: 'user2',
+        }),
+      ],
     },
     authInfo: {
       'pablofern87@gmail.com': new AuthInfo({
