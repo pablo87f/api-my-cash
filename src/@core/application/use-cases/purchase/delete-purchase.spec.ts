@@ -154,8 +154,11 @@ describe('Delete purchase', () => {
     });
 
     expect(walletsRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(walletsRepositoryMock.update).toHaveBeenCalledWith('wallet1', {
-      amount: 700,
+    expect(walletsRepositoryMock.update).toHaveBeenCalledWith({
+      id: 'wallet1',
+      dataToUpdate: {
+        amount: 700,
+      },
     });
 
     expect(purchasesRepositoryMock.delete).toHaveBeenCalledTimes(1);

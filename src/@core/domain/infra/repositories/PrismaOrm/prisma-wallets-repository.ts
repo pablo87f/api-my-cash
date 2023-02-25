@@ -2,6 +2,7 @@ import { Wallet } from 'src/@core/domain/entities/wallet';
 import IWalletsRepository, {
   CreateWalletDto,
   FiltersWalletDto,
+  UpdateWalletDto,
 } from 'src/@core/domain/repositories/IWalletsRepository';
 import { DbService } from 'src/database/db.service';
 
@@ -43,15 +44,31 @@ export default class PrismaWalletsRepository implements IWalletsRepository {
     return new Wallet(wallet);
   }
 
-  async update(id: string, updateWalletDto: Partial<Wallet>): Promise<Wallet> {
+  async update(updateWalletDto: UpdateWalletDto): Promise<Wallet> {
+    const { id, dataToUpdate } = updateWalletDto;
+    const { amount, name, active } = dataToUpdate;
+
     const updatedWallet = await this.db.wallet.update({
       where: {
         id,
       },
       data: {
-        ...updateWalletDto,
+        amount,
+        name,
+        active,
       },
     });
     return new Wallet(updatedWallet);
   }
+  // async update(id: string, updateWalletDto: Partial<Wallet>): Promise<Wallet> {
+  //   const updatedWallet = await this.db.wallet.update({
+  //     where: {
+  //       id,
+  //     },
+  //     data: {
+  //       ...updateWalletDto,
+  //     },
+  //   });
+  //   return new Wallet(updatedWallet);
+  // }
 }

@@ -20,9 +20,11 @@ export default class PayWithDebitWallet {
       user_id,
     });
 
-    const updatedWallet = await this.walletsRepository.update(wallet_id, {
-      ...wallet.props,
-      amount: wallet.amount - value_to_pay,
+    const updatedWallet = await this.walletsRepository.update({
+      id: wallet_id,
+      dataToUpdate: {
+        amount: wallet.amount - value_to_pay,
+      },
     });
 
     return updatedWallet;

@@ -1,5 +1,6 @@
 import { Wallet } from '../../../domain/entities/wallet';
 import walletsRepositoryMock from '../../../domain/repositories/__mocks__/wallets-repository.mock';
+import fakes from '../__mocks__/_fakes';
 import PayWithDebitWallet from './pay-with-debit-wallet';
 
 const makeSut = () => {
@@ -9,52 +10,50 @@ const makeSut = () => {
 
 describe('Pay with debit wallet', () => {
   it('should pay with a debit wallet', async () => {
-    const fakeFoundWallet = new Wallet({
-      name: 'NuConta',
-      amount: 1000,
-      user_id: 'user1',
-      id: 'wallet1',
+    const { pabloUserEmail } = fakes.constants;
+    const [fakeWalletPablo] = fakes.entities.take<Wallet>(
+      'wallets',
+      pabloUserEmail,
+      1,
+    );
+
+    const valueToPay = 100;
+
+    const fakeUpdatedWallet = new Wallet({
+      name: fakeWalletPablo.name,
+      id: fakeWalletPablo.id,
+      active: fakeWalletPablo.active,
+      user_id: fakeWalletPablo.user_id,
+      amount: fakeWalletPablo.amount - valueToPay,
     });
 
-    walletsRepositoryMock.findOne.mockResolvedValue(fakeFoundWallet);
-
-    walletsRepositoryMock.update.mockImplementation(
-      async (wallet_id, updateWalletDto) => {
-        return new Wallet({
-          id: wallet_id,
-          name: 'NuConta',
-          amount: 700,
-          user_id: 'user1',
-          ...updateWalletDto,
-        });
-      },
-    );
+    walletsRepositoryMock.findOne.mockResolvedValueOnce(fakeWalletPablo);
+    walletsRepositoryMock.update.mockResolvedValueOnce(fakeUpdatedWallet);
 
     const sut = makeSut();
 
-    const wallet: Wallet = await sut.execute({
-      wallet_id: 'wallet1',
-      user_id: 'user1',
-      value_to_pay: 300,
+    const updatedWallet: Wallet = await sut.execute({
+      wallet_id: fakeWalletPablo.id,
+      user_id: fakeWalletPablo.user_id,
+      value_to_pay: valueToPay,
     });
 
     expect(walletsRepositoryMock.findOne).toHaveBeenCalledTimes(1);
     expect(walletsRepositoryMock.findOne).toHaveBeenCalledWith({
-      id: 'wallet1',
-      user_id: 'user1',
+      id: fakeWalletPablo.id,
+      user_id: fakeWalletPablo.user_id,
     });
 
     expect(walletsRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(walletsRepositoryMock.update).toHaveBeenCalledWith('wallet1', {
-      id: 'wallet1',
-      name: 'NuConta',
-      amount: 700,
-      user_id: 'user1',
-      active: true,
+    expect(walletsRepositoryMock.update).toHaveBeenCalledWith({
+      id: fakeWalletPablo.id,
+      dataToUpdate: {
+        amount: fakeWalletPablo.amount - valueToPay,
+      },
     });
 
-    expect(wallet).toBeInstanceOf(Wallet);
-    expect(wallet.id).toEqual('wallet1');
-    expect(wallet.amount).toEqual(700);
+    expect(updatedWallet).toBeInstanceOf(Wallet);
+    expect(updatedWallet.id).toEqual(fakeUpdatedWallet.id);
+    expect(updatedWallet.amount).toEqual(fakeUpdatedWallet.amount);
   });
 });

@@ -11,11 +11,19 @@ export type FiltersWalletDto = {
   user_id?: string;
 };
 
-export type UpdateWalletDto = Partial<Wallet>;
+export type WalletDataToUpdate = Omit<
+  Partial<Wallet>,
+  'id' | 'user_id' | 'props'
+>;
+
+export type UpdateWalletDto = {
+  id: string;
+  dataToUpdate: WalletDataToUpdate;
+};
 
 export default interface IWalletsRepository {
   create(createWalletDto: CreateWalletDto): Promise<Wallet>;
-  update(id: string, updateWalletDto: UpdateWalletDto): Promise<Wallet>;
+  update(updateWalletDto: UpdateWalletDto): Promise<Wallet>;
   find(filters: FiltersWalletDto): Promise<Wallet[]>;
   findOne(filters: FiltersWalletDto): Promise<Wallet>;
 }

@@ -1,12 +1,12 @@
 import { randomUUID } from 'crypto';
 
-export interface WalletProps {
+export type WalletProps = {
   id?: string;
   name: string;
   amount: number;
   active?: boolean;
   user_id?: string;
-}
+};
 
 export class Wallet {
   constructor(readonly props: WalletProps) {

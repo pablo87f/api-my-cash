@@ -19,8 +19,11 @@ export default class DeletePurchase {
         id: purchase.wallet_id,
         user_id,
       });
-      await this.walletsRepository.update(purchase.wallet_id, {
-        amount: wallet.amount + purchase.total_amount,
+      await this.walletsRepository.update({
+        id: purchase.wallet_id,
+        dataToUpdate: {
+          amount: wallet.amount + purchase.total_amount,
+        },
       });
     } else {
       const credit_card = await this.creditCardsRepository.findOne({
