@@ -17,12 +17,10 @@ export default class SignUpByOAuth {
   async execute({ token }: SignUpByOAuthDto): Promise<AuthInfo> {
     const oAuthInfo = await this.oAuthService.verifyToken({ token });
     if (oAuthInfo) {
-      const createdUserOutput = await this.createUser.execute({
+      const createdUser = await this.createUser.execute({
         email: oAuthInfo.email,
         name: oAuthInfo.name,
       });
-
-      const createdUser = createdUserOutput.createdUser;
 
       if (createdUser) {
         return await this.getUserAuthInfo.execute({

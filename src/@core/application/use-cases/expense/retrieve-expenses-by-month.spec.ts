@@ -1,4 +1,3 @@
-import { parseISO } from 'date-fns';
 import { Expense } from '../../../domain/entities/expense';
 import expensesRepositoryMock from '../../../domain/repositories/__mocks__/expenses-repository.mock';
 import fakes from '../__mocks__/_fakes';
@@ -33,8 +32,8 @@ describe('List expenses by month', () => {
     expect(expensesRepositoryMock.findManyByDateRange).toHaveBeenCalledTimes(1);
     expect(expensesRepositoryMock.findManyByDateRange).toHaveBeenCalledWith({
       user_id: 'user1',
-      start_date: parseISO('2022-10-01'),
-      end_date: parseISO('2022-10-31'),
+      start_date: new Date('2022-10-01'),
+      end_date: new Date('2022-10-31'),
     });
 
     expect(expenses).toBeInstanceOf(Array<Expense>);
@@ -62,8 +61,8 @@ describe('List expenses by month', () => {
     expect(expensesRepositoryMock.findManyByDateRange).toHaveBeenCalledWith({
       user_id: 'user1',
       account_id: 'account1',
-      start_date: parseISO('2022-10-01'),
-      end_date: parseISO('2022-10-31'),
+      start_date: new Date('2022-10-01'),
+      end_date: new Date('2022-10-31'),
     });
 
     expect(expenses).toBeInstanceOf(Array<Expense>);

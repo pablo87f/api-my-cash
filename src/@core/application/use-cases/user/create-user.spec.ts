@@ -32,7 +32,7 @@ describe('Create user', () => {
 
     const sut = makeSut();
 
-    const { createdAccount, createdUser } = await sut.execute({
+    const createdUser = await sut.execute({
       name: fakeUser.name,
       email: fakeUser.email,
     });
@@ -48,21 +48,8 @@ describe('Create user', () => {
       email: fakeUser.email,
     });
 
-    expect(accountsRepositoryMock.create).toHaveBeenCalledTimes(1);
-    expect(accountsRepositoryMock.create).toHaveBeenCalledWith({
-      name: fakeAccount.name,
-    });
-
-    expect(userAccountsRepositoryMock.assign).toHaveBeenCalledTimes(1);
-    expect(userAccountsRepositoryMock.assign).toHaveBeenCalledWith({
-      user_id: fakeUser.id,
-      account_id: fakeAccount.id,
-      is_owner: true,
-    });
-
     expect(createdUser.name).toEqual(fakeUser.name);
     expect(createdUser.email).toEqual(fakeUser.email);
-    expect(createdAccount.name).toEqual(fakeAccount.name);
   });
 
   it('should return undefined when there is a user with the email', async () => {
@@ -73,7 +60,7 @@ describe('Create user', () => {
 
     usersRepositoryMock.findOne.mockResolvedValue(fakeUser);
 
-    const { createdAccount, createdUser } = await sut.execute({
+    const createdUser = await sut.execute({
       name: fakeUser.name,
       email: fakeUser.email,
     });
@@ -84,6 +71,5 @@ describe('Create user', () => {
     });
 
     expect(createdUser).toBeUndefined();
-    expect(createdAccount).toBeUndefined();
   });
 });

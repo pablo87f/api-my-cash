@@ -2,10 +2,9 @@
 
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import oAuthServiceMock from '../../../domain/services/__mocks__/o-auth-service.mock';
-import { CreateUserOutput } from '../user/create-user';
-import fakes from '../__mocks__/_fakes';
 import createUserMock from '../__mocks__/create-user.mock';
 import getUserAuthInfoMock from '../__mocks__/get-user-auth-info.mock';
+import fakes from '../__mocks__/_fakes';
 import SignUpByOAuth from './sign-up-by-o-auth';
 
 const makeSut = () => {
@@ -25,11 +24,7 @@ describe('Sign up by OAuth', () => {
     const emailKey = 'pablofern87@gmail.com';
     const fakeOAuthInfo = fakes.entities.oAuthInfo[emailKey];
     const fakeCreatedUser = fakes.entities.users[emailKey];
-    const fakeCreatedAccount = fakes.entities.accounts[emailKey];
-    const fakeCreatedUserOutput: CreateUserOutput = {
-      createdUser: fakeCreatedUser,
-      createdAccount: fakeCreatedAccount,
-    };
+    const fakeCreatedUserOutput = fakeCreatedUser;
     const fakeJwtToken = fakes.constants.validJwtToken;
     const fakeAuthInfo = fakes.entities.authInfo[emailKey];
     const fakeOAuthToken = fakes.constants.validOAuthToken;
