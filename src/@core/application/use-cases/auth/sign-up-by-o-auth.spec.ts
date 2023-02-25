@@ -1,5 +1,3 @@
-// import CreateCreditCard from './login-by-google';
-
 import { AuthInfo } from '../../../domain/entities/auth-info';
 import oAuthServiceMock from '../../../domain/services/__mocks__/o-auth-service.mock';
 import createUserMock from '../__mocks__/create-user.mock';
@@ -16,21 +14,26 @@ const makeSut = () => {
   return sut;
 };
 
+beforeEach(() => {
+  oAuthServiceMock.verifyToken.mockClear();
+  createUserMock.execute.mockClear();
+  getUserAuthInfoMock.execute.mockClear();
+});
+
 describe('Sign up by OAuth', () => {
   it('should sign up when there is no user with the same email', async () => {
     // given
     const sut = makeSut();
 
-    const emailKey = 'pablofern87@gmail.com';
-    const fakeOAuthInfo = fakes.entities.oAuthInfo[emailKey];
-    const fakeCreatedUser = fakes.entities.users[emailKey];
-    const fakeCreatedUserOutput = fakeCreatedUser;
+    const pabloUserEmail = 'pablofern87@gmail.com';
+    const fakeOAuthInfo = fakes.entities.oAuthInfo[pabloUserEmail];
+    const fakeCreatedUser = fakes.entities.users[pabloUserEmail];
     const fakeJwtToken = fakes.constants.validJwtToken;
-    const fakeAuthInfo = fakes.entities.authInfo[emailKey];
+    const fakeAuthInfo = fakes.entities.authInfo[pabloUserEmail];
     const fakeOAuthToken = fakes.constants.validOAuthToken;
 
     oAuthServiceMock.verifyToken.mockResolvedValueOnce(fakeOAuthInfo);
-    createUserMock.execute.mockResolvedValueOnce(fakeCreatedUserOutput);
+    createUserMock.execute.mockResolvedValueOnce(fakeCreatedUser);
     getUserAuthInfoMock.execute.mockResolvedValueOnce(fakeAuthInfo);
 
     // when
@@ -63,5 +66,26 @@ describe('Sign up by OAuth', () => {
     expect(authInfo.email).toEqual(fakeCreatedUser.email);
     expect(authInfo.picture).toEqual(fakeOAuthInfo.picture);
     expect(authInfo.token).toEqual(fakeJwtToken);
+  });
+
+  it('should return undefined when the oAuth token is invalid', async () => {
+    // given
+    const fakeInvalidOAuthToken = 'fake-invalid-token';
+
+    oAuthServiceMock.verifyToken.mockResolvedValueOnce(undefined);
+
+    // when
+    const sut = makeSut();
+    const authInfo: AuthInfo = await sut.execute({
+      token: fakeInvalidOAuthToken,
+    });
+
+    // then
+    expect(oAuthServiceMock.verifyToken).toHaveBeenCalledTimes(1);
+    expect(oAuthServiceMock.verifyToken).toHaveBeenCalledWith({
+      token: fakeInvalidOAuthToken,
+    });
+
+    expect(authInfo).toBeUndefined();
   });
 });
