@@ -14,16 +14,20 @@ const client = new OAuth2Client(
 @Injectable()
 export default class GoogleOAuthService implements IOAuthService {
   async verifyToken({ token }: VerifyTokenDto): Promise<OAuthInfo> {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_AUTH_CLIENT_ID,
-    });
-
-    const payload = ticket.getPayload();
-    return new OAuthInfo({
-      email: payload.email,
-      name: payload.name,
-      picture: payload.picture,
-    });
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_AUTH_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      return new OAuthInfo({
+        email: payload.email,
+        name: payload.name,
+        picture: payload.picture,
+      });
+    } catch (e) {
+      console.log('Faild to verify token: ', e);
+      return undefined;
+    }
   }
 }
