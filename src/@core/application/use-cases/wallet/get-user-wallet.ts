@@ -1,7 +1,7 @@
 import { Wallet } from '../../../domain/entities/wallet';
 import IWalletsRepository from '../../../domain/repositories/IWalletsRepository';
 
-type Input = {
+export type GetUserWalletDto = {
   id: string;
   user_id: string;
 };
@@ -9,7 +9,7 @@ type Input = {
 export default class GetUserWallet {
   constructor(readonly walletsRepository: IWalletsRepository) {}
 
-  async execute({ user_id, id }: Input): Promise<Wallet> {
+  async execute({ user_id, id }: GetUserWalletDto): Promise<Wallet> {
     return this.walletsRepository.findOne({ id, user_id });
   }
 }

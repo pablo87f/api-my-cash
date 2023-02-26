@@ -1,12 +1,13 @@
 import { CreditCard } from '../../../domain/entities/credit-card';
-import ICreditCardsRepository from '../../../domain/repositories/ICreditCardsRepository';
+import ICreditCardsRepository, {
+  CreditCardDataToUpdate,
+} from '../../../domain/repositories/ICreditCardsRepository';
 import GetCreditCard from './get-credit-card';
 
-type EditCreditCardDto = {
-  name: string;
-  total_limit: number;
-  spent_amount?: number;
-  active?: boolean;
+export type EditCreditCardDto = {
+  credit_card_id: string;
+  user_id: string;
+  dataToUpdate: CreditCardDataToUpdate;
 };
 
 export default class EditCreditCard {
@@ -15,20 +16,22 @@ export default class EditCreditCard {
     readonly getCreditCard: GetCreditCard,
   ) {}
 
-  async execute(
-    credit_card_id: string,
-    user_id: string,
-    editCreditCardDto: EditCreditCardDto,
-  ): Promise<CreditCard> {
-    const found = await this.getCreditCard.execute({ credit_card_id, user_id });
+  async execute({
+    credit_card_id,
+    user_id,
+    dataToUpdate,
+  }: EditCreditCardDto): Promise<CreditCard> {
+    const found = await this.getCreditCard.execute({
+      id: credit_card_id,
+      user_id,
+    });
 
-    const updatedCreditCard = await this.creditCardsRepository.update(
-      credit_card_id,
-      {
-        ...found.props,
-        ...editCreditCardDto,
-      },
-    );
+    if (!found) return undefined;
+
+    const updatedCreditCard = await this.creditCardsRepository.update({
+      id: credit_card_id,
+      dataToUpdate: dataToUpdate,
+    });
 
     return updatedCreditCard;
   }

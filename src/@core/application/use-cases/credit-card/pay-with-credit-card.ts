@@ -16,18 +16,17 @@ export default class PayWithCreditCard {
     value_to_pay,
   }: PayWithCreditCardDto): Promise<CreditCard> {
     const creditCard = await this.creditCardsRepository.findOne({
-      id: credit_card_id,
       user_id,
+      id: credit_card_id,
     });
 
-    const updatedCreditCard = await this.creditCardsRepository.update(
-      credit_card_id,
-      {
-        ...creditCard.props,
+    if (!creditCard) return undefined;
+
+    return this.creditCardsRepository.update({
+      id: credit_card_id,
+      dataToUpdate: {
         spent_amount: creditCard.spent_amount + value_to_pay,
       },
-    );
-
-    return updatedCreditCard;
+    });
   }
 }

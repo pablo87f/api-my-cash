@@ -89,12 +89,12 @@ describe('Delete purchase', () => {
     });
 
     expect(creditCardsRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(creditCardsRepositoryMock.update).toHaveBeenCalledWith(
-      'creditcard1',
-      {
+    expect(creditCardsRepositoryMock.update).toHaveBeenCalledWith({
+      id: 'creditcard1',
+      dataToUpdate: {
         spent_amount: 700,
       },
-    );
+    });
 
     expect(purchase).toBeDefined();
     expect(purchase).toBeInstanceOf(Purchase);

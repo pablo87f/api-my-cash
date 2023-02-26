@@ -2,6 +2,7 @@ import { CreditCard } from 'src/@core/domain/entities/credit-card';
 import ICreditCardsRepository, {
   CreateCreditCardDto,
   FilterCreditCardDto,
+  UpdateCreditCardDto,
 } from 'src/@core/domain/repositories/ICreditCardsRepository';
 import { DbService } from 'src/database/db.service';
 
@@ -32,15 +33,12 @@ export default class PrismaCreditCardsRepository
     return new CreditCard(createdCreditCard);
   }
 
-  async update(
-    id: string,
-    updateCreditCardDto: Partial<CreditCard>,
-  ): Promise<CreditCard> {
+  async update({ id, dataToUpdate }: UpdateCreditCardDto): Promise<CreditCard> {
     const updated = await this.db.creditCard.update({
       where: {
         id,
       },
-      data: updateCreditCardDto,
+      data: dataToUpdate,
     });
     return new CreditCard(updated);
   }

@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export interface CreditCardProps {
   id?: string;
   name: string;
@@ -9,7 +11,11 @@ export interface CreditCardProps {
 
 export class CreditCard {
   constructor(readonly props: CreditCardProps) {
-    this.props = props;
+    this.props = {
+      ...props,
+      id: props.id ?? randomUUID(),
+      active: props.active ?? true,
+    };
   }
 
   public get id(): string {

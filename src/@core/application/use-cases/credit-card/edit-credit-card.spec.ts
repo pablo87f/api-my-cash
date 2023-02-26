@@ -33,29 +33,29 @@ describe('Edit credit card', () => {
 
     const sut = makeSut();
 
-    const creditCard: CreditCard = await sut.execute('creditcard1', 'user1', {
-      name: 'Cartão NuConta',
-      total_limit: 2000,
+    const creditCard: CreditCard = await sut.execute({
+      credit_card_id: 'creditcard1',
+      user_id: 'user1',
+      dataToUpdate: {
+        name: 'Cartão NuConta',
+        total_limit: 2000,
+      },
     });
 
     expect(creditCard).toBeInstanceOf(CreditCard);
     expect(getCreditCardMock.execute).toHaveBeenCalledTimes(1);
     expect(getCreditCardMock.execute).toHaveBeenCalledWith({
-      credit_card_id: 'creditcard1',
+      id: 'creditcard1',
       user_id: 'user1',
     });
     expect(creditCardsRepositoryMock.update).toHaveBeenCalledTimes(1);
-    expect(creditCardsRepositoryMock.update).toHaveBeenCalledWith(
-      'creditcard1',
-      {
-        id: 'creditcard1',
-        active: true,
-        spent_amount: 200,
-        user_id: 'user1',
+    expect(creditCardsRepositoryMock.update).toHaveBeenCalledWith({
+      id: 'creditcard1',
+      dataToUpdate: {
         name: 'Cartão NuConta',
         total_limit: 2000,
       },
-    );
+    });
 
     expect(creditCard.name).toEqual('Cartão NuConta');
     expect(creditCard.total_limit).toEqual(2000);

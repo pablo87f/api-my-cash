@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
@@ -11,8 +10,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import CreateCreditCard from 'src/@core/application/use-cases/credit-card/create-credit-card';
+import EditCreditCard from 'src/@core/application/use-cases/credit-card/edit-credit-card';
+import GetCreditCard from 'src/@core/application/use-cases/credit-card/get-credit-card';
 import RetrieveCreditCards from 'src/@core/application/use-cases/credit-card/retrieve-credit-cards';
-import { CreateCreditCardDto } from 'src/@core/domain/repositories/ICreditCardsRepository';
+import {
+  CreateCreditCardDto,
+  CreditCardDataToUpdate,
+} from 'src/@core/domain/repositories/ICreditCardsRepository';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
@@ -21,6 +25,8 @@ export class CreditCardsController {
   constructor(
     private readonly createCreditCard: CreateCreditCard,
     private readonly retrieveCreditCards: RetrieveCreditCards,
+    private readonly getCreditCard: GetCreditCard,
+    private readonly editCreditCard: EditCreditCard,
   ) {}
 
   @Post()
@@ -48,22 +54,26 @@ export class CreditCardsController {
   @Get(':id')
   findOne(@Req() req, @Param('id') id: string) {
     const user_id = req.user.id;
-    // return this.creditCardsRepository.find({ id, user_id });
+    return this.getCreditCard.execute({ id, user_id });
   }
 
   @Patch(':id')
   update(
     @Req() req,
     @Param('id') id: string,
-    @Body() updateCreditCardDto: any,
+    @Body() creditCardDataToUpdate: CreditCardDataToUpdate,
   ) {
     const user_id = req.user.id;
-    // return this.creditCardsService.update(+id, updateCreditCardDto);
+    return this.editCreditCard.execute({
+      credit_card_id: id,
+      user_id,
+      dataToUpdate: creditCardDataToUpdate,
+    });
   }
 
-  @Delete(':id')
-  remove(@Req() req, @Param('id') id: string) {
-    const user_id = req.user.id;
-    // return this.creditCardsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Req() req, @Param('id') id: string) {
+  //   const user_id = req.user.id;
+  //   // return this.creditCardsService.remove(+id);
+  // }
 }

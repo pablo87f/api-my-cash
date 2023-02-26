@@ -9,14 +9,19 @@ export type CreateCreditCardDto = {
 
 export type FilterCreditCardDto = Partial<CreditCard>;
 
-export type UpdateCreditCardDto = Partial<CreditCard>;
+export type CreditCardDataToUpdate = Omit<
+  Partial<CreditCard>,
+  'id' | 'user_id' | 'props'
+>;
+
+export type UpdateCreditCardDto = {
+  id: string;
+  dataToUpdate: CreditCardDataToUpdate;
+};
 
 export default interface ICreditCardsRepository {
   create(createCreditCardDto: CreateCreditCardDto): Promise<CreditCard>;
   findOne(filters: FilterCreditCardDto): Promise<CreditCard>;
-  update(
-    id: string,
-    updateCreditCardDto: UpdateCreditCardDto,
-  ): Promise<CreditCard>;
+  update(updateCreditCardDto: UpdateCreditCardDto): Promise<CreditCard>;
   find(filters: FilterCreditCardDto): Promise<CreditCard[]>;
 }

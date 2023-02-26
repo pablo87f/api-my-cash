@@ -30,8 +30,11 @@ export default class DeletePurchase {
         id: purchase.credit_card_id,
         user_id,
       });
-      await this.creditCardsRepository.update(purchase.credit_card_id, {
-        spent_amount: credit_card.spent_amount - purchase.total_amount,
+      await this.creditCardsRepository.update({
+        id: purchase.credit_card_id,
+        dataToUpdate: {
+          spent_amount: credit_card.spent_amount - purchase.total_amount,
+        },
       });
     }
     const deleted = await this.purchasesRepository.delete(id);
