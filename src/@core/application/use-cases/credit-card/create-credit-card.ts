@@ -14,16 +14,21 @@ export default class CreateCreditCard {
   async execute({
     name,
     total_limit,
-    spent_amount,
+    spent_amount = 0,
     user_id,
   }: CreateCrediCardDto): Promise<CreditCard> {
-    const createdCreditCard = await this.creditCardsRepository.create({
+    const existingCreditCard = await this.creditCardsRepository.findOne({
+      name,
+      user_id,
+    });
+
+    if (existingCreditCard) return undefined;
+
+    return this.creditCardsRepository.create({
       name,
       total_limit,
       spent_amount,
       user_id,
     });
-
-    return createdCreditCard;
   }
 }

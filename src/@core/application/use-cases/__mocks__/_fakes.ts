@@ -7,6 +7,7 @@ import { User } from '../../../domain/entities/user';
 import { Purchase } from '../../../domain/entities/purchase';
 import { Expense } from '../../../domain/entities/expense';
 import { Wallet } from '../../../domain/entities/wallet';
+import { CreditCard } from '../../../domain/entities/credit-card';
 
 const fakeValidJwtToken = 'FAKE valid jowt token';
 const fakeValidOAuthToken = 'FAKE valid oAuth token';
@@ -67,6 +68,20 @@ const fakes = {
           amount: 2500,
           name: 'Conta NuBank',
           user_id: 'user2',
+        }),
+      ],
+    },
+    creditCards: {
+      'pablofern87@gmail.com': [
+        new CreditCard({
+          total_limit: 4000.52,
+          name: 'Cartão nubank',
+          user_id: 'user1',
+        }),
+        new CreditCard({
+          total_limit: 2000.98,
+          name: 'Cartão Neon',
+          user_id: 'user1',
         }),
       ],
     },

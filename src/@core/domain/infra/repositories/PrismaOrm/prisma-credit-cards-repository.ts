@@ -13,7 +13,7 @@ export default class PrismaCreditCardsRepository
     const creditCard = await this.db.creditCard.findFirst({
       where: filters,
     });
-    return new CreditCard(creditCard);
+    return creditCard !== null ? new CreditCard(creditCard) : undefined;
   }
   async create({
     name,

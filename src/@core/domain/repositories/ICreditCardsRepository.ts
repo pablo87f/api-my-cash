@@ -7,10 +7,7 @@ export type CreateCreditCardDto = {
   user_id: string;
 };
 
-export type FilterCreditCardDto = {
-  id?: string;
-  user_id?: string;
-};
+export type FilterCreditCardDto = Partial<CreditCard>;
 
 export type UpdateCreditCardDto = Partial<CreditCard>;
 

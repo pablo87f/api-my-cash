@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -23,9 +24,19 @@ export class CreditCardsController {
   ) {}
 
   @Post()
-  create(@Req() req, @Body() createCreditCardDto: CreateCreditCardDto) {
+  async create(@Req() req, @Body() createCreditCardDto: CreateCreditCardDto) {
     const user_id = req.user.id;
-    return this.createCreditCard.execute({ user_id, ...createCreditCardDto });
+    const createdCreditCard = await this.createCreditCard.execute({
+      user_id,
+      ...createCreditCardDto,
+    });
+
+    if (!createdCreditCard) {
+      throw new BadRequestException(
+        'Não foi possivle criar o cartão de crédito',
+      );
+    }
+    return createdCreditCard;
   }
 
   @Get()
